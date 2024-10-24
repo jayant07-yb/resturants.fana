@@ -6,7 +6,13 @@ export default {
   ],
   darkMode : "selector",
   theme: {
-    extend: {},
+    extend: {
+      colors : {
+        "dark-bg" : "#660066",
+        "dark-2" : "#86CB92"
+        // "dark-bg" : "#a129ff"
+      }
+    },
   },
   plugins: [],
 }

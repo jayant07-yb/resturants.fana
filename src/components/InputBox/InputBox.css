@@ -1,20 +1,12 @@
 *,
 *:focus{outline: none}
-
-.form{
-  width: 500px;
-  margin: 0 auto;
-  margin-top: 150px;
-  font-family: sans-serif;
-  background: #fff
-}
 .form-item{
   position: relative;
   margin-bottom: 15px
 }
 .form-item input{
+  width: 100%;
   display: block;
-  width: 400px;
   height: 40px;
   background: transparent;
   border: solid 1px #ccc;
@@ -42,6 +34,11 @@
   font-size: 11px;
   top: -5px
 }
+/* .form-item input:focus + label,
+.form-item input:valid + label{
+  font-size: 11px;
+  top: -5px
+} */
 .form-item input:focus + label{
   color: blue
 }
