@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Speech Recognition with Fuzzy Matching</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f3f4f6;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 400px;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 15px 25px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #status {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f9fafb;
+            border-radius: 5px;
+            border: 1px solid #e2e8f0;
+        }
+        #matchedKeywords {
+            font-size: 16px;
+            color: #4CAF50;
+            margin-top: 15px;
+            padding: 10px;
+            background: #e6ffe6;
+            border-radius: 5px;
+            border: 1px solid #a5d6a7;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="title">Voice Command Search</div>
+    <div class="search-container">
+        <button id="micButton" onclick="toggleRecording()">🎤 Start Listening</button>
+    </div>
+    <div id="status">Press the microphone button to start speaking.</div>
+    <div id="matchedKeywords"></div>
+</div>
+
+<script>
+    const keywords = ["and", "spicy", "not spicy", "not", "mexican", "italian", "cuisine", "french fries", "pasta"];
+    const similarityThreshold = 0.5; // 50% similarity threshold for flexible matching
+
+    if (!('webkitSpeechRecognition' in window)) {
+        alert("Your browser does not support Speech Recognition");
+    } else {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        recognition.continuous = false; // Stop automatically after end of speech
+
+        let isRecording = false;
+
+        const statusDiv = document.getElementById('status');
+        const matchedKeywordsDiv = document.getElementById('matchedKeywords');
+
+        function toggleRecording() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                startRecording();
+            }
+        }
+
+        function startRecording() {
+            if (!isRecording) {
+                recognition.start();
+                isRecording = true;
+                statusDiv.textContent = "Listening...";
+                statusDiv.style.color = "#007bff";
+                document.getElementById('micButton').textContent = "🎤 Stop Listening";
+            }
+        }
+
+        function stopRecording() {
+            recognition.stop();
+            isRecording = false;
+            document.getElementById('micButton').textContent = "🎤 Start Listening";
+        }
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
+            statusDiv.textContent = "You said: " + transcript;
+
+            // Split transcript into words and perform fuzzy matching on each word
+            const words = transcript.split(" ");
+            const matchedKeywords = keywords.filter(keyword => {
+                return words.some(word => getSimilarity(word, keyword) >= similarityThreshold);
+            });
+
+            matchedKeywordsDiv.textContent = matchedKeywords.length > 0
+                ? "Matched keywords: " + matchedKeywords.join(", ")
+                : "No keywords matched.";
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Speech recognition error:", event.error);
+            statusDiv.textContent = "Error recognizing speech";
+            stopRecording();
+        };
+
+        recognition.onend = () => {
+            stopRecording(); // Automatically stop after the speech is completed
+        };
+
+        // Function to calculate similarity between two strings
+        function getSimilarity(str1, str2) {
+            const len1 = str1.length;
+            const len2 = str2.length;
+            const matrix = Array.from({ length: len1 + 1 }, () => Array(len2 + 1).fill(0));
+
+            for (let i = 0; i <= len1; i++) matrix[i][0] = i;
+            for (let j = 0; j <= len2; j++) matrix[0][j] = j;
+
+            for (let i = 1; i <= len1; i++) {
+                for (let j = 1; j <= len2; j++) {
+                    if (str1[i - 1] === str2[j - 1]) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = 1 + Math.min(matrix[i - 1][j], matrix[i][j - 1], matrix[i - 1][j - 1]);
+                    }
+                }
+            }
+
+            const levenshteinDistance = matrix[len1][len2];
+            return 1 - levenshteinDistance / Math.max(len1, len2);
+        }
+    }
+</script>
+
+</body>
+</html>
