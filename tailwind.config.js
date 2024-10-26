@@ -14,7 +14,6 @@ export default {
         "secondary-bg-dark" : "#f02ef0", //purple( Rightmost )
         "inactive-txt-dark" : "#ABB2BF",
         "tabs-bg-dark" : "#181b38",
-
         //light mode
         "primary-bg" : "",
         "btn-bg" : "#896FBC", 

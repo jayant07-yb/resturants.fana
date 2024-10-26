@@ -8,7 +8,7 @@ import Subsection from "./Subsections";
 const Menu = () => {
   return (
     <Fragment>
-      <div className="menu-container min-h-screen w-full relative dark:bg-primary-bg-dark dark:text-white">
+      <div className="menu-container min-h-screen overflow-auto w-full relative dark:bg-primary-bg-dark dark:text-white">
         <div
           style={{ height: "5%" }}
           className="flex flex-row justify-between top-navbar absolute top-0"
@@ -58,20 +58,22 @@ const Menu = () => {
               );
             })}
           </div>
-          <div
-            className="food-data-div mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
-            style={{ borderTopWidth: "10px", borderTopStyle: "solid" }}
-          >
-            <h1
-              className="text-black ml-4 dark:text-white"
-              style={{ fontSize: "25px", fontWeight: "700" }}
-            >
-                Bar
-            </h1>
-            <Subsection/>
-            
-
-          </div>
+          {hotelData.sections.map((e) => {
+            return (
+              <div
+                className="food-data-div mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
+                style={{ borderTopWidth: "10px", borderTopStyle: "solid" }}
+              >
+                <h1
+                  className="text-black ml-4 dark:text-white"
+                  style={{ fontSize: "25px", fontWeight: "700" }}
+                >
+                  {e.sectionName}
+                </h1>
+                <Subsection subSectionObject={e.subSections} />
+              </div>
+            );
+          })}
         </div>
 
         <div className="search-bar absolute bottom-0"></div>

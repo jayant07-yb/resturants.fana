@@ -1,206 +1,157 @@
 {
-  "sections": [
-    {
-      "sectionName": "Bar",
-      "subSections": [
-        {
-          "category": "whisky",
-          "items": [
-            {
-              "name": "Jack Daniels",
-              "servings": [
-                { "details": "90ml", "cost": "500" },
-                { "details": "180ml", "cost": "800" }
-              ],
-              "tags": ["whisky"],
-              "information": "tastes good"
-            },
-            {
-              "name": "Johnnie Walker",
-              "servings": [
-                { "details": "90ml", "cost": "600" },
-                { "details": "180ml", "cost": "1000" }
-              ],
-              "tags": ["whisky"],
-              "information": "smooth and rich flavor"
-            },
-            {
-              "name": "Jameson",
-              "servings": [
-                { "details": "90ml", "cost": "550" },
-                { "details": "180ml", "cost": "950" }
-              ],
-              "tags": ["whisky"],
-              "information": "popular Irish whiskey"
-            },
-            {
-              "name": "Glenfiddich",
-              "servings": [
-                { "details": "90ml", "cost": "700" },
-                { "details": "180ml", "cost": "1200" }
-              ],
-              "tags": ["whisky", "single malt"],
-              "information": "single malt Scotch whisky"
-            },
-            {
-              "name": "Chivas Regal",
-              "servings": [
-                { "details": "90ml", "cost": "650" },
-                { "details": "180ml", "cost": "1100" }
-              ],
-              "tags": ["whisky"],
-              "information": "premium blended Scotch"
-            },
-            {
-              "name": "Bulleit Bourbon",
-              "servings": [
-                { "details": "90ml", "cost": "500" },
-                { "details": "180ml", "cost": "900" }
-              ],
-              "tags": ["bourbon"],
-              "information": "high rye content bourbon"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "Food",
-      "subSections": [
-        {
-          "category": "Indian",
-          "items": [
-            {
-              "name": "Biryani",
-              "servings": [
-                { "details": "1/2 kgs", "cost": "500" },
-                { "details": "1 kgs", "cost": "1000" },
-                { "details": "2 kgs", "cost": "2000" }
-              ],
-              "tags": ["spicy", "indian"],
-              "information": ""
-            },
-            {
-              "name": "Butter Chicken",
-              "servings": [
-                { "details": "Half", "cost": "600" },
-                { "details": "Full", "cost": "1100" }
-              ],
-              "tags": ["spicy", "indian"],
-              "information": "creamy and flavorful"
-            },
-            {
-              "name": "Paneer Tikka",
-              "servings": [
-                { "details": "250g", "cost": "400" },
-                { "details": "500g", "cost": "750" }
-              ],
-              "tags": ["vegetarian", "indian"],
-              "information": "grilled paneer with spices"
-            },
-            {
-              "name": "Chicken Tandoori",
-              "servings": [
-                { "details": "Half", "cost": "500" },
-                { "details": "Full", "cost": "900" }
-              ],
-              "tags": ["indian"],
-              "information": "charcoal grilled chicken"
-            },
-            {
-              "name": "Dal Makhani",
-              "servings": [
-                { "details": "Half", "cost": "300" },
-                { "details": "Full", "cost": "500" }
-              ],
-              "tags": ["vegetarian", "indian"],
-              "information": "slow-cooked lentils with cream"
-            },
-            {
-              "name": "Rogan Josh",
-              "servings": [
-                { "details": "Half", "cost": "550" },
-                { "details": "Full", "cost": "1000" }
-              ],
-              "tags": ["spicy", "indian"],
-              "information": "Kashmiri-style lamb curry"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "Dessert",
-      "subSections": [
-        {
-          "category": "Indian Sweets",
-          "items": [
-            {
-              "name": "Gulab Jamun",
-              "servings": [
-                { "details": "2 pcs", "cost": "100" },
-                { "details": "4 pcs", "cost": "180" }
-              ],
-              "tags": ["sweet", "indian"],
-              "information": "deep-fried sweet dumplings"
-            },
-            {
-              "name": "Ras Malai",
-              "servings": [
-                { "details": "1 plate", "cost": "120" },
-                { "details": "2 plates", "cost": "220" }
-              ],
-              "tags": ["sweet", "indian"],
-              "information": "creamy cheese balls in syrup"
-            },
-            {
-              "name": "Kheer",
-              "servings": [
-                { "details": "Small", "cost": "80" },
-                { "details": "Large", "cost": "150" }
-              ],
-              "tags": ["sweet", "indian"],
-              "information": "rice pudding with milk and sugar"
-            },
-            {
-              "name": "Jalebi",
-              "servings": [
-                { "details": "100g", "cost": "50" },
-                { "details": "200g", "cost": "90" }
-              ],
-              "tags": ["sweet", "indian"],
-              "information": "crispy fried sweet spirals"
-            },
-            {
-              "name": "Barfi",
-              "servings": [
-                { "details": "100g", "cost": "70" },
-                { "details": "200g", "cost": "130" }
-              ],
-              "tags": ["sweet", "indian"],
-              "information": "milk-based sweet treat"
-            },
-            {
-              "name": "Sandesh",
-              "servings": [
-                { "details": "2 pcs", "cost": "90" },
-                { "details": "4 pcs", "cost": "170" }
-              ],
-              "tags": ["sweet", "indian"],
-              "information": "Bengali sweet made from paneer"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "filters": [
-    "Veg",
-    "Non-veg",
-    "Beverages",
-    "BestSeller",
-    "Rated 4+",
-    "Spicy",
-    "No onion Garlic"
-  ]
-}
+    "sections": [
+      {
+        "sectionName": "Bar",
+        "subSections": [
+          {
+            "category": "Whisky",
+            "items": [
+              {
+                "name": "Jack Daniels",
+                "servings": [
+                  { "details": "90ml", "cost": "500" },
+                  { "details": "180ml", "cost": "800" }
+                ],
+                "tags": ["whisky"],
+                "information": "tastes good"
+              },
+              {
+                "name": "Johnnie Walker",
+                "servings": [
+                  { "details": "90ml", "cost": "600" },
+                  { "details": "180ml", "cost": "1000" }
+                ],
+                "tags": ["whisky"],
+                "information": "smooth and rich flavor"
+              }
+            ]
+          },
+          {
+            "category": "Rum",
+            "items": [
+              {
+                "name": "Old Monk",
+                "servings": [
+                  { "details": "90ml", "cost": "300" },
+                  { "details": "180ml", "cost": "500" }
+                ],
+                "tags": ["rum"],
+                "information": "classic dark rum"
+              },
+              {
+                "name": "Bacardi",
+                "servings": [
+                  { "details": "90ml", "cost": "400" },
+                  { "details": "180ml", "cost": "700" }
+                ],
+                "tags": ["rum"],
+                "information": "smooth white rum"
+              }
+            ]
+          },
+          {
+            "category": "Beer",
+            "items": [
+              {
+                "name": "Heineken",
+                "servings": [
+                  { "details": "Pint", "cost": "250" },
+                  { "details": "Bottle", "cost": "400" }
+                ],
+                "tags": ["beer"],
+                "information": "light and refreshing"
+              },
+              {
+                "name": "Budweiser",
+                "servings": [
+                  { "details": "Pint", "cost": "220" },
+                  { "details": "Bottle", "cost": "380" }
+                ],
+                "tags": ["beer"],
+                "information": "smooth American lager"
+              }
+            ]
+          },
+          {
+            "category": "Cocktails",
+            "items": [
+              {
+                "name": "Mojito",
+                "servings": [
+                  { "details": "Glass", "cost": "300" },
+                  { "details": "Pitcher", "cost": "1000" }
+                ],
+                "tags": ["cocktail", "refreshing"],
+                "information": "minty, lime-flavored cocktail"
+              },
+              {
+                "name": "Margarita",
+                "servings": [
+                  { "details": "Glass", "cost": "350" },
+                  { "details": "Pitcher", "cost": "1200" }
+                ],
+                "tags": ["cocktail", "tequila"],
+                "information": "tequila-based cocktail with lime"
+              },
+              {
+                "name": "Old Fashioned",
+                "servings": [
+                  { "details": "Glass", "cost": "400" }
+                ],
+                "tags": ["cocktail", "whisky"],
+                "information": "classic whisky cocktail with bitters"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionName": "Food",
+        "subSections": [
+          {
+            "category": "Indian",
+            "items": [
+              {
+                "name": "Biryani",
+                "servings": [
+                  { "details": "1/2 kgs", "cost": "500" },
+                  { "details": "1 kgs", "cost": "1000" }
+                ],
+                "tags": ["spicy", "indian"],
+                "information": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionName": "Dessert",
+        "subSections": [
+          {
+            "category": "Indian Sweets",
+            "items": [
+              {
+                "name": "Gulab Jamun",
+                "servings": [
+                  { "details": "2 pcs", "cost": "100" },
+                  { "details": "4 pcs", "cost": "180" }
+                ],
+                "tags": ["sweet", "indian"],
+                "information": "deep-fried sweet dumplings"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "filters": [
+      "Veg",
+      "Non-veg",
+      "Beverages",
+      "BestSeller",
+      "Rated 4+",
+      "Spicy",
+      "No onion Garlic"
+    ]
+  }
+  
