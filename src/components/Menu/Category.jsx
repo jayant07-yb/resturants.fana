@@ -11,22 +11,21 @@ const Category = ({ category, index, size }) => {
   const [active, setActive] = useState(false);
   const { themeMode } = useTheme();
   const handleToggle = () => {
+    console.log("Clicked")
     setActive(!active);
   };
-
-  console.log(category, index, size);
   return (
     <Fragment>
       <div
         style={{
-          height: !active ? "50px" : "",
+          zIndex :"100"
         }}
       >
-        <div className="subsection-name my-3 py-3 flex flex-row justify-between">
+        <div className="subsection-name my-3 py-3 flex flex-row justify-between" onClick={handleToggle}>
           <h2 className="ml-4" style={{ fontSize: "18px", fontWeight: "500" }}>
             {category.category}
           </h2>
-          <div className="arror mr-3 cursor-pointer" onClick={handleToggle}>
+          <div className="arror mr-3 cursor-pointer" >
             {themeMode == "dark" ? (
               active ? (
                 <img
@@ -61,7 +60,7 @@ const Category = ({ category, index, size }) => {
           </div>
         </div>
         {category.items.map((e , index) => {
-          return <FoodItems foodData={e} index={index} size={category.items.length} active={active} />;
+          return (active ? <FoodItems foodData={e} index={index} size={category.items.length} active={active} /> : <></>);
         })}
       </div>
       {index < size - 1 ? (
