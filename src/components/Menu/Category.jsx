@@ -8,7 +8,7 @@ import food from "../../assets/food.jpeg";
 import FoodItems from "./foodItems";
 
 const Category = ({ category, index, size }) => {
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(true);
   const { themeMode } = useTheme();
   const handleToggle = () => {
     console.log("Clicked")
