@@ -1,7 +1,14 @@
 import { Fragment } from "react"
 import food from "../../assets/food.jpeg"
+import useModal from "../../context/Modal";
 
 const FoodItems = ({foodData , active , index , size}) => {
+  const { toggleModal } = useModal();
+  const handleAdd = () => {
+    console.log("Clicked to open modal " , foodData);
+    toggleModal(foodData);
+  }
+
     return(
         <Fragment>
             <div
@@ -11,15 +18,15 @@ const FoodItems = ({foodData , active , index , size}) => {
               }`}
             >
               <div className="food-details-container basis-1/2">
-                <h1 style={{fontSize : "18px" , fontWeight : "700" }}>Chocolate almond Praline Ice Cream</h1>
+                <h1 style={{fontSize : "18px" , fontWeight : "700" }}>{foodData.name}</h1>
                 <div className="cost my-4">$540</div>
                 <div className="food-details mr-1">
-                  Lorem ipsum dolor sit amet.
+                {foodData.information}
                 </div>
               </div>
               <div className="basis-1/2 food-image-container flex flex-col items-center justify-center relative">
                 <img className="rounded-xl" src={food} alt="" />
-                <div  className="absolute btn-container rounded-md text-white  bg-secondary-bg dark:bg-secondary-bg-dark px-2 py-2 text-center" style={{width : "50%" ,bottom : "-15%" , left :"30%"}}>Add</div>
+                <div onClick={handleAdd}  className="absolute btn-container rounded-md text-white  bg-secondary-bg dark:bg-secondary-bg-dark px-2 py-2 text-center" style={{width : "50%" ,bottom : "-15%" , left :"30%"}}>Add</div>
               </div>
             </div>
 

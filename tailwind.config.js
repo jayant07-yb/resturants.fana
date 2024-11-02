@@ -7,7 +7,8 @@ export default {
       colors: {
         // Dark mode
         // "primary-bg-dark" : "#1B1734", // blackish bg
-        "primary-bg-dark" : "#090d2b", // blackish bg
+        // "primary-bg-dark" : "#090d2b", // blackish bg
+        "primary-bg-dark" : "#000000", // blackish bg
         "btn-bg-dark" : "#896FBC", 
         "brdr-dark" : "#5C038C", //violet ( 2nd one )
         "input-txt-dark" : "#5C038C",

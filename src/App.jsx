@@ -4,9 +4,14 @@ import { ThemeProvider } from "./context/theme"; // Ensure this is set up correc
 import LandingPage from "./components/LandingPage"; // Adjust the path if necessary
 import "./App.css";
 import Menu from "./components/Menu/Menu";
+import { ModalProvider } from "./context/Modal";
 
 function App() {
   const [themeMode, setThemeMode] = useState("light");
+  const [modalDetails, setModalDetails] = useState({
+    isOpen: null,
+    foodData: null,
+  });
 
   const darkTheme = () => {
     setThemeMode("dark");
@@ -17,17 +22,24 @@ function App() {
   };
 
   useEffect(() => {
-    document.querySelector('html').classList.remove("light", "dark");
-    document.querySelector('html').classList.add(themeMode);
+    document.querySelector("html").classList.remove("light", "dark");
+    document.querySelector("html").classList.add(themeMode);
   }, [themeMode]);
 
+  const toggleModal = ({ foodData = null }) => {
+    console.log("Toggle Modal");
+    setModalDetails({ isOpen: !modalDetails.isOpen, foodData });
+  };
+
   return (
-    <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-      <Routes>
-        <Route path="/" element={<LandingPage />} /> {/* Use the element prop to render the component */}
-        <Route path="/menu" element={<Menu />} /> {/* Use the element prop to render the component */}
-      </Routes>
-    </ThemeProvider>
+    <ModalProvider value={{ modalData: modalDetails, toggleModal }}>
+      <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />{" "}
+          <Route path="/menu" element={<Menu />} />{" "}
+        </Routes>
+      </ThemeProvider>
+    </ModalProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useRef, useEffect } from "react";
 import { Parallax, ParallaxLayer } from "@react-spring/parallax";
 
 import ThemeBtn from "../Buttons/ThemeBtn";
@@ -7,8 +7,10 @@ import "./Menu.css";
 import hotelData from "../../json/foodData.json";
 import Subsection from "./Subsections";
 import restaurant from "../../assets/restaurant.jpeg";
+import OrderModal from "./OrderModal";
 
 const Menu = () => {
+
   return (
     <Fragment>
       <div className="menu-container min-h-screen overflow-auto w-full relative dark:bg-primary-bg-dark dark:text-white">
@@ -27,10 +29,9 @@ const Menu = () => {
                 height: "50%",
                 backgroundImage: `url(${restaurant})`,
               }}
-            >
-            </div>
+            ></div>
           </ParallaxLayer>
-          <ParallaxLayer offset={1} speed={2} style={{ top: "-78%" }}>
+          <ParallaxLayer offset={1} speed={1} style={{ top: "-90%" }}>
             <div
               className="w-full main-content absolute bg-white dark:bg-primary-bg-dark"
               style={{
@@ -57,7 +58,7 @@ const Menu = () => {
                   Apna Sweets
                 </h1>
                 <div
-                  className="bg-secondary-bg  rating-card flex flex-row justify-center items-center"
+                  className="bg-secondary-bg rating-card flex flex-row justify-center items-center"
                   style={{
                     opacity: "0",
                     width: "15%",
@@ -75,14 +76,14 @@ const Menu = () => {
               </div>
               {/* Filter */}
               <div
-                className="overflow-x-auto scrollbar-hide flex flex-row  items-center filter-row mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
+                className="overflow-x-auto scrollbar-hide flex flex-row items-center filter-row mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
                 style={{ borderTopWidth: "10px", borderTopStyle: "solid" }}
               >
                 {hotelData.filters.map((e) => {
                   return (
                     <div
-                      className="whitespace-nowrap filter-container border-solid
-              dark:bg-tabs-bg-dark bg-tabs-bg dark:border-slate-500 rounded-md ml-4 mr-2"
+                      key={e} // add a unique key to avoid React warnings
+                      className="whitespace-nowrap filter-container border-solid dark:bg-tabs-bg-dark bg-tabs-bg dark:border-slate-500 rounded-md ml-4 mr-2"
                       style={{
                         padding: "4px 6px",
                         borderWidth: "1px",
@@ -94,9 +95,10 @@ const Menu = () => {
                   );
                 })}
               </div>
-              {hotelData.sections.map((e) => {
+              {hotelData.sections.map((e, index) => {
                 return (
                   <div
+                    key={index} // add a unique key to avoid React warnings
                     className="food-data-div mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
                     style={{ borderTopWidth: "10px", borderTopStyle: "solid" }}
                   >
@@ -113,9 +115,9 @@ const Menu = () => {
             </div>
           </ParallaxLayer>
         </Parallax>
-
-        <div className="search-bar absolute bottom-0"></div>
       </div>
+      
+
     </Fragment>
   );
 };
