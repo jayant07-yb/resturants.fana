@@ -1,9 +1,9 @@
-import { createContext, useContext } from "react";
+import { createContext , useContext } from "react";
 
 export const ModalContext = createContext({
-    toggleModal : () => {},
-    modalData : null
-})
+    modalDetails : null ,
+    toggleModal : () => {}
+});
 
 export const ModalProvider = ModalContext.Provider;
 

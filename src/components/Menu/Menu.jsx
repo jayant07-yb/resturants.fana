@@ -35,6 +35,7 @@ const Menu = () => {
             <div
               className="w-full main-content absolute bg-white dark:bg-primary-bg-dark"
               style={{
+                overflowY : "scroll" , 
                 borderTopLeftRadius: "10px",
                 borderTopRightRadius: "10px",
               }}

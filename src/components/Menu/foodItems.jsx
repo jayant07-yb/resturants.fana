@@ -1,11 +1,11 @@
 import { Fragment } from "react"
 import food from "../../assets/food.jpeg"
-import useModal from "../../context/Modal";
+import useModal from "../../context/Modal"
 
 const FoodItems = ({foodData , active , index , size}) => {
-  const { toggleModal } = useModal();
+  const {toggleModal} = useModal();
   const handleAdd = () => {
-    console.log("Clicked to open modal " , foodData);
+    console.log("Hnadling toggle" , foodData)
     toggleModal(foodData);
   }
 

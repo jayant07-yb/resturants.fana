@@ -5,11 +5,12 @@ import LandingPage from "./components/LandingPage"; // Adjust the path if necess
 import "./App.css";
 import Menu from "./components/Menu/Menu";
 import { ModalProvider } from "./context/Modal";
+import ModalComp from "./components/Modal/Modal";
 
 function App() {
   const [themeMode, setThemeMode] = useState("light");
   const [modalDetails, setModalDetails] = useState({
-    isOpen: null,
+    isOpen: false,
     foodData: null,
   });
 
@@ -26,14 +27,15 @@ function App() {
     document.querySelector("html").classList.add(themeMode);
   }, [themeMode]);
 
-  const toggleModal = ({ foodData = null }) => {
-    console.log("Toggle Modal");
+  const toggleModal = (foodData = null) => {
+    console.log("Opening Modal", foodData);
     setModalDetails({ isOpen: !modalDetails.isOpen, foodData });
   };
 
   return (
-    <ModalProvider value={{ modalData: modalDetails, toggleModal }}>
+    <ModalProvider value={{ toggleModal , modalDetails }}>
       <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
+        {modalDetails.isOpen ? <ModalComp /> : <></>}
         <Routes>
           <Route path="/" element={<LandingPage />} />{" "}
           <Route path="/menu" element={<Menu />} />{" "}
