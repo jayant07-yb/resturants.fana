@@ -1,13 +1,25 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import ThemeBtn from "../Buttons/ThemeBtn";
-import star from "../../assets/star.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
 import "./Menu.css";
 import hotelData from "../../json/foodData.json";
 import Subsection from "./Subsections";
 import restaurant from "../../assets/restaurant.jpeg";
-import OrderModal from "./OrderModal";
+import SearchModal from "../SearchModal/SearchModal";
 
 const Menu = () => {
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState({ transcript: "", matchedKeywords: [] });
+
+  const toggleSearchModal = () => {
+    setIsSearchModalOpen(!isSearchModalOpen);
+  };
+
+  const handleTranscriptComplete = ({ transcript, matchedKeywords }) => {
+    setSearchResults({ transcript, matchedKeywords });
+  };
+
   return (
     <Fragment>
       <div className="menu-container min-h-screen w-full relative dark:bg-primary-bg-dark dark:text-white">
@@ -22,7 +34,6 @@ const Menu = () => {
             zIndex: "-1",
           }}
         >
-          {/* Black Gradient Overlay at the Bottom of the Image */}
           <div
             style={{
               position: "absolute",
@@ -33,8 +44,6 @@ const Menu = () => {
               background: "linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent 60%)",
             }}
           ></div>
-
-          {/* Theme Button at Top Right */}
           <div
             style={{
               position: "absolute",
@@ -46,29 +55,32 @@ const Menu = () => {
           </div>
         </div>
 
-        {/* Main Content, including Apna Sweets Text */}
         <div
           className="w-full bg-white dark:bg-primary-bg-dark overflow-y-auto"
           style={{
-            marginTop: "25vh", // Start content just below the fixed image
+            marginTop: "25vh",
             borderTopLeftRadius: "10px",
             borderTopRightRadius: "10px",
             paddingBottom: "20px",
           }}
         >
-          {/* Apna Sweets Title */}
           <div
-            className="px-4 py-4"
+            className="px-4 py-4 text-left font-bold text-xl"
             style={{
-              textAlign: "left",
-              fontWeight: "bold",
-              fontSize: "24px",
-              color: "black", // Default color
-              color: "var(--text-color)", // Use CSS variable for theme
+              color: "var(--text-color)",
             }}
           >
             Apna Sweets
           </div>
+
+          {/* Display Search Results and Matched Keywords */}
+          {searchResults.transcript && (
+            <div className="px-4 py-4">
+              <h2 className="text-lg font-bold">Search Results:</h2>
+              <p><strong>Transcript:</strong> {searchResults.transcript}</p>
+              <p><strong>Matched Keywords:</strong> {searchResults.matchedKeywords.join(", ") || "None"}</p>
+            </div>
+          )}
 
           <div
             className="marker-top bg-slate-500"
@@ -117,6 +129,38 @@ const Menu = () => {
             </div>
           ))}
         </div>
+
+        <button
+          className="floating-mic-btn"
+          onClick={toggleSearchModal}
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "50%",
+            width: "50px",
+            height: "50px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "1.5rem",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+            cursor: "pointer",
+            zIndex: "10",
+          }}
+        >
+          <FontAwesomeIcon icon={faMicrophone} />
+        </button>
+
+        {isSearchModalOpen && (
+          <SearchModal
+            onClose={toggleSearchModal}
+            onTranscriptComplete={handleTranscriptComplete}
+          />
+        )}
       </div>
     </Fragment>
   );
