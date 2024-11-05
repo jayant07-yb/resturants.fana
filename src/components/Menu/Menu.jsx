@@ -10,7 +10,6 @@ import restaurant from "../../assets/restaurant.jpeg";
 import OrderModal from "./OrderModal";
 
 const Menu = () => {
-
   return (
     <Fragment>
       <div className="menu-container min-h-screen overflow-auto w-full relative dark:bg-primary-bg-dark dark:text-white">
@@ -35,7 +34,7 @@ const Menu = () => {
             <div
               className="w-full main-content absolute bg-white dark:bg-primary-bg-dark"
               style={{
-                overflowY : "scroll" , 
+                overflowY: "scroll",
                 borderTopLeftRadius: "10px",
                 borderTopRightRadius: "10px",
               }}
@@ -116,9 +115,16 @@ const Menu = () => {
             </div>
           </ParallaxLayer>
         </Parallax>
+        <div
+          className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white absolute bottom-0 w-full"
+          style={{ height: "10%", zIndex: "9000" }}
+        >
+          <div
+            className="items-count"
+            style={{ fontSize: "20px", fontWeight: "600" }}
+          >{`2 items added ~>`}</div>
+        </div>
       </div>
-      
-
     </Fragment>
   );
 };

@@ -4,10 +4,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import "./Modal.css";
 import useModal from "../../context/Modal";
 import food from "../../assets/food.jpeg";
+import useCart from "../../context/Cart";
 
 const ModalComp = () => {
   const { toggleModal, modalDetails } = useModal();
   const { isOpen, foodData } = modalDetails;
+  const { addItem }= useCart(); 
   const [selectedOption, setSelectedOption] = useState(0);
   const [count , setCount] = useState(1);
 
@@ -25,11 +27,16 @@ const ModalComp = () => {
     toggleModal();
     setSelectedOption(null); 
   };
-
+  
   const handleRadioChange = (index) => {
     setSelectedOption(index);
     setCount(1);
   };
+
+  const addToCart = () => {
+    addItem({...foodData , qnt : count})
+    toggleModal();
+  }
 
   return ReactDOM.createPortal(
     <Fragment>
@@ -92,7 +99,7 @@ const ModalComp = () => {
                   <p className="mx-2" >{count}</p>
                   <p className="mx-2" onClick={incrementCount}>+</p>
                 </div>
-                <div  className="flex justify-center items-center add-item rounded-lg bg-secondary-bg text-white dark:bg-secondary-bg-dark" style={{width : "60%" , margin : "2% 5%"}}>
+                <div onClick={addToCart}  className="flex justify-center items-center add-item rounded-lg bg-secondary-bg text-white dark:bg-secondary-bg-dark" style={{width : "60%" , margin : "2% 5%"}}>
                   <p style={{fontWeight : "500" , fontSize : "18px"}}>Add items ${count * (foodData.servings[selectedOption].cost)}</p>
                 </div>
               </div>

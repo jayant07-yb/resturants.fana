@@ -6,6 +6,7 @@ import "./App.css";
 import Menu from "./components/Menu/Menu";
 import { ModalProvider } from "./context/Modal";
 import ModalComp from "./components/Modal/Modal";
+import { CartModalProvider } from "./context/Cart";
 
 function App() {
   const [themeMode, setThemeMode] = useState("light");
@@ -13,6 +14,7 @@ function App() {
     isOpen: false,
     foodData: null,
   });
+  const [cartData, setCartData] = useState({ isOpen: false, cartData: [] });
 
   const darkTheme = () => {
     setThemeMode("dark");
@@ -32,16 +34,48 @@ function App() {
     setModalDetails({ isOpen: !modalDetails.isOpen, foodData });
   };
 
+  const addItem = (newFoodItem) => {
+    setCartData((prevState) => {
+      const existingFoodIndex = prevState.cartData.findIndex(
+        (food) => food.name === newFoodItem.name
+      );
+
+      let updatedCartData;
+      if (existingFoodIndex !== -1) {
+        updatedCartData = [...prevState.cartData];
+        updatedCartData[existingFoodIndex].qnt += newFoodItem.qnt;
+      } else {
+        updatedCartData = [...prevState.cartData, newFoodItem];
+      }
+
+      return {
+        ...prevState,
+        cartData: updatedCartData,
+      };
+    });
+  };
+
+  const toggleCart = () => {
+    setCartData((prevData) => {
+      return{
+        ...prevData,
+        isOpen : !prevData.isOpen
+      }
+    })
+  }
+
   return (
-    <ModalProvider value={{ toggleModal , modalDetails }}>
-      <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-        {modalDetails.isOpen ? <ModalComp /> : <></>}
-        <Routes>
-          <Route path="/" element={<LandingPage />} />{" "}
-          <Route path="/menu" element={<Menu />} />{" "}
-        </Routes>
-      </ThemeProvider>
-    </ModalProvider>
+    <CartModalProvider value={{cartData , toggleCart , addItem}} >
+      <ModalProvider value={{ toggleModal, modalDetails }}>
+        <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
+          {modalDetails.isOpen ? <ModalComp /> : <></>}
+          <Routes>
+            <Route path="/" element={<LandingPage />} />{" "}
+            <Route path="/menu" element={<Menu />} />{" "}
+          </Routes>
+        </ThemeProvider>
+      </ModalProvider>
+    </CartModalProvider>
   );
 }
 
