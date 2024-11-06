@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./SearchModal.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import fanaIcon from "../../assets/fanaLogo.png"; // Import your SVG file
 
 const SearchModal = ({ onClose, onTranscriptComplete }) => {
   const [isListening, setIsListening] = useState(false);
@@ -27,8 +26,8 @@ const SearchModal = ({ onClose, onTranscriptComplete }) => {
     // Handle recognition results
     recognition.onresult = (event) => {
       const finalTranscript = event.results[0][0].transcript.trim().toLowerCase();
-      console.log(`Interime transcript: ${finalTranscript}`);
-      document.getElementById("transcript").textContent = finalTranscript;
+      console.log(`Interim transcript: ${finalTranscript}`);
+      document.getElementById("transcript").textContent = finalTranscript; // Update the interim transcript display
       setTranscript(finalTranscript);
     };
 
@@ -52,7 +51,7 @@ const SearchModal = ({ onClose, onTranscriptComplete }) => {
 
   // Handle search button click
   const handleSearchClick = () => {
-    console.log("final transcript:"+ transcript);
+    console.log("Final transcript: " + transcript);
     if (isListening) {
       setIsListening(false);
     }
@@ -65,14 +64,22 @@ const SearchModal = ({ onClose, onTranscriptComplete }) => {
   return (
     <div className="search-modal">
       <div className="search-modal-content">
-      <div id="transcript"></div>
+        {/* Cross Button */}
+        {/* <button className="close-btn" onClick={onClose}>
+          <FontAwesomeIcon icon={faTimes} />
+        </button> */}
 
+        {/* Display Interim Transcript */}
+        <div id="transcript" className="transcript-display"></div>
+
+        {/* Search Button */}
         <button
           className={`search-btn ${isListening ? "glow" : ""}`}
           onClick={handleSearchClick}
         >
-          <FontAwesomeIcon icon={faSearch} />
-          {isListening ? " Stop Listening" : " Search"}
+
+        <img src={fanaIcon} alt="Custom Search Icon" className="search-btn-icon" />
+
         </button>
       </div>
     </div>
