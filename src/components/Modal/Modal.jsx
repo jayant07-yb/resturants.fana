@@ -1,7 +1,6 @@
 import { Fragment, useState } from "react";
 import ReactDOM from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import "./Modal.css";
 import useModal from "../../context/Modal";
 import food from "../../assets/food.jpeg";
 import useCart from "../../context/Cart";
@@ -12,6 +11,10 @@ const ModalComp = () => {
   const { addItem }= useCart(); 
   const [selectedOption, setSelectedOption] = useState(0);
   const [count , setCount] = useState(1);
+
+
+  // destructure the data
+  const {name ,category , servings , tags , information} = foodData; 
 
   const incrementCount =  () => {
     setCount(count + 1);
@@ -34,7 +37,10 @@ const ModalComp = () => {
   };
 
   const addToCart = () => {
-    addItem({...foodData , qnt : count})
+    const foodObject = {
+      name , type : servings[selectedOption] , qnt : count
+    }
+    addItem(foodObject);
     toggleModal();
   }
 
@@ -66,7 +72,7 @@ const ModalComp = () => {
                   style={{ height: "50px", width: "50px" }}
                 />
                 <h1 style={{ fontSize: "20px", fontWeight: "600" }}>
-                  {foodData.name}
+                  {name}
                 </h1>
               </div>
               <div className="mx-2 px-2 py-2 food-pricing rounded-xl bg-tabs-bg dark:bg-tabs-bg-dark dark:text-white">
@@ -76,7 +82,7 @@ const ModalComp = () => {
                   </h1>
                   <p className="text-gray-500">Choose one Mandatory</p>
                 </div>
-                {foodData.servings.map((e, index) => (
+                {servings.map((e, index) => (
                   <div key={index} className="food-servings my-2 flex flex-row justify-between mx-3">
                     <div className="food-size">{e.details}</div>
                     <div className="food-cost flex flex-row">
@@ -100,7 +106,7 @@ const ModalComp = () => {
                   <p className="mx-2" onClick={incrementCount}>+</p>
                 </div>
                 <div onClick={addToCart}  className="flex justify-center items-center add-item rounded-lg bg-secondary-bg text-white dark:bg-secondary-bg-dark" style={{width : "60%" , margin : "2% 5%"}}>
-                  <p style={{fontWeight : "500" , fontSize : "18px"}}>Add items ${count * (foodData.servings[selectedOption].cost)}</p>
+                  <p style={{fontWeight : "500" , fontSize : "18px"}}>Add items ${count * (servings[selectedOption].cost)}</p>
                 </div>
               </div>
 

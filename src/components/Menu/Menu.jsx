@@ -7,9 +7,11 @@ import "./Menu.css";
 import hotelData from "../../json/foodData.json";
 import Subsection from "./Subsections";
 import restaurant from "../../assets/restaurant.jpeg";
-import OrderModal from "./OrderModal";
+import useCart from "../../context/Cart";
 
 const Menu = () => {
+  const { toggleCart, cartData } = useCart();
+  const { foodData } = cartData;
   return (
     <Fragment>
       <div className="menu-container min-h-screen overflow-auto w-full relative dark:bg-primary-bg-dark dark:text-white">
@@ -115,15 +117,18 @@ const Menu = () => {
             </div>
           </ParallaxLayer>
         </Parallax>
-        <div
-          className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white absolute bottom-0 w-full"
-          style={{ height: "10%", zIndex: "9000" }}
-        >
+        {foodData.length && (
           <div
-            className="items-count"
-            style={{ fontSize: "20px", fontWeight: "600" }}
-          >{`2 items added ~>`}</div>
-        </div>
+          onClick={toggleCart}
+            className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white absolute bottom-0 w-full"
+            style={{ height: "10%", zIndex: "9000" }}
+          >
+            <div
+              className="items-count"
+              style={{ fontSize: "20px", fontWeght: "600" }}
+            >{`${cartData.foodData.length} item${cartData.foodData.length > 1 ? "s" : ""}  added ~>`}</div>
+          </div>
+        )}
       </div>
     </Fragment>
   );
