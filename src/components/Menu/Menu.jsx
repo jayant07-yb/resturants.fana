@@ -10,14 +10,41 @@ import SearchModal from "../SearchModal/SearchModal";
 
 const Menu = () => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [searchResults, setSearchResults] = useState({ transcript: "", matchedKeywords: [] });
+  const [searchResults, setSearchResults] = useState({ transcript: "", matchedDishes: [] });
 
   const toggleSearchModal = () => {
     setIsSearchModalOpen(!isSearchModalOpen);
   };
 
+  // Process transcript to match with dish descriptions
   const handleTranscriptComplete = (transcript) => {
-    setSearchResults({ transcript, matchedKeywords: [] });
+    const matchedDishes = getMatchingDishes(transcript);
+    setSearchResults({ transcript, matchedDishes });
+  };
+
+  // Function to find top matching dishes based on transcript
+  const getMatchingDishes = (transcript) => {
+    const transcriptWords = transcript.toLowerCase().split(" ");
+    const dishMatches = [];
+
+    hotelData.sections.forEach((section) => {
+      section.subSections.forEach((subSection) => {
+        subSection.items.forEach((item) => {
+          const descriptionWords = item.information.toLowerCase().split(" ");
+          const matchCount = transcriptWords.filter(word => descriptionWords.includes(word)).length;
+
+          if (matchCount > 0) {
+            dishMatches.push({ item, matchCount });
+          }
+        });
+      });
+    });
+
+    // Sort by match count in descending order and pick top 4-5 matches
+    return dishMatches
+      .sort((a, b) => b.matchCount - a.matchCount)
+      .slice(0, 5)
+      .map(dish => dish.item);
   };
 
   return (
@@ -94,21 +121,18 @@ const Menu = () => {
           </div>
 
           {/* Conditionally Render Search Result Section */}
-          {searchResults.transcript && (
-            <div className="px-4 py-4 search-results-section">
-              <h2 className="text-lg font-bold">Search Result:</h2>
-              <input
-                type="text"
-                value={searchResults.transcript}
-                readOnly
-                className="w-full p-2 mt-2 border border-gray-300 rounded"
-              />
-              <div className="mt-2">
-                {/* Add any additional results or matched keywords here if necessary */}
-              </div>
-            </div>
-          )}
-
+          {searchResults.matchedDishes.length > 0 && (
+          <div className="my-4">
+            <Subsection
+              subSectionObject={[
+                {
+                  category: "Search Results",
+                  items: searchResults.matchedDishes
+                }
+              ]}
+            />
+          </div>
+        )}
 
 
           {/* Sections */}
