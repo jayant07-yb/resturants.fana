@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./SearchModal.css";
-import fanaIcon from "../../assets/fanaLogo.png"; // Import your SVG file
+import fanaIcon from "../../assets/fanaLogo.png";
 
 const SearchModal = ({ onClose, onTranscriptComplete }) => {
   const [isListening, setIsListening] = useState(false);
@@ -18,26 +18,20 @@ const SearchModal = ({ onClose, onTranscriptComplete }) => {
     recognition.continuous = true;
     recognition.maxAlternatives = 1;
 
-    // Start listening when component mounts
     recognition.start();
     setIsListening(true);
     console.log("Recognition started...");
 
-    // Handle recognition results
     recognition.onresult = (event) => {
-      const finalTranscript = event.results[0][0].transcript.trim().toLowerCase();
-      console.log(`Interim transcript: ${finalTranscript}`);
-      document.getElementById("transcript").textContent = finalTranscript; // Update the interim transcript display
-      setTranscript(finalTranscript);
+      const interimTranscript = event.results[0][0].transcript.trim().toLowerCase();
+      document.getElementById("transcript").textContent = interimTranscript;
+      setTranscript(interimTranscript);
     };
 
-    // Handle recognition end
     recognition.onend = () => {
-      console.log("Recognition ended.");
       setIsListening(false);
     };
 
-    // Handle recognition errors
     recognition.onerror = (event) => {
       console.error("Speech recognition error:", event.error);
       setIsListening(false);
@@ -45,41 +39,23 @@ const SearchModal = ({ onClose, onTranscriptComplete }) => {
 
     return () => {
       recognition.abort();
-      console.log("Recognition aborted and cleaned up.");
     };
   }, []);
 
-  // Handle search button click
   const handleSearchClick = () => {
-    console.log("Final transcript: " + transcript);
     if (isListening) {
       setIsListening(false);
     }
-    if (transcript) {
-      onTranscriptComplete(transcript);
-    }
+    onTranscriptComplete(transcript); // Send final transcript back
     onClose();
   };
 
   return (
     <div className="search-modal">
       <div className="search-modal-content">
-        {/* Cross Button */}
-        {/* <button className="close-btn" onClick={onClose}>
-          <FontAwesomeIcon icon={faTimes} />
-        </button> */}
-
-        {/* Display Interim Transcript */}
         <div id="transcript" className="transcript-display"></div>
-
-        {/* Search Button */}
-        <button
-          className={`search-btn ${isListening ? "glow" : ""}`}
-          onClick={handleSearchClick}
-        >
-
-        <img src={fanaIcon} alt="Custom Search Icon" className="search-btn-icon" />
-
+        <button className="search-btn" onClick={handleSearchClick}>
+          <img src={fanaIcon} alt="Custom Search Icon" className="search-btn-icon" />
         </button>
       </div>
     </div>

@@ -16,8 +16,8 @@ const Menu = () => {
     setIsSearchModalOpen(!isSearchModalOpen);
   };
 
-  const handleTranscriptComplete = ({ transcript, matchedKeywords }) => {
-    setSearchResults({ transcript, matchedKeywords });
+  const handleTranscriptComplete = (transcript) => {
+    setSearchResults({ transcript, matchedKeywords: [] });
   };
 
   return (
@@ -73,26 +73,7 @@ const Menu = () => {
             Apna Sweets
           </div>
 
-          {/* Display Search Results and Matched Keywords */}
-          {searchResults.transcript && (
-            <div className="px-4 py-4">
-              <h2 className="text-lg font-bold">Search Results:</h2>
-              <p><strong>Transcript:</strong> {searchResults.transcript}</p>
-              <p><strong>Matched Keywords:</strong> {searchResults.matchedKeywords.join(", ") || "None"}</p>
-            </div>
-          )}
-
-          <div
-            className="marker-top bg-slate-500"
-            style={{
-              height: "5px",
-              borderRadius: "20px",
-              width: "20%",
-              margin: "3% 40%",
-            }}
-          ></div>
-
-          {/* Filter */}
+          {/* Filter Section */}
           <div
             className="overflow-x-auto scrollbar-hide flex flex-row items-center filter-row mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
             style={{ borderTopWidth: "10px", borderTopStyle: "solid" }}
@@ -111,6 +92,24 @@ const Menu = () => {
               </div>
             ))}
           </div>
+
+          {/* Conditionally Render Search Result Section */}
+          {searchResults.transcript && (
+            <div className="px-4 py-4 search-results-section">
+              <h2 className="text-lg font-bold">Search Result:</h2>
+              <input
+                type="text"
+                value={searchResults.transcript}
+                readOnly
+                className="w-full p-2 mt-2 border border-gray-300 rounded"
+              />
+              <div className="mt-2">
+                {/* Add any additional results or matched keywords here if necessary */}
+              </div>
+            </div>
+          )}
+
+
 
           {/* Sections */}
           {hotelData.sections.map((e, index) => (
