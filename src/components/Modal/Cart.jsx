@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import useCart from "../../context/Cart";
@@ -11,6 +11,9 @@ const CartModal = () => {
   const { themeMode } = useTheme();
   const { cartData, toggleCart } = useCart();
   const { isOpen, foodData } = cartData;
+  useEffect(() => {
+    if(foodData.every((e) => e === null)) toggleCart();
+  } , [cartData])
   console.log("cart data ", cartData);
 
   return ReactDOM.createPortal(
@@ -51,7 +54,8 @@ const CartModal = () => {
               </div>
               <div className="bg-tabs-bg dark:bg-tabs-bg-dark mx-4 px-2 py-2 rounded-xl food-data-div">
                 {foodData.map((e , index) => {
-                  return <CartFoodData index={index} />
+                  if(e) return <CartFoodData index={index} />
+                  return <></>
                 })}
               </div>
             </motion.div>

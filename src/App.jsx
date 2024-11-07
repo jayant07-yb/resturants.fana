@@ -30,6 +30,7 @@ function App() {
     document.querySelector("html").classList.add(themeMode);
   }, [themeMode]);
 
+
   const toggleModal = (foodData = null) => {
     setModalDetails({ isOpen: !modalDetails.isOpen, foodData });
   };
@@ -64,19 +65,19 @@ function App() {
 
   const changeQnt = (foodDataAndServing, extraAddition) => {
     setCartData((prevState) => {
-      const index = prevState.foodData.findIndex(
-        (food) =>
-          food.name === foodDataAndServing.name &&
-          food.type === foodDataAndServing.type
-      );
+      const updatedCartData = prevState.foodData.map((item , index) => {
+        if(item.name === foodDataAndServing.name && item.type === foodDataAndServing.type){
+          if(item.qnt + extraAddition <= 0) return null;
+          return {...item , qnt : item.qnt + extraAddition}
+        }
+        return item;
+      }).filter((e) => e !== null)
 
-      const { qnt } = prevState.foodData[index];
-      if (extraAddition + qnt == 0) prevState.foodData.splice(index, 1);
-      else {
-        prevState.foodData[index].qnt += extraAddition;
+      return {
+        ...prevState ,
+        foodData : updatedCartData
       }
 
-      return prevState;
     });
   };
 
