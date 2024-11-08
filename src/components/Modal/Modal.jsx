@@ -57,7 +57,7 @@ const ModalComp = () => {
               animate={{ y: 0, minHeight: modalHeight }}
               exit={{ height: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
-              className="absolute flex flex-col rounded-t-xl bottom-0 bg-white text-black dark:text-white dark:bg-primary-bg-dark w-full"
+              className="fixed flex flex-col rounded-t-xl bottom-0 bg-white text-black dark:text-white dark:bg-primary-bg-dark w-full"
               style={{ zIndex: "10000", gap: "30px", height: modalHeight }}
             >
               <div
