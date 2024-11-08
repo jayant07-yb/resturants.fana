@@ -3,7 +3,7 @@ import { Parallax, ParallaxLayer } from "@react-spring/parallax";
 
 import ThemeBtn from "../Buttons/ThemeBtn";
 import star from "../../assets/star.svg";
-import "./Menu.css";
+import "./menu.css";
 import hotelData from "../../json/foodData.json";
 import Subsection from "./Subsections";
 import restaurant from "../../assets/restaurant.jpeg";
