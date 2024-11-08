@@ -1,123 +1,164 @@
-import { Fragment, useRef, useEffect } from "react";
-import { Parallax, ParallaxLayer } from "@react-spring/parallax";
-
+import { Fragment, useState } from "react";
 import ThemeBtn from "../Buttons/ThemeBtn";
-import star from "../../assets/star.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
 import "./Menu.css";
 import hotelData from "../../json/foodData.json";
 import Subsection from "./Subsections";
 import restaurant from "../../assets/restaurant.jpeg";
 import useCart from "../../context/Cart";
 
+
+import SearchModal from "../SearchModal/SearchModal";
+
 const Menu = () => {
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState({ transcript: "", matchedDishes: [] });
   const { toggleCart, cartData } = useCart();
   const { foodData } = cartData;
+  const toggleSearchModal = () => {
+    setIsSearchModalOpen(!isSearchModalOpen);
+  };
+
+  // Process transcript to match with dish descriptions
+  const handleTranscriptComplete = (transcript) => {
+    const matchedDishes = getMatchingDishes(transcript);
+    setSearchResults({ transcript, matchedDishes });
+  };
+
+  // Function to find top matching dishes based on transcript
+  const getMatchingDishes = (transcript) => {
+    const transcriptWords = transcript.toLowerCase().split(" ");
+    const dishMatches = [];
+
+    hotelData.sections.forEach((section) => {
+      section.subSections.forEach((subSection) => {
+        subSection.items.forEach((item) => {
+          const descriptionWords = item.information.toLowerCase().split(" ");
+          const matchCount = transcriptWords.filter(word => descriptionWords.includes(word)).length;
+
+          if (matchCount > 0) {
+            dishMatches.push({ item, matchCount });
+          }
+        });
+      });
+    });
+
+    // Sort by match count in descending order and pick top 4-5 matches
+    return dishMatches
+      .sort((a, b) => b.matchCount - a.matchCount)
+      .slice(0, 5)
+      .map(dish => dish.item);
+  };
+
   return (
     <Fragment>
-      <div className="menu-container min-h-screen overflow-auto w-full relative dark:bg-primary-bg-dark dark:text-white">
+      <div className="menu-container min-h-screen w-full relative dark:bg-primary-bg-dark dark:text-white">
+        
+        {/* Fixed Background Image and Theme Button */}
         <div
-          style={{ height: "8%", zIndex: "1000" }}
-          className="bg-white dark:bg-primary-bg-dark w-full flex flex-row justify-between top-navbar absolute top-0"
+          className="fixed top-0 left-0 w-full h-1/4"
+          style={{
+            backgroundImage: `url(${restaurant})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            zIndex: "-1",
+          }}
         >
-          <div className="rest-name">Apna Sweets</div>
-          <ThemeBtn />
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: "linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent 60%)",
+            }}
+          ></div>
+          <div
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "15px",
+            }}
+          >
+            <ThemeBtn />
+          </div>
         </div>
-        <Parallax pages={2}>
-          <ParallaxLayer offset={0} speed={-1}>
-            <div
-              className="my-4 relative mx-auto h-36 max-w-lg overflow-y-scroll bg-cover bg-fixed bg-center bg-no-repeat shadow-lg"
-              style={{
-                height: "50%",
-                backgroundImage: `url(${restaurant})`,
-              }}
-            ></div>
-          </ParallaxLayer>
-          <ParallaxLayer offset={1} speed={1} style={{ top: "-90%" }}>
-            <div
-              className="w-full main-content absolute bg-white dark:bg-primary-bg-dark"
-              style={{
-                overflowY: "scroll",
-                borderTopLeftRadius: "10px",
-                borderTopRightRadius: "10px",
-              }}
-            >
-              <div
-                className="marker-top bg-slate-500"
-                style={{
-                  height: "5px",
-                  borderRadius: "20px",
-                  width: "20%",
-                  margin: "3% 40%",
-                }}
-              ></div>
 
-              {/* Hotel Name and ratings */}
-              <div className="flex flex-row justify-between items-center mx-4">
-                <h1
-                  style={{ fontWeight: "600", fontSize: "25px" }}
-                  className=""
-                >
-                  Apna Sweets
-                </h1>
-                <div
-                  className="bg-secondary-bg rating-card flex flex-row justify-center items-center"
-                  style={{
-                    opacity: "0",
-                    width: "15%",
-                    height: "15%",
-                    borderRadius: "5px",
-                  }}
-                >
-                  <p className="mx-1 text-white ">4.2</p>
-                  <img
-                    src={star}
-                    style={{ height: "15px" }}
-                    className="stars mx-1"
-                  />
-                </div>
-              </div>
-              {/* Filter */}
+        <div
+          className="w-full bg-white dark:bg-primary-bg-dark overflow-y-auto"
+          style={{
+            marginTop: "25vh",
+            borderTopLeftRadius: "10px",
+            borderTopRightRadius: "10px",
+            paddingBottom: "20px",
+          }}
+        >
+          <div
+            className="px-4 py-4 text-left font-bold text-xl"
+            style={{
+              color: "var(--text-color)",
+            }}
+          >
+            Apna Sweets
+          </div>
+
+          {/* Filter Section */}
+          <div
+            className="overflow-x-auto scrollbar-hide flex flex-row items-center filter-row mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
+            style={{ borderTopWidth: "10px", borderTopStyle: "solid" }}
+          >
+            {hotelData.filters.map((e) => (
               <div
-                className="overflow-x-auto scrollbar-hide flex flex-row items-center filter-row mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
-                style={{ borderTopWidth: "10px", borderTopStyle: "solid" }}
+                key={e}
+                className="whitespace-nowrap filter-container border-solid dark:bg-tabs-bg-dark bg-tabs-bg dark:border-slate-500 rounded-md ml-4 mr-2"
+                style={{
+                  padding: "4px 6px",
+                  borderWidth: "1px",
+                  fontSize: "80%",
+                }}
               >
-                {hotelData.filters.map((e) => {
-                  return (
-                    <div
-                      key={e} // add a unique key to avoid React warnings
-                      className="whitespace-nowrap filter-container border-solid dark:bg-tabs-bg-dark bg-tabs-bg dark:border-slate-500 rounded-md ml-4 mr-2"
-                      style={{
-                        padding: "4px 6px",
-                        borderWidth: "1px",
-                        fontSize: "80%",
-                      }}
-                    >
-                      {e}
-                    </div>
-                  );
-                })}
+                {e}
               </div>
-              {hotelData.sections.map((e, index) => {
-                return (
-                  <div
-                    key={index} // add a unique key to avoid React warnings
-                    className="food-data-div mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
-                    style={{ borderTopWidth: "10px", borderTopStyle: "solid" }}
-                  >
-                    <h1
-                      className="text-black ml-4 dark:text-white"
-                      style={{ fontSize: "25px", fontWeight: "700" }}
-                    >
-                      {e.sectionName}
-                    </h1>
-                    <Subsection subSectionObject={e.subSections} />
-                  </div>
-                );
-              })}
+            ))}
+          </div>
+
+          {/* Conditionally Render Search Result Section */}
+          {searchResults.matchedDishes.length > 0 && (
+          <div className="my-4">
+            <Subsection
+              subSectionObject={[
+                {
+                  category: "Search Results",
+                  items: searchResults.matchedDishes
+                }
+              ]}
+            />
+          </div>
+        )}
+
+
+          {/* Sections */}
+          {hotelData.sections.map((e, index) => (
+            <div
+              key={index}
+              className="food-data-div mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
+              style={{ borderTopWidth: "10px", borderTopStyle: "solid" }}
+            >
+              <h1
+                className="text-black ml-4 dark:text-white"
+                style={{ fontSize: "25px", fontWeight: "700" }}
+              >
+                {e.sectionName}
+              </h1>
+              <Subsection subSectionObject={e.subSections} />
             </div>
-          </ParallaxLayer>
-        </Parallax>
-        {foodData.length && (
+          ))}
+
+
+          {/* Cart */}
+          {foodData.length && (
           <div
           onClick={toggleCart}
             className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white absolute bottom-0 w-full"
@@ -128,6 +169,40 @@ const Menu = () => {
               style={{ fontSize: "20px", fontWeght: "600" }}
             >{`${cartData.foodData.length} item${cartData.foodData.length > 1 ? "s" : ""}  added ~>`}</div>
           </div>
+        )}
+        
+        </div>
+
+        <button
+          className="floating-mic-btn"
+          onClick={toggleSearchModal}
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "50%",
+            width: "50px",
+            height: "50px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "1.5rem",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+            cursor: "pointer",
+            zIndex: "10",
+          }}
+        >
+          <FontAwesomeIcon icon={faMicrophone} />
+        </button>
+
+        {isSearchModalOpen && (
+          <SearchModal
+            onClose={toggleSearchModal}
+            onTranscriptComplete={handleTranscriptComplete}
+          />
         )}
       </div>
     </Fragment>
