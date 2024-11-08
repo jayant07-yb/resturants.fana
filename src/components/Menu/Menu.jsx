@@ -157,54 +157,61 @@ const Menu = () => {
             </div>
           ))}
 
-
           {/* Cart */}
-          {foodData.length && (
-          <div
-          onClick={toggleCart}
-            className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white absolute bottom-0 w-full"
-            style={{ height: "10%", zIndex: "9000" }}
-          >
+          {foodData.length && !isSearchModalOpen && (
             <div
-              className="items-count"
-              style={{ fontSize: "20px", fontWeght: "600" }}
-            >{`${cartData.foodData.length} item${cartData.foodData.length > 1 ? "s" : ""}  added ~>`}</div>
-          </div>
-        )}
-        
+              onClick={toggleCart}
+              className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white fixed bottom-0 w-full"
+              style={{
+                height: "10%",
+                zIndex: "9000",
+                borderTopLeftRadius: "12px",
+                borderTopRightRadius: "12px"
+              }}
+            >
+              <div
+                className="items-count"
+                style={{ fontSize: "20px", fontWeight: "600" }}
+              >
+                {`${cartData.foodData.length} item${cartData.foodData.length > 1 ? "s" : ""} added ~>`}
+              </div>
+            </div>
+          )}
+
+          {/* Mic Button */}
+          <button
+            className="floating-mic-btn"
+            onClick={toggleSearchModal}
+            style={{
+              position: "fixed",
+              bottom: foodData.length ? "12%" : "20px", // Adjusts position based on cart presence
+              right: "20px",
+              backgroundColor: "#007bff",
+              color: "white",
+              border: "none",
+              borderRadius: "50%",
+              width: "50px",
+              height: "50px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "1.5rem",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+              cursor: "pointer",
+              zIndex: "10",
+            }}
+          >
+            <FontAwesomeIcon icon={faMicrophone} />
+          </button>
+
+          {/* Search Modal */}
+          {isSearchModalOpen && (
+            <SearchModal
+              onClose={toggleSearchModal}
+              onTranscriptComplete={handleTranscriptComplete}
+            />
+          )}
         </div>
-
-        <button
-          className="floating-mic-btn"
-          onClick={toggleSearchModal}
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            backgroundColor: "#007bff",
-            color: "white",
-            border: "none",
-            borderRadius: "50%",
-            width: "50px",
-            height: "50px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "1.5rem",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-            cursor: "pointer",
-            zIndex: "10",
-          }}
-        >
-          <FontAwesomeIcon icon={faMicrophone} />
-        </button>
-
-        {isSearchModalOpen && (
-          <SearchModal
-            onClose={toggleSearchModal}
-            onTranscriptComplete={handleTranscriptComplete}
-          />
-        )}
       </div>
     </Fragment>
   );
