@@ -3,14 +3,15 @@ import { Parallax, ParallaxLayer } from "@react-spring/parallax";
 
 import ThemeBtn from "../Buttons/ThemeBtn";
 import star from "../../assets/star.svg";
-import "./Menu.css";
+import "./menu.css";
 import hotelData from "../../json/foodData.json";
 import Subsection from "./Subsections";
 import restaurant from "../../assets/restaurant.jpeg";
-import OrderModal from "./OrderModal";
+import useCart from "../../context/Cart";
 
 const Menu = () => {
-
+  const { toggleCart, cartData } = useCart();
+  const { foodData } = cartData;
   return (
     <Fragment>
       <div className="menu-container min-h-screen overflow-auto w-full relative dark:bg-primary-bg-dark dark:text-white">
@@ -35,7 +36,7 @@ const Menu = () => {
             <div
               className="w-full main-content absolute bg-white dark:bg-primary-bg-dark"
               style={{
-                overflowY : "scroll" , 
+                overflowY: "scroll",
                 borderTopLeftRadius: "10px",
                 borderTopRightRadius: "10px",
               }}
@@ -116,9 +117,19 @@ const Menu = () => {
             </div>
           </ParallaxLayer>
         </Parallax>
+        {foodData.length && (
+          <div
+          onClick={toggleCart}
+            className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white absolute bottom-0 w-full"
+            style={{ height: "10%", zIndex: "9000" }}
+          >
+            <div
+              className="items-count"
+              style={{ fontSize: "20px", fontWeght: "600" }}
+            >{`${cartData.foodData.length} item${cartData.foodData.length > 1 ? "s" : ""}  added ~>`}</div>
+          </div>
+        )}
       </div>
-      
-
     </Fragment>
   );
 };

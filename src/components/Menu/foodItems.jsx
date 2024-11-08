@@ -5,7 +5,6 @@ import useModal from "../../context/Modal"
 const FoodItems = ({foodData , active , index , size}) => {
   const {toggleModal} = useModal();
   const handleAdd = () => {
-    console.log("Hnadling toggle" , foodData)
     toggleModal(foodData);
   }
 
