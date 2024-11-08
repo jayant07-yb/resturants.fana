@@ -79,6 +79,11 @@ function App() {
     });
   };
 
+  const clearCart = () => {
+      setCartData((prev) => ({ ...prev, foodData: [] })); // Resets foodData to an empty array
+  };
+
+  
   const toggleCart = () => {
     setCartData((prevData) => {
       return {
@@ -95,7 +100,7 @@ function App() {
   };
 
   return (
-    <CartModalProvider value={{ cartData, toggleCart, addItem, changeQnt }}>
+    <CartModalProvider value={{ cartData, toggleCart, addItem, changeQnt, clearCart }}>
       <ModalProvider value={{ toggleModal, modalDetails }}>
         <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
           
