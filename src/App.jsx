@@ -1,13 +1,14 @@
 import { Fragment, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import { ThemeProvider } from "./context/theme"; // Ensure this is set up correctly
-import LandingPage from "./components/landingPage"; // Adjust the path if necessary
+import { ThemeProvider } from "./context/theme";
+import LandingPage from "./components/LandingPage";
 import "./App.css";
 import Menu from "./components/Menu/Menu";
 import { ModalProvider } from "./context/Modal";
 import ModalComp from "./components/Modal/Modal";
 import { CartModalProvider } from "./context/Cart";
 import CartModal from "./components/Modal/Cart";
+import SearchModal from "./components/SearchModal/SearchModal"; // Import SearchModal
 
 function App() {
   const [themeMode, setThemeMode] = useState("light");
@@ -16,14 +17,11 @@ function App() {
     foodData: null,
   });
   const [cartData, setCartData] = useState({ isOpen: false, foodData: [] });
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [transcriptData, setTranscriptData] = useState(null);
 
-  const darkTheme = () => {
-    setThemeMode("dark");
-  };
-
-  const lightTheme = () => {
-    setThemeMode("light");
-  };
+  const darkTheme = () => setThemeMode("dark");
+  const lightTheme = () => setThemeMode("light");
 
   useEffect(() => {
     document.querySelector("html").classList.remove("light", "dark");
@@ -89,17 +87,31 @@ function App() {
       };
     });
   };
+  const handleTranscriptComplete = (data) => {
+    setTranscriptData(data); // Set the transcript data
+  };
+  const toggleSearchModal = () => {
+    setIsSearchModalOpen(!isSearchModalOpen);
+  };
 
   return (
     <CartModalProvider value={{ cartData, toggleCart, addItem, changeQnt }}>
       <ModalProvider value={{ toggleModal, modalDetails }}>
         <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-          {modalDetails.isOpen ? <ModalComp /> : <></>}
-          {cartData.isOpen ? <CartModal /> : <></>}
+          
+          {/* Conditional modals */}
+          {modalDetails.isOpen && <ModalComp />}
+          {cartData.isOpen && <CartModal />}
+          {isSearchModalOpen && (
+            <SearchModal onClose={toggleSearchModal} onTranscriptComplete={handleTranscriptComplete} />
+          )}
+  
+          {/* Routes */}
           <Routes>
             <Route path="/login" element={<LandingPage />} />{" "}
             <Route path="/" element={<Menu />} />{" "}
           </Routes>
+  
         </ThemeProvider>
       </ModalProvider>
     </CartModalProvider>
