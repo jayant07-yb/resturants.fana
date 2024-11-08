@@ -97,8 +97,8 @@ function App() {
           {modalDetails.isOpen ? <ModalComp /> : <></>}
           {cartData.isOpen ? <CartModal /> : <></>}
           <Routes>
-            <Route path="/" element={<LandingPage />} />{" "}
-            <Route path="/menu" element={<Menu />} />{" "}
+            <Route path="/login" element={<LandingPage />} />{" "}
+            <Route path="/" element={<Menu />} />{" "}
           </Routes>
         </ThemeProvider>
       </ModalProvider>
