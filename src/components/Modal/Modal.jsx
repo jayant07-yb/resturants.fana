@@ -56,7 +56,7 @@ const ModalComp = () => {
             ></div>
             <motion.div
               initial={{ y: "100vh", minHeight: 0 }}
-              animate={{ y: "2vh", minHeight : "50vh" }}
+              animate={{ y: 0, minHeight : "50vh" }}
               exit={{ height: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
               className="absolute flex flex-col rounded-t-xl bottom-0 bg-white text-black dark:text-white dark:bg-primary-bg-dark w-full"
