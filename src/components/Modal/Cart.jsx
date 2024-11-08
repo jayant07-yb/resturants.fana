@@ -6,14 +6,16 @@ import backLight from "../../assets/backLight.svg";
 import backDark from "../../assets/backDark.svg";
 import useTheme from "../../context/theme";
 import CartFoodData from "./cartFoodData";
+import timerDark from "../../assets/timerDark.svg";
+import timerLight from "../../assets/timerLight.svg";
 
 const CartModal = () => {
   const { themeMode } = useTheme();
   const { cartData, toggleCart } = useCart();
   const { isOpen, foodData } = cartData;
   useEffect(() => {
-    if(foodData.every((e) => e === null)) toggleCart();
-  } , [cartData])
+    if (foodData.every((e) => e === null)) toggleCart();
+  }, [cartData]);
   console.log("cart data ", cartData);
 
   return ReactDOM.createPortal(
@@ -53,10 +55,39 @@ const CartModal = () => {
                 </div>
               </div>
               <div className="bg-tabs-bg dark:bg-tabs-bg-dark mx-4 px-2 py-2 rounded-xl food-data-div">
-                {foodData.map((e , index) => {
-                  if(e) return <CartFoodData index={index} />
-                  return <></>
+                {foodData.map((e, index) => {
+                  if (e) return <CartFoodData index={index} />;
+                  return <></>;
                 })}
+              </div>
+              <div className="bg-tabs-bg dark:bg-tabs-bg-dark mx-4 px-2 py-2 rounded-xl food-data-div">
+                <div
+                  className="flex flex-row ml-4 items-center"
+                  style={{ borderStyle: "dotted" }}
+                >
+                  {themeMode == "dark" ? (
+                    <img
+                      src={timerDark}
+                      style={{ height: "20px", width: "30px" }}
+                    />
+                  ) : (
+                    <img
+                      src={timerLight}
+                      style={{ height: "20px", width: "30px" }}
+                    />
+                  )}
+                  <p className="mx-2 my-2">Delivery in 26 mins</p>
+                  {/* <div className="border-bottom border-b-black dark:border-b-slate-500 border-b-2" style={{borderStyle : "dotted"}}></div> */}
+                </div>
+                <div
+                  className={`${"border-b-black dark:border-b-slate-500 border-b-2"} `}
+                  style={{
+                    width: "90%",
+                    margin: "1% 5%",
+                    borderStyle: "dotted",
+                  }}
+                ></div>
+                
               </div>
             </motion.div>
           </Fragment>
