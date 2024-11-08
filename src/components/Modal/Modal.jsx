@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import useModal from "../../context/Modal";
@@ -8,29 +8,25 @@ import useCart from "../../context/Cart";
 const ModalComp = () => {
   const { toggleModal, modalDetails } = useModal();
   const { isOpen, foodData } = modalDetails;
-  const { addItem }= useCart(); 
+  const { addItem } = useCart();
   const [selectedOption, setSelectedOption] = useState(0);
-  const [count , setCount] = useState(1);
+  const [count, setCount] = useState(1);
+  const modalHeight = "50vh"; // Fixed to 50% viewport height
 
-
-  // destructure the data
-  const {name ,category , servings , tags , information} = foodData; 
-
-  const incrementCount =  () => {
+  const incrementCount = () => {
     setCount(count + 1);
-  }
-  
-  const decrementCount =  () => {
-    if(count == 1) return
-    setCount(count - 1);
-  }
+  };
 
+  const decrementCount = () => {
+    if (count === 1) return;
+    setCount(count - 1);
+  };
 
   const closePortal = () => {
     toggleModal();
-    setSelectedOption(null); 
+    setSelectedOption(null);
   };
-  
+
   const handleRadioChange = (index) => {
     setSelectedOption(index);
     setCount(1);
@@ -38,11 +34,13 @@ const ModalComp = () => {
 
   const addToCart = () => {
     const foodObject = {
-      name , type : servings[selectedOption] , qnt : count
-    }
+      name: foodData.name,
+      type: foodData.servings[selectedOption],
+      qnt: count
+    };
     addItem(foodObject);
     toggleModal();
-  }
+  };
 
   return ReactDOM.createPortal(
     <Fragment>
@@ -55,12 +53,12 @@ const ModalComp = () => {
               style={{ zIndex: "10000", backgroundColor: "rgba(0, 0, 0, 0.7)" }}
             ></div>
             <motion.div
-              initial={{ y: "100vh", height: 0 }}
-              animate={{ y: "2vh", height: "50vh" }}
+              initial={{ y: "100vh", minHeight: 0 }}
+              animate={{ y: 0, minHeight: modalHeight }}
               exit={{ height: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
-              className="absolute flex flex-col rounded-t-xl bottom-0 bg-white text-black dark:text-white dark:bg-primary-bg-dark w-full"
-              style={{ zIndex: "10000", gap: "30px" }}
+              className="fixed flex flex-col rounded-t-xl bottom-0 bg-white text-black dark:text-white dark:bg-primary-bg-dark w-full"
+              style={{ zIndex: "10000", gap: "30px", height: modalHeight }}
             >
               <div
                 className="rounded-t-xl flex flex-row items-center food-name-cont bg-tabs-bg dark:bg-tabs-bg-dark dark:text-white"
@@ -72,7 +70,7 @@ const ModalComp = () => {
                   style={{ height: "50px", width: "50px" }}
                 />
                 <h1 style={{ fontSize: "20px", fontWeight: "600" }}>
-                  {name}
+                  {foodData.name}
                 </h1>
               </div>
               <div className="mx-2 px-2 py-2 food-pricing rounded-xl bg-tabs-bg dark:bg-tabs-bg-dark dark:text-white">
@@ -82,7 +80,7 @@ const ModalComp = () => {
                   </h1>
                   <p className="text-gray-500">Choose one Mandatory</p>
                 </div>
-                {servings.map((e, index) => (
+                {foodData.servings.map((e, index) => (
                   <div key={index} className="food-servings my-2 flex flex-row justify-between mx-3">
                     <div className="food-size">{e.details}</div>
                     <div className="food-cost flex flex-row">
@@ -106,10 +104,9 @@ const ModalComp = () => {
                   <p className="mx-2" onClick={incrementCount}>+</p>
                 </div>
                 <div onClick={addToCart}  className="flex justify-center items-center add-item rounded-lg bg-secondary-bg text-white dark:bg-secondary-bg-dark" style={{width : "60%" , margin : "2% 5%"}}>
-                  <p style={{fontWeight : "500" , fontSize : "18px"}}>Add items ${count * (servings[selectedOption].cost)}</p>
+                  <p style={{fontWeight : "500" , fontSize : "18px"}}>Add items ${count * (foodData.servings[selectedOption].cost)}</p>
                 </div>
               </div>
-
             </motion.div>
           </Fragment>
         )}
