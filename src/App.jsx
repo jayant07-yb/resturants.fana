@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./context/theme"; // Ensure this is set up correctly
-import LandingPage from "./components/LandingPage"; // Adjust the path if necessary
+import LandingPage from "./components/landingPage"; // Adjust the path if necessary
 import "./App.css";
 import Menu from "./components/Menu/Menu";
 import { ModalProvider } from "./context/Modal";
