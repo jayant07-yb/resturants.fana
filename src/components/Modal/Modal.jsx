@@ -55,8 +55,8 @@ const ModalComp = () => {
               style={{ zIndex: "10000", backgroundColor: "rgba(0, 0, 0, 0.7)" }}
             ></div>
             <motion.div
-              initial={{ y: "100vh", height: 0 }}
-              animate={{ y: "2vh", height: "50vh" }}
+              initial={{ y: "100vh", minHeight: 0 }}
+              animate={{ y: "2vh", minHeight : "50vh" }}
               exit={{ height: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
               className="absolute flex flex-col rounded-t-xl bottom-0 bg-white text-black dark:text-white dark:bg-primary-bg-dark w-full"
