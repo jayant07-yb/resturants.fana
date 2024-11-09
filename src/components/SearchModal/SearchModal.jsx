@@ -7,12 +7,12 @@ const SearchModal = ({ onClose, onTranscriptComplete }) => {
   const [transcript, setTranscript] = useState("");
 
   useEffect(() => {
-    if (!("SpeechRecognition" in window || "webkitSpeechRecognition" in window)) {
+    if (!("webkitSpeechRecognition" in window)) {
       alert("Your browser does not support Speech Recognition");
       return;
     }
 
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    const recognition = new  webkitSpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = true;
     recognition.continuous = true;
@@ -24,6 +24,7 @@ const SearchModal = ({ onClose, onTranscriptComplete }) => {
 
     recognition.onresult = (event) => {
       const interimTranscript = event.results[0][0].transcript.trim().toLowerCase();
+      console.log(interimTranscript);
       document.getElementById("transcript").textContent = interimTranscript;
       setTranscript(interimTranscript);
     };
