@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/runtime": "^7.26.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@react-spring/parallax": "^9.7.5",
@@ -18,9 +19,12 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-parallax": "^3.5.1",
-    "react-router-dom": "^6.27.0"
+    "react-router-dom": "^6.27.0",
+    "react-speech-recognition": "^3.10.0",
+    "regenerator-runtime": "^0.14.1"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.25.9",
     "@eslint/js": "^9.13.0",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
@@ -39,6 +43,4 @@
   "homepage": "https://The-Fana.github.io/fana-frontend",
   "predeploy": "npm run build",
   "deploy": "gh-pages -d build"
-
-
 }

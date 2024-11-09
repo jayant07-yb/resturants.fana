@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useRef  } from "react";
 import ThemeBtn from "../Buttons/ThemeBtn";
 import star from "../../assets/star.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,11 +20,18 @@ const Menu = () => {
   const toggleSearchModal = () => {
     setIsSearchModalOpen(!isSearchModalOpen);
   };
+  const searchResultsRef = useRef(null);
+
+
 
   // Process transcript to match with dish descriptions
   const handleTranscriptComplete = (transcript) => {
     const matchedDishes = getMatchingDishes(transcript);
     setSearchResults({ transcript, matchedDishes });
+    // Scroll to Search Results section if there are results
+    if (searchResultsRef.current && matchedDishes.length > 0) {
+      searchResultsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   // Function to find top matching dishes based on transcript
@@ -123,11 +130,11 @@ const Menu = () => {
                 {e}
               </div>
             ))}
-          </div>
+          </div>  
 
           {/* Conditionally Render Search Result Section */}
           {searchResults.matchedDishes.length > 0 && (
-          <div className="my-4">
+          <div className="my-4" ref={searchResultsRef}>
             <Subsection
               subSectionObject={[
                 {
