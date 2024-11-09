@@ -3,7 +3,7 @@ import ThemeBtn from "../Buttons/ThemeBtn";
 import star from "../../assets/star.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
-import "./Menu.css";
+import "./menu.css";
 import hotelData from "../../json/foodData.json";
 import Subsection from "./Subsections";
 import restaurant from "../../assets/restaurant.jpeg";
