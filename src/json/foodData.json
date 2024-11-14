@@ -310,6 +310,7 @@
     }
   ],
   "filters": [
+    "rum",
     "Veg",
     "Non-veg",
     "Beverages",

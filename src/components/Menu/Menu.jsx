@@ -1,6 +1,5 @@
-import { Fragment, useState, useRef  } from "react";
+import { Fragment, useState, useRef, useEffect } from "react";
 import ThemeBtn from "../Buttons/ThemeBtn";
-import star from "../../assets/star.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
 import "./menu.css";
@@ -8,33 +7,141 @@ import hotelData from "../../json/foodData.json";
 import Subsection from "./Subsections";
 import restaurant from "../../assets/restaurant.jpeg";
 import useCart from "../../context/Cart";
-
-
 import SearchModal from "../SearchModal/SearchModal";
+import { motion } from "framer-motion";
 
 const Menu = () => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [searchResults, setSearchResults] = useState({ transcript: "", matchedDishes: [] });
   const { toggleCart, cartData } = useCart();
   const { foodData } = cartData;
+
+  // Filter Hooks
+  const [filters, setFilters] = useState(
+    hotelData.filters.map((filter) => ({ filter, flag: false }))
+  );
+  const [filteredFoodData, setFilteredFoodData] = useState(hotelData.sections);
+
+  // Speech Search hooks
+  const [searchResults, setSearchResults] = useState({
+    transcript: "",
+    matchedDishes: [],
+  });
+  const searchResultsRef = useRef(null);
+
   const toggleSearchModal = () => {
     setIsSearchModalOpen(!isSearchModalOpen);
   };
-  const searchResultsRef = useRef(null);
 
+  // Toggle Filter Activation
+  const toggleFilters = (filterName) => {
+    setFilters((prevState) => {
+      return prevState.map((f) =>
+        f.filter === filterName ? { ...f, flag: !f.flag } : f
+      );
+    });
+  };
 
+  // Calculate IDF values
+  const calculateIDF = () => {
+    const numItems = hotelData.sections.reduce(
+      (total, section) =>
+        total +
+        section.subSections.reduce(
+          (subTotal, subSection) => subTotal + subSection.items.length,
+          0
+        ),
+      0
+    );
+    const filterDocCounts = filters.reduce((acc, { filter }) => {
+      let count = 0;
+      hotelData.sections.forEach((section) =>
+        section.subSections.forEach((subSection) =>
+          subSection.items.forEach((item) => {
+            const text = `${item.name} ${item.tags.join(" ")} ${
+              item.information
+            }`.toLowerCase();
+            if (text.includes(filter.toLowerCase())) count++;
+          })
+        )
+      );
+      acc[filter] = Math.log(numItems / (1 + count));
+      return acc;
+    }, {});
+    return filterDocCounts;
+  };
 
-  // Process transcript to match with dish descriptions
+  // TF-IDF filtering
+  useEffect(() => {
+    const activeFilters = filters
+      .filter((f) => f.flag)
+      .map((f) => f.filter.toLowerCase());
+    if (activeFilters.length === 0) {
+      setFilteredFoodData(hotelData.sections);
+      return;
+    }
+
+    const idf = calculateIDF();
+    const filteredSections = hotelData.sections.map((section) => ({
+      ...section,
+      subSections: section.subSections.map((subSection) => ({
+        ...subSection,
+        items: subSection.items
+          .map((item) => {
+            const text = `${item.name} ${item.tags.join(" ")} ${
+              item.information
+            }`.toLowerCase();
+            const tokenCounts = text.split(/\W+/).reduce((acc, word) => {
+              acc[word] = (acc[word] || 0) + 1;
+              return acc;
+            }, {});
+            const tfidfScore = activeFilters.reduce((score, filter) => {
+              const tf = tokenCounts[filter] || 0;
+              return score + tf * (idf[filter] || 0);
+            }, 0);
+            return { ...item, tfidfScore };
+          })
+          .filter((item) => item.tfidfScore > 0)
+          .sort((a, b) => b.tfidfScore - a.tfidfScore),
+      })),
+    }));
+
+    setFilteredFoodData(filteredSections);
+  }, [filters]);
+
+  // Filter logic for matching tags (OR condition between filters)
+  useEffect(() => {
+    const activeFilters = filters
+      .filter((f) => f.flag)
+      .map((f) => f.filter.toLowerCase());
+    if (activeFilters.length === 0) {
+      setFilteredFoodData(hotelData.sections);
+      return;
+    }
+
+    const filteredSections = hotelData.sections.map((section) => ({
+      ...section,
+      subSections: section.subSections.map((subSection) => ({
+        ...subSection,
+        items: subSection.items.filter((item) => {
+          const tagsMatch = item.tags.some((tag) =>
+            activeFilters.includes(tag.toLowerCase())
+          );
+          return tagsMatch;
+        }),
+      })),
+    }));
+
+    setFilteredFoodData(filteredSections);
+  }, [filters]);
+
   const handleTranscriptComplete = (transcript) => {
     const matchedDishes = getMatchingDishes(transcript);
     setSearchResults({ transcript, matchedDishes });
-    // Scroll to Search Results section if there are results
     if (searchResultsRef.current && matchedDishes.length > 0) {
       searchResultsRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-  // Function to find top matching dishes based on transcript
   const getMatchingDishes = (transcript) => {
     const transcriptWords = transcript.toLowerCase().split(" ");
     const dishMatches = [];
@@ -43,7 +150,12 @@ const Menu = () => {
       section.subSections.forEach((subSection) => {
         subSection.items.forEach((item) => {
           const descriptionWords = item.information.toLowerCase().split(" ");
-          const matchCount = transcriptWords.filter(word => descriptionWords.includes(word)).length;
+          let matchCount = transcriptWords.filter((word) =>
+            descriptionWords.includes(word)
+          ).length;
+          matchCount += transcriptWords.filter((word) =>
+            item.tags.includes(word)
+          ).length;
 
           if (matchCount > 0) {
             dishMatches.push({ item, matchCount });
@@ -52,18 +164,15 @@ const Menu = () => {
       });
     });
 
-    // Sort by match count in descending order and pick top 4-5 matches
     return dishMatches
       .sort((a, b) => b.matchCount - a.matchCount)
       .slice(0, 5)
-      .map(dish => dish.item);
+      .map((dish) => dish.item);
   };
 
   return (
     <Fragment>
       <div className="menu-container min-h-screen w-full relative dark:bg-primary-bg-dark dark:text-white">
-        
-        {/* Fixed Background Image and Theme Button */}
         <div
           className="fixed top-0 left-0 w-full h-1/4"
           style={{
@@ -77,19 +186,13 @@ const Menu = () => {
             style={{
               position: "absolute",
               bottom: 0,
-              left: 0,
               width: "100%",
               height: "100%",
-              background: "linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent 60%)",
+              background:
+                "linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent 60%)",
             }}
-          ></div>
-          <div
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "15px",
-            }}
-          >
+          />
+          <div style={{ position: "absolute", top: "10px", right: "15px" }}>
             <ThemeBtn />
           </div>
         </div>
@@ -103,12 +206,7 @@ const Menu = () => {
             paddingBottom: "20px",
           }}
         >
-          <div
-            className="px-4 py-4 text-left font-bold text-xl"
-            style={{
-              color: "var(--text-color)",
-            }}
-          >
+          <div className="px-4 py-4 text-left font-bold text-xl">
             Apna Sweets
           </div>
 
@@ -117,38 +215,67 @@ const Menu = () => {
             className="overflow-x-auto scrollbar-hide flex flex-row items-center filter-row mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
             style={{ borderTopWidth: "10px", borderTopStyle: "solid" }}
           >
-            {hotelData.filters.map((e) => (
-              <div
-                key={e}
-                className="whitespace-nowrap filter-container border-solid dark:bg-tabs-bg-dark bg-tabs-bg dark:border-slate-500 rounded-md ml-4 mr-2"
-                style={{
-                  padding: "4px 6px",
-                  borderWidth: "1px",
-                  fontSize: "80%",
-                }}
-              >
-                {e}
-              </div>
-            ))}
-          </div>  
+            {filters
+              .filter((e) => e.flag === true)
+              .map((e, index) => (
+                <motion.div
+                  onClick={() => toggleFilters(e.filter)}
+                  key={e}
+                  className="whitespace-nowrap filter-container border-solid dark:bg-secondary-bg-dark bg-secondary-bg  dark:border-slate-500 rounded-md ml-4 mr-2"
+                  style={{
+                    padding: "4px 6px",
+                    borderWidth: "1px",
+                    fontSize: "80%",
+                  }}
+                  initial={{ opacity: 0 }} // Start with opacity 0 (hidden)
+                  animate={{ opacity: 1 }} // Animate to opacity 1 (fully visible)
+                  exit={{ opacity: 0 }} // Fade out when removed
+                  transition={{ duration: 0.5 }} // Transition duration for the fade effect
+                >
+                  {e.filter}
+                </motion.div>
+              ))}
+            {filters
+              .filter((e) => e.flag === false)
+              .map((e, index) => (
+                <div
+                  key={index}
+                  onClick={() => toggleFilters(e.filter)}
+                  className="whitespace-nowrap filter-container border-solid dark:bg-tabs-bg-dark bg-tabs-bg dark:border-slate-500 rounded-md ml-4 mr-2"
+                  style={{
+                    padding: "4px 6px",
+                    borderWidth: "1px",
+                    fontSize: "80%",
+                  }}
+                >
+                  <motion.div
+                    initial={{ opacity: 0 }} // Initial state (hidden)
+                    animate={{ opacity: 1 }} // Animated state (fully visible)
+                    exit={{ opacity: 0 }} // Exit state (fade out when removed)
+                    transition={{ duration: 0.5 }} // Transition duration for the fade
+                  >
+                    {e.filter}
+                  </motion.div>
+                </div>
+              ))}
+          </div>
 
           {/* Conditionally Render Search Result Section */}
           {searchResults.matchedDishes.length > 0 && (
-          <div className="my-4" ref={searchResultsRef}>
-            <Subsection
-              subSectionObject={[
-                {
-                  category: "Search Results",
-                  items: searchResults.matchedDishes
-                }
-              ]}
-            />
-          </div>
-        )}
-
+            <div className="my-4" ref={searchResultsRef}>
+              <Subsection
+                subSectionObject={[
+                  {
+                    category: "Search Results",
+                    items: searchResults.matchedDishes,
+                  },
+                ]}
+              />
+            </div>
+          )}
 
           {/* Sections */}
-          {hotelData.sections.map((e, index) => (
+          {filteredFoodData.map((section, index) => (
             <div
               key={index}
               className="food-data-div mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
@@ -158,34 +285,13 @@ const Menu = () => {
                 className="text-black ml-4 dark:text-white"
                 style={{ fontSize: "25px", fontWeight: "700" }}
               >
-                {e.sectionName}
+                {section.sectionName}
               </h1>
-              <Subsection subSectionObject={e.subSections} />
+              <Subsection subSectionObject={section.subSections} />
             </div>
           ))}
 
-          {/* Cart */}
-          {foodData.length && !isSearchModalOpen && (
-            <div
-              onClick={toggleCart}
-              className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white fixed bottom-0 w-full"
-              style={{
-                height: "10%",
-                zIndex: "9000",
-                borderTopLeftRadius: "12px",
-                borderTopRightRadius: "12px"
-              }}
-            >
-              <div
-                className="items-count"
-                style={{ fontSize: "20px", fontWeight: "600" }}
-              >
-                {`${cartData.foodData.length} item${cartData.foodData.length > 1 ? "s" : ""} added ~>`}
-              </div>
-            </div>
-          )}
-
-          {/* Mic Button */}
+          {/* Cart and Search Button */}
           <button
             className="floating-mic-btn"
             onClick={toggleSearchModal}
@@ -202,24 +308,23 @@ const Menu = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              fontSize: "1.5rem",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-              cursor: "pointer",
-              zIndex: "10",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              zIndex: "9999",
             }}
           >
             <FontAwesomeIcon icon={faMicrophone} />
           </button>
-
-          {/* Search Modal */}
-          {isSearchModalOpen && (
-            <SearchModal
-              onClose={toggleSearchModal}
-              onTranscriptComplete={handleTranscriptComplete}
-            />
-          )}
         </div>
       </div>
+
+      {isSearchModalOpen && (
+        <SearchModal
+          isOpen={isSearchModalOpen}
+          onClose={toggleSearchModal}
+          onTranscriptComplete={handleTranscriptComplete}
+          searchResults={searchResults}
+        />
+      )}
     </Fragment>
   );
 };
