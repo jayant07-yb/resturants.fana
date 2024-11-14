@@ -104,6 +104,7 @@ const Menu = () => {
           .sort((a, b) => b.tfidfScore - a.tfidfScore),
       })),
     }));
+    console.log(filteredSections)
 
     setFilteredFoodData(filteredSections);
   }, [filters]);
@@ -131,7 +132,15 @@ const Menu = () => {
       })),
     }));
 
-    setFilteredFoodData(filteredSections);
+    const removedUnnecessaryItems = filteredSections.filter((section) => {
+      const newSubSection = section.subSections.filter((subsectionelement) => {
+        // console.log(subsectionelement.category , subsectionelement.items.length)
+        return subsectionelement.items.length != 0;
+      })
+      return newSubSection.length > 0;
+    })
+
+    setFilteredFoodData(removedUnnecessaryItems);
   }, [filters]);
 
   const handleTranscriptComplete = (transcript) => {
@@ -259,7 +268,6 @@ const Menu = () => {
                 </div>
               ))}
           </div>
-
           {/* Conditionally Render Search Result Section */}
           {searchResults.matchedDishes.length > 0 && (
             <div className="my-4" ref={searchResultsRef}>
@@ -275,7 +283,7 @@ const Menu = () => {
           )}
 
           {/* Sections */}
-          {filteredFoodData.map((section, index) => (
+          {filteredFoodData.map((section, index) => ( 
             <div
               key={index}
               className="food-data-div mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
