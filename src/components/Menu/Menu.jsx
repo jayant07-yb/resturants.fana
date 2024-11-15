@@ -104,7 +104,7 @@ const Menu = () => {
           .sort((a, b) => b.tfidfScore - a.tfidfScore),
       })),
     }));
-    console.log(filteredSections)
+    console.log(filteredSections);
 
     setFilteredFoodData(filteredSections);
   }, [filters]);
@@ -136,9 +136,9 @@ const Menu = () => {
       const newSubSection = section.subSections.filter((subsectionelement) => {
         // console.log(subsectionelement.category , subsectionelement.items.length)
         return subsectionelement.items.length != 0;
-      })
+      });
       return newSubSection.length > 0;
-    })
+    });
 
     setFilteredFoodData(removedUnnecessaryItems);
   }, [filters]);
@@ -283,7 +283,7 @@ const Menu = () => {
           )}
 
           {/* Sections */}
-          {filteredFoodData.map((section, index) => ( 
+          {filteredFoodData.map((section, index) => (
             <div
               key={index}
               className="food-data-div mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
@@ -298,6 +298,28 @@ const Menu = () => {
               <Subsection subSectionObject={section.subSections} />
             </div>
           ))}
+
+          {foodData.length && !isSearchModalOpen && (
+            <div
+              onClick={toggleCart}
+              className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white fixed bottom-0 w-full"
+              style={{
+                height: "10%",
+                zIndex: "9000",
+                borderTopLeftRadius: "12px",
+                borderTopRightRadius: "12px",
+              }}
+            >
+              <div
+                className="items-count"
+                style={{ fontSize: "20px", fontWeight: "600" }}
+              >
+                {`${cartData.foodData.length} item${
+                  cartData.foodData.length > 1 ? "s" : ""
+                } added ~>`}
+              </div>
+            </div>
+          )}
 
           {/* Cart and Search Button */}
           <button
