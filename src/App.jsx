@@ -1,7 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./context/theme";
-import LandingPage from "./components/landingPage";
 import "./App.css";
 import Menu from "./components/Menu/Menu";
 import { ModalProvider } from "./context/Modal";
@@ -9,6 +8,7 @@ import ModalComp from "./components/Modal/Modal";
 import { CartModalProvider } from "./context/Cart";
 import CartModal from "./components/Modal/Cart";
 import SearchModal from "./components/SearchModal/SearchModal"; // Import SearchModal
+import Slider from "./components/Auth/Slider"
 
 function App() {
   const [themeMode, setThemeMode] = useState("light");
@@ -113,10 +113,9 @@ function App() {
   
           {/* Routes */}
           <Routes>
-            <Route path="/login" element={<LandingPage />} />{" "}
+            <Route path="/login" element={<Slider />} />{" "}
             <Route path="/" element={<Menu />} />{" "}
           </Routes>
-  
         </ThemeProvider>
       </ModalProvider>
     </CartModalProvider>
