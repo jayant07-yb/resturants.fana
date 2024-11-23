@@ -207,11 +207,12 @@ const Menu = () => {
         <div
           className="w-full bg-white dark:bg-primary-bg-dark overflow-y-auto"
           style={{
-            marginTop: "23vh",
+            marginTop: "35%",
             borderTopLeftRadius: "25px",
             borderTopRightRadius: "25px",
             paddingBottom: "20px",
-            boxShadow: "rgba(0, 0, 0, 0.56) 0px 22px 70px 4px"
+            boxShadow: "rgba(0, 0, 0, 0.56) 0px 22px 70px 4px",
+            minHeight : "100vh"
           }}
         >
           <div className="px-4 py-4 text-left font-bold text-xl">
