@@ -9,11 +9,13 @@ import restaurant from "../../assets/restaurant.jpeg";
 import useCart from "../../context/Cart";
 import SearchModal from "../SearchModal/SearchModal";
 import { motion } from "framer-motion";
+import useSpeechModal from "../../context/SpeechRecognition";
 
 const Menu = () => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const { toggleCart, cartData } = useCart();
   const { foodData } = cartData;
+  const { toggleSearchModal, speechData } = useSpeechModal();
 
   // Filter Hooks
   const [filters, setFilters] = useState(
@@ -27,10 +29,6 @@ const Menu = () => {
     matchedDishes: [],
   });
   const searchResultsRef = useRef(null);
-
-  const toggleSearchModal = () => {
-    setIsSearchModalOpen(!isSearchModalOpen);
-  };
 
   // Toggle Filter Activation
   const toggleFilters = (filterName) => {
@@ -209,10 +207,11 @@ const Menu = () => {
         <div
           className="w-full bg-white dark:bg-primary-bg-dark overflow-y-auto"
           style={{
-            marginTop: "25vh",
-            borderTopLeftRadius: "10px",
-            borderTopRightRadius: "10px",
+            marginTop: "23vh",
+            borderTopLeftRadius: "25px",
+            borderTopRightRadius: "25px",
             paddingBottom: "20px",
+            boxShadow: "rgba(0, 0, 0, 0.56) 0px 22px 70px 4px"
           }}
         >
           <div className="px-4 py-4 text-left font-bold text-xl">
@@ -299,7 +298,7 @@ const Menu = () => {
             </div>
           ))}
 
-          {foodData.length && !isSearchModalOpen && (
+          {foodData.length > 0 && !isSearchModalOpen && (
             <div
               onClick={toggleCart}
               className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white fixed bottom-0 w-full"
@@ -322,39 +321,32 @@ const Menu = () => {
           )}
 
           {/* Cart and Search Button */}
-          <button
-            className="floating-mic-btn"
-            onClick={toggleSearchModal}
-            style={{
-              position: "fixed",
-              bottom: foodData.length ? "12%" : "20px", // Adjusts position based on cart presence
-              right: "20px",
-              backgroundColor: "#007bff",
-              color: "white",
-              border: "none",
-              borderRadius: "50%",
-              width: "50px",
-              height: "50px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              zIndex: "9999",
-            }}
-          >
-            <FontAwesomeIcon icon={faMicrophone} />
-          </button>
+          {!speechData.isOpen && (
+            <button
+              className="floating-mic-btn"
+              onClick={toggleSearchModal}
+              style={{
+                position: "fixed",
+                bottom: foodData.length ? "12%" : "20px", // Adjusts position based on cart presence
+                right: "20px",
+                backgroundColor: "#007bff",
+                color: "white",
+                border: "none",
+                borderRadius: "50%",
+                width: "50px",
+                height: "50px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                zIndex: "9999",
+              }}
+            >
+              <FontAwesomeIcon icon={faMicrophone} />
+            </button>
+          )}
         </div>
       </div>
-
-      {isSearchModalOpen && (
-        <SearchModal
-          isOpen={isSearchModalOpen}
-          onClose={toggleSearchModal}
-          onTranscriptComplete={handleTranscriptComplete}
-          searchResults={searchResults}
-        />
-      )}
     </Fragment>
   );
 };

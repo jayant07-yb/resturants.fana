@@ -8,7 +8,8 @@ import ModalComp from "./components/Modal/Modal";
 import { CartModalProvider } from "./context/Cart";
 import CartModal from "./components/Modal/Cart";
 import SearchModal from "./components/SearchModal/SearchModal"; // Import SearchModal
-import Slider from "./components/Auth/Slider"
+import Slider from "./components/Auth/Slider";
+import { SpeechModalProvider } from "./context/SpeechRecognition";
 
 function App() {
   const [themeMode, setThemeMode] = useState("light");
@@ -19,6 +20,7 @@ function App() {
   const [cartData, setCartData] = useState({ isOpen: false, foodData: [] });
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [transcriptData, setTranscriptData] = useState(null);
+  const [speechData, setSpeechData] = useState({ speech: [], isOpen: false });
 
   const darkTheme = () => setThemeMode("dark");
   const lightTheme = () => setThemeMode("light");
@@ -27,7 +29,6 @@ function App() {
     document.querySelector("html").classList.remove("light", "dark");
     document.querySelector("html").classList.add(themeMode);
   }, [themeMode]);
-
 
   const toggleModal = (foodData = null) => {
     setModalDetails({ isOpen: !modalDetails.isOpen, foodData });
@@ -63,27 +64,30 @@ function App() {
 
   const changeQnt = (foodDataAndServing, extraAddition) => {
     setCartData((prevState) => {
-      const updatedCartData = prevState.foodData.map((item , index) => {
-        if(item.name === foodDataAndServing.name && item.type === foodDataAndServing.type){
-          if(item.qnt + extraAddition <= 0) return null;
-          return {...item , qnt : item.qnt + extraAddition}
-        }
-        return item;
-      }).filter((e) => e !== null)
+      const updatedCartData = prevState.foodData
+        .map((item, index) => {
+          if (
+            item.name === foodDataAndServing.name &&
+            item.type === foodDataAndServing.type
+          ) {
+            if (item.qnt + extraAddition <= 0) return null;
+            return { ...item, qnt: item.qnt + extraAddition };
+          }
+          return item;
+        })
+        .filter((e) => e !== null);
 
       return {
-        ...prevState ,
-        foodData : updatedCartData
-      }
-
+        ...prevState,
+        foodData: updatedCartData,
+      };
     });
   };
 
   const clearCart = () => {
-      setCartData((prev) => ({ ...prev, foodData: [] })); // Resets foodData to an empty array
+    setCartData((prev) => ({ ...prev, foodData: [] })); // Resets foodData to an empty array
   };
 
-  
   const toggleCart = () => {
     setCartData((prevData) => {
       return {
@@ -95,29 +99,57 @@ function App() {
   const handleTranscriptComplete = (data) => {
     setTranscriptData(data); // Set the transcript data
   };
+  //  Speech Search Modal
   const toggleSearchModal = () => {
-    setIsSearchModalOpen(!isSearchModalOpen);
+    setSpeechData((prevState) => {
+      return {
+        ...prevState,
+        isOpen: !prevState.isOpen,
+      };
+    });
+  };
+
+  const searchSpeechModal = (speechTranscript) => {
+    setSpeechData((prevState) => {
+      // This function is called when the speech recognition is turned off
+      // The speech displayed over the screen is from the variable transcript 
+      // that the react lib has , we split it into an array and display it
+      // Split the speechTranscript again
+      const transcriptArray = speechTranscript.split(" ");
+      console.log(transcriptArray)
+      return {
+        ...prevState,
+        speech: transcriptArray,
+      };
+    });
   };
 
   return (
-    <CartModalProvider value={{ cartData, toggleCart, addItem, changeQnt, clearCart }}>
-      <ModalProvider value={{ toggleModal, modalDetails }}>
-        <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-          
-          {/* Conditional modals */}
-          {modalDetails.isOpen && <ModalComp />}
-          {cartData.isOpen && <CartModal />}
-          {isSearchModalOpen && (
-            <SearchModal onClose={toggleSearchModal} onTranscriptComplete={handleTranscriptComplete} />
-          )}
-  
-          {/* Routes */}
-          <Routes>
-            <Route path="/login" element={<Slider />} />{" "}
-            <Route path="/" element={<Menu />} />{" "}
-          </Routes>
-        </ThemeProvider>
-      </ModalProvider>
+    <CartModalProvider
+      value={{ cartData, toggleCart, addItem, changeQnt, clearCart }}
+    >
+      <SpeechModalProvider
+        value={{ speechData, toggleSearchModal, setSpeechData }}
+      >
+        <ModalProvider value={{ toggleModal, modalDetails }}>
+          <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
+            {/* Conditional modals */}
+            {modalDetails.isOpen && <ModalComp />}
+            {cartData.isOpen && <CartModal />}
+            {speechData.isOpen && (
+              <SearchModal
+                searchSpeechModal={searchSpeechModal}
+                toggleSearchModal={toggleSearchModal}
+              />
+            )}
+            {/* Routes */}
+            <Routes>
+              <Route path="/login" element={<Slider />} />{" "}
+              <Route path="/" element={<Menu />} />{" "}
+            </Routes>
+          </ThemeProvider>
+        </ModalProvider>
+      </SpeechModalProvider>
     </CartModalProvider>
   );
 }
