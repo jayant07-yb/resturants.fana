@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "./context/theme";
 import "./App.css";
 import Menu from "./components/Menu/Menu";
@@ -10,9 +10,14 @@ import CartModal from "./components/Modal/Cart";
 import SearchModal from "./components/SearchModal/SearchModal"; // Import SearchModal
 import Slider from "./components/Auth/Slider";
 import { SpeechModalProvider } from "./context/SpeechRecognition";
+import { isMobile } from "react-device-detect";
+import ErrorTemplate from "./components/Error/Errortemplate";
+import useScreenWidthObserver from "./utils/screenObserver";
 
 function App() {
+  const screenWidth = useScreenWidthObserver();
   const [themeMode, setThemeMode] = useState("light");
+  const navigate = useNavigate();
   const [modalDetails, setModalDetails] = useState({
     isOpen: false,
     foodData: null,
@@ -112,17 +117,25 @@ function App() {
   const searchSpeechModal = (speechTranscript) => {
     setSpeechData((prevState) => {
       // This function is called when the speech recognition is turned off
-      // The speech displayed over the screen is from the variable transcript 
+      // The speech displayed over the screen is from the variable transcript
       // that the react lib has , we split it into an array and display it
       // Split the speechTranscript again
       const transcriptArray = speechTranscript.split(" ");
-      console.log(transcriptArray)
+      console.log(transcriptArray);
       return {
         ...prevState,
         speech: transcriptArray,
       };
     });
   };
+
+  // Check  for device type
+  useEffect(() => {
+    if (screenWidth > 800) {
+      const retrace = window.location.pathname;
+      navigate(`/error?retrace=${retrace}`)
+    }
+  }, [screenWidth]);
 
   return (
     <CartModalProvider
@@ -146,6 +159,14 @@ function App() {
             <Routes>
               <Route path="/login" element={<Slider />} />{" "}
               <Route path="/" element={<Menu />} />{" "}
+              <Route
+                path="/error"
+                element={
+                  <ErrorTemplate
+                    errorText={"Our App does not support landscape Mode"}
+                  />
+                }
+              />
             </Routes>
           </ThemeProvider>
         </ModalProvider>
