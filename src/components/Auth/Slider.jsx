@@ -9,7 +9,7 @@ const Slider = () => {
   const [phn, setPhn] = useState(null);
   const [activeTab, setActiveTab] = useState("login");
   // OTP Data
-  const [otp , setOtp] = useState(new Array(5).fill(""));
+  const [otp, setOtp] = useState(new Array(5).fill(""));
   const sendOtp = () => {
     console.log("Clicked Send Otp ");
     setActiveTab("otp");
@@ -17,13 +17,17 @@ const Slider = () => {
 
   return (
     <Fragment>
-      <div className="px-0 bg-dark-bg w-full min-h-screen max-w-screen-sm mx-auto p-4 relative">
+      <div
+        
+        className="px-0 bg-dark-bg w-full min-h-screen max-w-screen-sm mx-auto p-4 relative"
+      >
         <div
           className="flex flex-col w-full items-center slider-container bg-white dark:bg-primary-bg-dark absolute bottom-0"
           style={{
             borderTopLeftRadius: "20px",
             borderTopRightRadius: "20px",
             height: "60%",
+            boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px"
           }}
         >
           <div
@@ -66,9 +70,9 @@ const Slider = () => {
             </ul>
           </div>
           {activeTab == "login" ? (
-              <PhoneInput setPhn={setPhn} sendOtp={sendOtp} />
+            <PhoneInput setPhn={setPhn} sendOtp={sendOtp} />
           ) : (
-            <OTP otp={otp} setOtp={setOtp}  />            
+            <OTP otp={otp} setOtp={setOtp} />
           )}
         </div>
       </div>

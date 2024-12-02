@@ -6,7 +6,6 @@ import SpeechRecognition, {
 import ReactDOM from "react-dom";
 import { motion } from "framer-motion";
 import "./SearchModal.css";
-// import "./style.css";
 import fanaIcon from "../../assets/fanaLogo.png";
 import useTheme from "../../context/theme";
 

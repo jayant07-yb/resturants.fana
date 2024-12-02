@@ -6,8 +6,10 @@ import backLight from "../../assets/backLight.svg";
 import backDark from "../../assets/backDark.svg";
 import useTheme from "../../context/theme";
 import CartFoodData from "./cartFoodData";
+import { useNavigate } from "react-router-dom";
 
 const CartModal = () => {
+  const navigate = useNavigate();
   const { themeMode } = useTheme();
   const { cartData, toggleCart, clearCart } = useCart();
   const { isOpen, foodData } = cartData;
@@ -34,15 +36,20 @@ const CartModal = () => {
 
   // Function to handle order
   const handleOrder = () => {
+    //Use if else here to check authentication
+    // Use below for authenticated user
+    // toggleCart(); // Close the modal
+    // clearCart(); // Clear the cart
+    // below runs when there is no user authenticated
     console.log("Order placed:", foodData);
-    clearCart(); // Clear the cart
-    toggleCart(); // Close the modal
+    toggleCart();
+    navigate(`/login?retrace=${window.location.pathname}`)
   };
 
   return ReactDOM.createPortal(
     <Fragment>
       <AnimatePresence>
-        {isOpen && (
+        {cartData.isOpen && (
           <Fragment>
             <motion.div
               initial={{ y: "100vh", height: 0 }}
@@ -70,7 +77,11 @@ const CartModal = () => {
                   />
                 )}
                 <div
-                  style={{ fontSize: "20px", fontWeight: "700", marginLeft: "10px" }}
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "700",
+                    marginLeft: "10px",
+                  }}
                   className="rest-name"
                 >
                   Apna Sweets
@@ -99,26 +110,24 @@ const CartModal = () => {
               </div>
 
               {/* Order Button */}
-             
-            <div
-              onClick={handleOrder}
-              className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white fixed bottom-0 w-full"
-              style={{
-                height: "10%",
-                zIndex: "9000",
-                borderTopLeftRadius: "12px",
-                borderTopRightRadius: "12px"
-              }}
-            >
+
               <div
-                className="items-count"
-                style={{ fontSize: "20px", fontWeight: "600" }}
+                onClick={handleOrder}
+                className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white fixed bottom-0 w-full"
+                style={{
+                  height: "10%",
+                  zIndex: "9000",
+                  borderTopLeftRadius: "12px",
+                  borderTopRightRadius: "12px",
+                }}
               >
-                Order Now
+                <div
+                  className="items-count"
+                  style={{ fontSize: "20px", fontWeight: "600" }}
+                >
+                  Order Now
                 </div>
-            </div>
-
-
+              </div>
             </motion.div>
           </Fragment>
         )}

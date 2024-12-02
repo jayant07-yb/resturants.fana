@@ -4,7 +4,6 @@ import useCart from "../../context/Cart";
 const CartFoodData = (data) => {
   const { index } = data;
   const { cartData } = useCart();
-  console.log("cartComp", index);
   const foodData = cartData.foodData[index];
   const { changeQnt } = useCart();
 

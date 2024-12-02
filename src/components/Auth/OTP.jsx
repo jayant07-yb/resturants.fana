@@ -1,27 +1,35 @@
 import { Fragment, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const OTP = ({ otp, setOtp }) => {
   const inputRefs = useRef([]);
-  const handleChange = (e , index) => {
-    if(e.length > 1) e = e[e.length-1];
+  const queryParams = new URLSearchParams(window.location.search);
+  let retrace = queryParams.get('retrace');
+  const navigate = useNavigate();
+  const handleChange = (e, index) => {
+    if (e.length > 1) e = e[e.length - 1];
     setOtp((prevState) => {
-        const newState = [...otp];
-        newState[index]= e;
-        return newState;
-    })
-    if(e.length === 1 && index < otp.length - 1) inputRefs.current[index+1].focus();
+      const newState = [...otp];
+      newState[index] = e;
+      return newState;
+    });
+    if (e.length === 1 && index < otp.length - 1)
+      inputRefs.current[index + 1].focus();
   };
-  const handleKeyDown = (e , index) => {
-    if(e.key === "Backspace" && otp[index] === "" && index > 0){
-        inputRefs.current[index-1].focus();
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && otp[index] === "" && index > 0) {
+      inputRefs.current[index - 1].focus();
     }
 
-    if(e.key === "e"){
-        e.preventDefault();
+    if (e.key === "e") {
+      e.preventDefault();
     }
   };
 
-
+  const handleVerify = () => {
+    if(retrace == "") retrace = "/"
+    navigate(retrace)
+  };
 
   return (
     <Fragment>
@@ -51,8 +59,8 @@ const OTP = ({ otp, setOtp }) => {
             return (
               <input
                 ref={(e) => (inputRefs.current[index] = e)}
-                onChange={(e) => handleChange(e.target.value , index)}
-                onKeyDown={(e) => handleKeyDown(e , index)}
+                onChange={(e) => handleChange(e.target.value, index)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
                 className="bg-slate-400 focus:border-secondary-bg dark:focus:border-secondary-bg-dark border-black text-black dark:border-white dark:text-white border-solid border-2 mx-2 rounded-lg"
                 key={index}
                 type="number"
@@ -66,9 +74,7 @@ const OTP = ({ otp, setOtp }) => {
         </div>
         <div
           className="px-2 py-2 flex flex-col justify-center items-center btn-container rounded-xl text-secondary-txt bg-secondary-bg dark:text-white dark:bg-secondary-bg-dark"
-          onClick={() => {
-            console.log(otp);
-          }}
+          onClick={handleVerify}
           style={{ width: "60%", margin: "0% 20%", marginTop: "10%" }}
         >
           <p>Verify</p>
