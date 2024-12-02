@@ -1,36 +1,33 @@
 import "regenerator-runtime/runtime";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import ReactDOM from "react-dom";
+import { motion } from "framer-motion";
 import "./SearchModal.css";
-import "./style.css";
+// import "./style.css";
+import fanaIcon from "../../assets/fanaLogo.png";
 import useTheme from "../../context/theme";
-import useSpeechModal from "../../context/SpeechRecognition";
 
 const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
-  const {speechData} = useSpeechModal();
-  // transcript => Holds the user speech 
-  // browserSupportsSpeechRecognition => browser supports or not
-  const { transcript, browserSupportsSpeechRecognition } =
-    useSpeechRecognition();
   const { themeMode } = useTheme();
-
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
   const audioContextRef = useRef(null);
   const analyserRef = useRef(null);
   const dataArrayRef = useRef(null);
   const [colorIntensity, setColorIntensity] = useState(0);
 
   useEffect(() => {
-    if(!speechData.isOpen) return;
-    console.log("Opened")
     if (!browserSupportsSpeechRecognition) {
       alert("Your browser does not support speech recognition.");
       return;
     }
-
-    // Start speech recognition
     SpeechRecognition.startListening({ continuous: true, language: "en-US" });
 
     // Setting up Web Audio API
@@ -60,13 +57,14 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
         console.error("Error accessing microphone:", err);
       });
 
+    // Clean up by stopping listening when the component unmounts
     return () => {
       SpeechRecognition.stopListening();
       if (audioContextRef.current) {
         audioContextRef.current.close();
       }
     };
-  }, [speechData.isOpen]);
+  }, [browserSupportsSpeechRecognition]);
 
   const updateWaveform = () => {
     const analyser = analyserRef.current;
@@ -91,41 +89,87 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
 
   const handleSearchClick = () => {
     SpeechRecognition.stopListening();
-    searchSpeechModal(transcript);
+    console.log(transcript);
+    searchSpeechModal(transcript); // Send final transcript back
     toggleSearchModal();
   };
 
+  const typingEffect = {
+    hidden: { opacity: 0, y: -10 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.05 },
+    }),
+  };
+
   return ReactDOM.createPortal(
-    <div
-      className="search-modal relative top-0 left-0 right-0 bottom-0"
-      style={{ backgroundColor: "white", opacity: "0.9" }}
-    >
-      <div className="search-modal-content">
-        {/* Dynamic color-changing div */}
-        <div
-          className="waveform-bar absolute bottom-0"
-          style={{
-            background:
-              themeMode == "dark"
-                ? `rgb(
+    <Fragment>
+      <div className="search-modal fixed top-0 left-0 right-0 bottom-0">
+        <div className="search-modal-content relative">
+          <div
+            className="waveform-bar absolute"
+            style={{
+              background:
+                themeMode == "dark"
+                  ? `rgb(
                   ${Math.round(255 - (colorIntensity / 255) * (255 - 240))}, 
                   ${Math.round(153 - (colorIntensity / 255) * (153 - 46))}, 
                   ${Math.round(204 - (colorIntensity / 255) * (204 - 240))}
                 )`
-                : `rgb(${colorIntensity}, ${255 - colorIntensity}, ${
-                    128 + colorIntensity / 2
-                  })`,
-          }}
-        ></div>
-        <div id="transcript" className="transcript-display">
-          {transcript}
+                  : `rgb(${colorIntensity}, ${255 - colorIntensity}, ${
+                      128 + colorIntensity / 2
+                    })`,
+              width: "100%",
+              height: "10px",
+              transition: "background 0.1s ease-in-out",
+              top: "95%",
+              left: "0",
+            }}
+          ></div>
+          <div id="transcript" className="transcript-display">
+            {transcript.split(" ").map((word, wordIndex) => (
+              <span key={`word-${wordIndex}`} style={{ whiteSpace: "pre" }}>
+                {word.split("").map((char, charIndex) => (
+                  <motion.span
+                    key={`char-${wordIndex}-${charIndex}`}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: wordIndex * 0.3 + charIndex * 0.05 }}
+                    style={{ display: "inline-block" }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+                {/* Add a space after each word except the last one */}
+                {wordIndex < transcript.split(" ").length - 1 && (
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: (wordIndex + 1) * 0.3 }}
+                    style={{ display: "inline-block" }}
+                  >
+                    {" "}
+                  </motion.span>
+                )}
+              </span>
+            ))}
+          </div>
+          <div
+            className="btn-holder absolute flex flex-row justify-center items-center"
+            style={{ top: "80%", width: "100%", left: "0" }}
+          >
+            <button className="search-btn mx-4" onClick={handleSearchClick}>
+              <img
+                src={fanaIcon}
+                alt="Custom Search Icon"
+                className="search-btn-icon"
+              />
+            </button>
+          </div>
         </div>
-
-        <button className="search-btn opacity-100 bg-opacity-100" onClick={handleSearchClick}>
-          Search
-        </button>
       </div>
-    </div>,
+    </Fragment>,
     document.getElementById("speech-recognition")
   );
 };
