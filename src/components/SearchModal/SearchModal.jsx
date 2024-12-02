@@ -105,7 +105,7 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
 
   return ReactDOM.createPortal(
     <Fragment>
-      <div className="search-modal fixed top-0 left-0 right-0 bottom-0">
+      <div className="search-modal fixed top-0 left-0 right-0 bottom-0" style={{height : "100vh"}}>
         <div className="search-modal-content relative">
           <div
             className="waveform-bar absolute"
