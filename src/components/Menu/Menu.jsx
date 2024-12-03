@@ -4,7 +4,6 @@ import hotelData from "../../json/foodData.json";
 import Subsection from "./Subsections";
 import useCart from "../../context/Cart";
 import useSpeechModal from "../../context/SpeechRecognition";
-
 //Utils Import
 import calculateIDF from "../../utils/Menu/SearchingAlgorithms";
 import {
