@@ -95,7 +95,7 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
                       128 + colorIntensity / 2
                     }, 1))`,
               width: "100%",
-              height: "15%",
+              height: "25%",
               transition: "background 0.1s ease-in-out",
               bottom: "0",
               left: "0",
@@ -133,7 +133,7 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
           </div>
           <div
             className="btn-holder absolute flex flex-row justify-center items-center"
-            style={{ top: "88%", width: "100%", left: "0" }}
+            style={{ top: "85%", width: "100%", left: "0" }}
           >
             <button className="search-btn mx-4" onClick={handleSearchClick}>
               <img
