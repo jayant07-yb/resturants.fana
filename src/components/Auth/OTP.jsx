@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const OTP = ({ otp, setOtp }) => {
   const inputRefs = useRef([]);
   const queryParams = new URLSearchParams(window.location.search);
-  let retrace = queryParams.get('retrace');
+  let retrace = queryParams.get("retrace");
   const navigate = useNavigate();
   const handleChange = (e, index) => {
     if (e.length > 1) e = e[e.length - 1];
@@ -27,8 +27,8 @@ const OTP = ({ otp, setOtp }) => {
   };
 
   const handleVerify = () => {
-    if(retrace == "") retrace = "/"
-    navigate(retrace)
+    if (retrace == "") retrace = "/";
+    navigate(retrace);
   };
 
   return (
