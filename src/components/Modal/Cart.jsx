@@ -89,7 +89,7 @@ const CartModal = () => {
               </div>
 
               {/* Food Data */}
-              <div className="bg-tabs-bg dark:bg-tabs-bg-dark mx-4 px-2 py-2 rounded-xl food-data-div">
+              <div className="bg-tabs-bg dark:bg-tabs-bg-dark mx-4 px-2 py-2 rounded-xl food-data-div" style={{boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
                 {foodData.map((e, index) => {
                   if (e) return <CartFoodData key={index} index={index} />;
                   return null;
@@ -97,7 +97,7 @@ const CartModal = () => {
               </div>
 
               {/* Total Amount */}
-              <div className="bg-tabs-bg dark:bg-tabs-bg-dark mx-4 px-4 py-4 rounded-xl">
+              <div className="bg-tabs-bg dark:bg-tabs-bg-dark mx-4 px-4 py-4 rounded-xl" style={{boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
                 <div
                   style={{
                     fontSize: "18px",

@@ -78,22 +78,31 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
             className="waveform-bar absolute"
             style={{
               background:
-                themeMode == "dark"
-                  ? `rgb(
-                  ${Math.round(255 - (colorIntensity / 255) * (255 - 240))}, 
-                  ${Math.round(153 - (colorIntensity / 255) * (153 - 46))}, 
-                  ${Math.round(204 - (colorIntensity / 255) * (204 - 240))}
-                )`
-                  : `rgb(${colorIntensity}, ${255 - colorIntensity}, ${
+                themeMode === "dark"
+                  ? `linear-gradient(to top, rgba(
+          ${Math.round(255 - (colorIntensity / 255) * (255 - 240))}, 
+          ${Math.round(153 - (colorIntensity / 255) * (153 - 46))}, 
+          ${Math.round(204 - (colorIntensity / 255) * (204 - 240))}, 0), 
+          rgba(
+          ${Math.round(255 - (colorIntensity / 255) * (255 - 240))}, 
+          ${Math.round(153 - (colorIntensity / 255) * (153 - 46))}, 
+          ${Math.round(204 - (colorIntensity / 255) * (204 - 240))}, 1))`
+                  : `linear-gradient(to top, rgba(${colorIntensity}, ${
+                      255 - colorIntensity
+                    }, ${
                       128 + colorIntensity / 2
-                    })`,
+                    }, 0), rgba(${colorIntensity}, ${255 - colorIntensity}, ${
+                      128 + colorIntensity / 2
+                    }, 1))`,
               width: "100%",
-              height: "10px",
+              height: "15%",
               transition: "background 0.1s ease-in-out",
-              top: "80%",
+              bottom: "0",
               left: "0",
+              transform : "rotate(180deg)"
             }}
           ></div>
+
           <div id="transcript" className="transcript-display">
             {transcript.split(" ").map((word, wordIndex) => (
               <span key={`word-${wordIndex}`} style={{ whiteSpace: "pre" }}>
@@ -124,7 +133,7 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
           </div>
           <div
             className="btn-holder absolute flex flex-row justify-center items-center"
-            style={{ top: "70%", width: "100%", left: "0" }}
+            style={{ top: "88%", width: "100%", left: "0" }}
           >
             <button className="search-btn mx-4" onClick={handleSearchClick}>
               <img

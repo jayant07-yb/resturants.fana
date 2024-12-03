@@ -1,5 +1,7 @@
 import { Fragment } from "react";
 import useCart from "../../context/Cart";
+import plus from "../../assets/plus.svg";
+import minus from "../../assets/minus.svg";
 
 const CartFoodData = (data) => {
   const { index } = data;
@@ -30,7 +32,7 @@ const CartFoodData = (data) => {
               style={{ fontSize: "18px" }}
               className="ml-2 mr-2"
             >
-              -
+              <img src={minus} style={{ height: "15px" }} />
             </p>
             <p style={{ fontSize: "18px" }} className="mx-2">
               {cartData.foodData[index].qnt}
@@ -40,7 +42,7 @@ const CartFoodData = (data) => {
               style={{ fontSize: "18px" }}
               className="mr-2 ml-2"
             >
-              +
+              <img src={plus} style={{ width: "10px" }} />
             </p>
           </div>
           <div className="cost mt-3">${foodData.type.cost}</div>

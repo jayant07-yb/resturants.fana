@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import useModal from "../../context/Modal";
 import food from "../../assets/food.jpeg";
 import useCart from "../../context/Cart";
+import plus from "../../assets/plus.svg"
+import minus from "../../assets/minus.svg"
 
 const ModalComp = () => {
   const { toggleModal, modalDetails } = useModal();
@@ -99,9 +101,13 @@ const ModalComp = () => {
               </div>
               <div className=" bg-tabs-bg dark:bg-tabs-bg-dark dark:text-white py-2 absolute bottom-0 food-picked-details w-full flex flex-row justify-between" style={{height : "20%"}}>
                 <div style={{margin : "2% 3%" , width : "24%"}} className="flex flex-row justify-between items-center current-item rounded-lg  bg-secondary-bg text-white dark:bg-secondary-bg-dark">
-                  <p className="mx-2" onClick={decrementCount}>-</p>
+                  <p className="mx-2" onClick={decrementCount}>
+                    <img src={minus} style={{height : "20px"}} />
+                  </p>
                   <p className="mx-2" >{count}</p>
-                  <p className="mx-2" onClick={incrementCount}>+</p>
+                  <p className="mx-2" onClick={incrementCount}>
+                    <img src={plus} style={{width : "15px"}} />
+                  </p>
                 </div>
                 <div onClick={addToCart}  className="flex justify-center items-center add-item rounded-lg bg-secondary-bg text-white dark:bg-secondary-bg-dark" style={{width : "60%" , margin : "2% 5%"}}>
                   <p style={{fontWeight : "500" , fontSize : "18px"}}>Add items ${count * (foodData.servings[selectedOption].cost)}</p>

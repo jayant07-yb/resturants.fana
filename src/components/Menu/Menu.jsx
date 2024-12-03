@@ -189,6 +189,17 @@ const Menu = () => {
             zIndex: "-1",
           }}
         >
+          {/* Overlay */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              width: "100%",
+              height: "50%",
+              background:
+                "linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0))",
+            }}
+          />
           <div
             style={{
               position: "absolute",
@@ -212,7 +223,7 @@ const Menu = () => {
             borderTopRightRadius: "25px",
             paddingBottom: "20px",
             boxShadow: "rgba(0, 0, 0, 0.56) 0px 22px 70px 4px",
-            minHeight : "100vh"
+            minHeight: "100vh",
           }}
         >
           <div className="px-4 py-4 text-left font-bold text-xl">
