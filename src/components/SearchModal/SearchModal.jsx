@@ -71,7 +71,7 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
     <Fragment>
       <div
         className="search-modal fixed top-0 left-0 right-0 bottom-0"
-        style={{ height: "100vh" }}
+        style={{ height: "100vh" , zIndex : "100000" }}
       >
         <div className="search-modal-content relative">
           <div
