@@ -21,6 +21,24 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
   const analyserRef = useRef(null);
   const dataArrayRef = useRef(null);
   const [colorIntensity, setColorIntensity] = useState(0);
+  const [isIncreasing, setIsIncreasing] = useState(true); // To track the direction of change
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setColorIntensity((prev) => {
+        if (prev >= 255 && isIncreasing) {
+          setIsIncreasing(false); // Switch to decreasing
+          return 255;
+        } else if (prev <= 0 && !isIncreasing) {
+          setIsIncreasing(true); // Switch to increasing
+          return 0;
+        }
+        return isIncreasing ? prev + 5 : prev - 5; // Adjust intensity
+      });
+    }, 50); // Adjust interval speed if needed
+
+    return () => clearInterval(interval); // Clean up interval
+  }, [isIncreasing]);
 
   useEffect(() => {
     if (!browserSupportsSpeechRecognition) {
@@ -28,63 +46,10 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
       return;
     }
     SpeechRecognition.startListening({ continuous: true, language: "en-US" });
-
-    // Setting up Web Audio API
-    // navigator.mediaDevices
-    //   .getUserMedia({ audio: true })
-    //   .then((stream) => {
-    //     audioContextRef.current = new (window.AudioContext ||
-    //       window.webkitAudioContext)();
-    //     const audioContext = audioContextRef.current;
-
-    //     const source = audioContext.createMediaStreamSource(stream);
-    //     const analyser = audioContext.createAnalyser();
-
-    //     analyser.fftSize = 256; // Lower FFT for simplicity
-    //     const bufferLength = analyser.frequencyBinCount;
-    //     const dataArray = new Uint8Array(bufferLength);
-
-    //     source.connect(analyser);
-
-    //     analyserRef.current = analyser;
-    //     dataArrayRef.current = dataArray;
-
-    //     // Start updating the color intensity
-    //     updateWaveform();
-    //   })
-    //   .catch((err) => {
-    //     console.error("Error accessing microphone:", err);
-    //   });
-
-    // Clean up by stopping listening when the component unmounts
     return () => {
       SpeechRecognition.stopListening();
-      // if (audioContextRef.current) {
-      //   audioContextRef.current.close();
-      // }
     };
   }, [browserSupportsSpeechRecognition]);
-
-  // const updateWaveform = () => {
-  //   const analyser = analyserRef.current;
-  //   const dataArray = dataArrayRef.current;
-
-  //   const update = () => {
-  //     if (!analyser) return;
-
-  //     analyser.getByteFrequencyData(dataArray);
-  //     const avgFrequency =
-  //       dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
-
-  //     // Map the average frequency to a color intensity (0 to 255)
-  //     const intensity = Math.min(255, Math.max(0, avgFrequency));
-  //     setColorIntensity(intensity);
-
-  //     requestAnimationFrame(update);
-  //   };
-
-  //   update();
-  // };
 
   const handleSearchClick = () => {
     SpeechRecognition.stopListening();

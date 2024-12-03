@@ -30,61 +30,61 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
     SpeechRecognition.startListening({ continuous: true, language: "en-US" });
 
     // Setting up Web Audio API
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then((stream) => {
-        audioContextRef.current = new (window.AudioContext ||
-          window.webkitAudioContext)();
-        const audioContext = audioContextRef.current;
+    // navigator.mediaDevices
+    //   .getUserMedia({ audio: true })
+    //   .then((stream) => {
+    //     audioContextRef.current = new (window.AudioContext ||
+    //       window.webkitAudioContext)();
+    //     const audioContext = audioContextRef.current;
 
-        const source = audioContext.createMediaStreamSource(stream);
-        const analyser = audioContext.createAnalyser();
+    //     const source = audioContext.createMediaStreamSource(stream);
+    //     const analyser = audioContext.createAnalyser();
 
-        analyser.fftSize = 256; // Lower FFT for simplicity
-        const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
+    //     analyser.fftSize = 256; // Lower FFT for simplicity
+    //     const bufferLength = analyser.frequencyBinCount;
+    //     const dataArray = new Uint8Array(bufferLength);
 
-        source.connect(analyser);
+    //     source.connect(analyser);
 
-        analyserRef.current = analyser;
-        dataArrayRef.current = dataArray;
+    //     analyserRef.current = analyser;
+    //     dataArrayRef.current = dataArray;
 
-        // Start updating the color intensity
-        updateWaveform();
-      })
-      .catch((err) => {
-        console.error("Error accessing microphone:", err);
-      });
+    //     // Start updating the color intensity
+    //     updateWaveform();
+    //   })
+    //   .catch((err) => {
+    //     console.error("Error accessing microphone:", err);
+    //   });
 
     // Clean up by stopping listening when the component unmounts
     return () => {
       SpeechRecognition.stopListening();
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-      }
+      // if (audioContextRef.current) {
+      //   audioContextRef.current.close();
+      // }
     };
   }, [browserSupportsSpeechRecognition]);
 
-  const updateWaveform = () => {
-    const analyser = analyserRef.current;
-    const dataArray = dataArrayRef.current;
+  // const updateWaveform = () => {
+  //   const analyser = analyserRef.current;
+  //   const dataArray = dataArrayRef.current;
 
-    const update = () => {
-      if (!analyser) return;
+  //   const update = () => {
+  //     if (!analyser) return;
 
-      analyser.getByteFrequencyData(dataArray);
-      const avgFrequency =
-        dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+  //     analyser.getByteFrequencyData(dataArray);
+  //     const avgFrequency =
+  //       dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
 
-      // Map the average frequency to a color intensity (0 to 255)
-      const intensity = Math.min(255, Math.max(0, avgFrequency));
-      setColorIntensity(intensity);
+  //     // Map the average frequency to a color intensity (0 to 255)
+  //     const intensity = Math.min(255, Math.max(0, avgFrequency));
+  //     setColorIntensity(intensity);
 
-      requestAnimationFrame(update);
-    };
+  //     requestAnimationFrame(update);
+  //   };
 
-    update();
-  };
+  //   update();
+  // };
 
   const handleSearchClick = () => {
     SpeechRecognition.stopListening();
@@ -104,9 +104,12 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
 
   return ReactDOM.createPortal(
     <Fragment>
-      <div className="search-modal fixed top-0 left-0 right-0 bottom-0" style={{height : "100vh"}}>
+      <div
+        className="search-modal fixed top-0 left-0 right-0 bottom-0"
+        style={{ height: "100vh" }}
+      >
         <div className="search-modal-content relative">
-          <div
+          {/* <div
             className="waveform-bar absolute"
             style={{
               background:
@@ -125,7 +128,7 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
               top: "80%",
               left: "0",
             }}
-          ></div>
+          ></div> */}
           <div id="transcript" className="transcript-display">
             {transcript.split(" ").map((word, wordIndex) => (
               <span key={`word-${wordIndex}`} style={{ whiteSpace: "pre" }}>
