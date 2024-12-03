@@ -13,6 +13,7 @@ import { SpeechModalProvider } from "./context/SpeechRecognition";
 import { isMobile } from "react-device-detect";
 import ErrorTemplate from "./components/Error/Errortemplate";
 import useScreenWidthObserver from "./utils/screenObserver";
+import { UserProvider } from "./context/userContext";
 
 function App() {
   const screenWidth = useScreenWidthObserver();
@@ -128,50 +129,58 @@ function App() {
       };
     });
   };
-
+  
   // Check  for device type
   useEffect(() => {
     if (screenWidth > 800) {
       const retrace = window.location.pathname;
-      navigate(`/error?retrace=${retrace}`)
+      navigate(`/error?retrace=${retrace}`);
     }
   }, [screenWidth]);
-
+  
+  // UserContext
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleAuthModal = () => {
+    setIsOpen(!isOpen);
+  };
   return (
-    <CartModalProvider
-      value={{ cartData, toggleCart, addItem, changeQnt, clearCart }}
-    >
-      <SpeechModalProvider
-        value={{ speechData, toggleSearchModal, setSpeechData }}
+    <UserProvider value={{ isOpen, toggleAuthModal }}>
+      <CartModalProvider
+        value={{ cartData, toggleCart, addItem, changeQnt, clearCart }}
       >
-        <ModalProvider value={{ toggleModal, modalDetails }}>
-          <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-            {/* Conditional modals */}
-            {modalDetails.isOpen && <ModalComp />}
-            {cartData.isOpen && <CartModal />}
-            {speechData.isOpen && (
-              <SearchModal
-                searchSpeechModal={searchSpeechModal}
-                toggleSearchModal={toggleSearchModal}
-              />
-            )}
-            {/* Routes */}
-            <Routes>
-              <Route path="/login" element={<Slider />} />{" "}
-              <Route path="/" element={<Menu />} />{" "}
-              <Route
-                path="/error"
-                element={
-                  <ErrorTemplate
-                    errorText={"Our App does not support landscape Mode"}
-                  />
-                }
-              />
-            </Routes>
-          </ThemeProvider>
-        </ModalProvider>
-      </SpeechModalProvider>
-    </CartModalProvider>
+        <SpeechModalProvider
+          value={{ speechData, toggleSearchModal, setSpeechData }}
+        >
+          <ModalProvider value={{ toggleModal, modalDetails }}>
+            <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
+              {/* Conditional modals */}
+              {modalDetails.isOpen && <ModalComp />}
+              {cartData.isOpen && <CartModal />}
+              {speechData.isOpen && (
+                <SearchModal
+                  searchSpeechModal={searchSpeechModal}
+                  toggleSearchModal={toggleSearchModal}
+                />
+              )}
+              {isOpen && <Slider />}
+              {/* Routes */}
+              <Routes>
+                <Route path="/login" element={<Slider />} />{" "}
+                <Route path="/" element={<Menu />} />{" "}
+                <Route
+                  path="/error"
+                  element={
+                    <ErrorTemplate
+                      errorText={"Our App does not support landscape Mode"}
+                    />
+                  }
+                />
+              </Routes>
+            </ThemeProvider>
+          </ModalProvider>
+        </SpeechModalProvider>
+      </CartModalProvider>
+    </UserProvider>
   );
 }
 

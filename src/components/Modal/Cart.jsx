@@ -7,12 +7,14 @@ import backDark from "../../assets/backDark.svg";
 import useTheme from "../../context/theme";
 import CartFoodData from "./cartFoodData";
 import { useNavigate } from "react-router-dom";
+import useUserContext from "../../context/userContext";
 
 const CartModal = () => {
   const navigate = useNavigate();
   const { themeMode } = useTheme();
   const { cartData, toggleCart, clearCart } = useCart();
   const { isOpen, foodData } = cartData;
+  const {toggleAuthModal} = useUserContext()
 
   useEffect(() => {
     if (foodData.every((e) => e === null)) toggleCart();
@@ -42,8 +44,8 @@ const CartModal = () => {
     // clearCart(); // Clear the cart
     // below runs when there is no user authenticated
     console.log("Order placed:", foodData);
-    toggleCart();
-    navigate(`/login?retrace=${window.location.pathname}`)
+    toggleAuthModal();
+
   };
 
   return ReactDOM.createPortal(

@@ -1,5 +1,6 @@
 import { Fragment, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import useUserContext from "../../context/userContext";
 
 const OTP = ({ otp, setOtp }) => {
   const inputRefs = useRef([]);
@@ -27,9 +28,10 @@ const OTP = ({ otp, setOtp }) => {
   };
 
   const handleVerify = () => {
-    if (retrace == "") retrace = "/";
-    navigate(retrace);
+    toggleAuthModal();
   };
+
+  const {toggleAuthModal} = useUserContext();
 
   return (
     <Fragment>
