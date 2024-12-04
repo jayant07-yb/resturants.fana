@@ -143,7 +143,7 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
         </div>
       </div>
     </Fragment>,
-    document.getElementById("speech-recognition")
+    document.getElementById("modal-portal")
   );
 };
 
