@@ -1,15 +1,15 @@
 export const SpeechFilterAlgo = (transcript, hotelData) => {
-  const transcriptWords = transcript.toLowerCase().split(" ");
+  // const transcript = transcript.toLowerCase().split(" ");
   const dishMatches = [];
 
   hotelData.sections.forEach((section) => {
     section.subSections.forEach((subSection) => {
       subSection.items.forEach((item) => {
         const descriptionWords = item.information.toLowerCase().split(" ");
-        let matchCount = transcriptWords.filter((word) =>
+        let matchCount = transcript.filter((word) =>
           descriptionWords.includes(word)
         ).length;
-        matchCount += transcriptWords.filter((word) =>
+        matchCount += transcript.filter((word) =>
           item.tags.includes(word)
         ).length;
 

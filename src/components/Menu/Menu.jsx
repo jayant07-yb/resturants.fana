@@ -75,12 +75,18 @@ const Menu = () => {
   }, [filters]);
 
   const handleTranscriptComplete = (transcript) => {
-    const matchedDishes = SpeechFilterAlgo(transcript, hotelData);
-    setSearchResults({ transcript, matchedDishes });
+  };
+  
+  useEffect(() => {
+    console.log("Data Updated " , speechData)
+    const {speech} = speechData
+    const matchedDishes = SpeechFilterAlgo(speech, hotelData);
+    console.log(matchedDishes)
+    setSearchResults({ speech, matchedDishes });
     if (searchResultsRef.current && matchedDishes.length > 0) {
       searchResultsRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  };
+  } , [speechData])
 
   return (
     <Fragment>

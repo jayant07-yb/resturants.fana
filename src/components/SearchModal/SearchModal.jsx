@@ -17,9 +17,6 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
     resetTranscript,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
-  const audioContextRef = useRef(null);
-  const analyserRef = useRef(null);
-  const dataArrayRef = useRef(null);
   const [colorIntensity, setColorIntensity] = useState(0);
   const [isIncreasing, setIsIncreasing] = useState(true); // To track the direction of change
 
@@ -71,7 +68,7 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
     <Fragment>
       <div
         className="search-modal fixed top-0 left-0 right-0 bottom-0"
-        style={{ height: "100vh" , zIndex : "100000" }}
+        style={{ height: "100vh", zIndex: "100000" }}
       >
         <div className="search-modal-content relative">
           <div
@@ -99,7 +96,7 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
               transition: "background 0.1s ease-in-out",
               bottom: "0",
               left: "0",
-              transform : "rotate(180deg)"
+              transform: "rotate(180deg)",
             }}
           ></div>
 

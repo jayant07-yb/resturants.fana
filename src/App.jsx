@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "./context/theme";
 import "./App.css";
@@ -10,13 +10,13 @@ import CartModal from "./components/Modal/Cart";
 import SearchModal from "./components/SearchModal/SearchModal"; // Import SearchModal
 import Slider from "./components/Auth/Slider";
 import { SpeechModalProvider } from "./context/SpeechRecognition";
-import { isMobile } from "react-device-detect";
 import ErrorTemplate from "./components/Error/Errortemplate";
 import useScreenWidthObserver from "./utils/screenObserver";
 import { UserProvider } from "./context/userContext";
 
 function App() {
-  const screenWidth = useScreenWidthObserver();
+  //Context Hooks
+  //Hooks
   const [themeMode, setThemeMode] = useState("light");
   const navigate = useNavigate();
   const [modalDetails, setModalDetails] = useState({
@@ -27,14 +27,15 @@ function App() {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [transcriptData, setTranscriptData] = useState(null);
   const [speechData, setSpeechData] = useState({ speech: [], isOpen: false });
-
-  const darkTheme = () => setThemeMode("dark");
-  const lightTheme = () => setThemeMode("light");
-
+  //useEffect Hooks
   useEffect(() => {
     document.querySelector("html").classList.remove("light", "dark");
     document.querySelector("html").classList.add(themeMode);
   }, [themeMode]);
+  //Utils
+  const screenWidth = useScreenWidthObserver();
+  const darkTheme = () => setThemeMode("dark");
+  const lightTheme = () => setThemeMode("light");
 
   const toggleModal = (foodData = null) => {
     setModalDetails({ isOpen: !modalDetails.isOpen, foodData });
@@ -102,9 +103,9 @@ function App() {
       };
     });
   };
-  const handleTranscriptComplete = (data) => {
-    setTranscriptData(data); // Set the transcript data
-  };
+  // const handleTranscriptComplete = (data) => {
+  //   setTranscriptData(data); // Set the transcript data
+  // };
   //  Speech Search Modal
   const toggleSearchModal = () => {
     setSpeechData((prevState) => {
@@ -129,7 +130,7 @@ function App() {
       };
     });
   };
-  
+
   // Check  for device type
   useEffect(() => {
     if (screenWidth > 800) {
@@ -137,7 +138,7 @@ function App() {
       navigate(`/error?retrace=${retrace}`);
     }
   }, [screenWidth]);
-  
+
   // UserContext
   const [isOpen, setIsOpen] = useState(false);
   const toggleAuthModal = () => {
