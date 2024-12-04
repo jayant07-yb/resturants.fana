@@ -4,10 +4,13 @@ import ThemeBtn from "../Buttons/ThemeBtn";
 import SubmitBtn from "../Buttons/SubmitBtn";
 import PhoneInput from "./PhoneInput";
 import OTP from "./OTP";
+import ReactDOM from "react-dom";
+import useUserContext from "../../context/userContext";
 
 const Slider = () => {
   const [phn, setPhn] = useState(null);
   const [activeTab, setActiveTab] = useState("login");
+  const {toggleAuthModal} = useUserContext()
   // OTP Data
   const [otp, setOtp] = useState(new Array(5).fill(""));
   const sendOtp = () => {
@@ -15,19 +18,27 @@ const Slider = () => {
     setActiveTab("otp");
   };
 
-  return (
+  return ReactDOM.createPortal(
     <Fragment>
-      <div
-        
-        className="px-0 bg-dark-bg w-full min-h-screen max-w-screen-sm mx-auto p-4 relative"
-      >
+      <div className="parent-div fixed top-0 left-0 right-0 bottom-0" style={{zIndex : "10000"}}>
+        <div
+        onClick={toggleAuthModal}
+          className="overlay-div bg-opacity-40-"
+          style={{
+            height: "100%",
+            background:
+              "linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0))", // Linear gradient
+            zIndex: 1000, // Ensure it appears above other elements
+          }}
+        ></div>
         <div
           className="flex flex-col w-full items-center slider-container bg-white dark:bg-primary-bg-dark absolute bottom-0"
           style={{
             borderTopLeftRadius: "20px",
             borderTopRightRadius: "20px",
-            height: "60%",
-            boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px"
+            height: "80%",
+            boxShadow:
+              "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
           }}
         >
           <div
@@ -76,7 +87,8 @@ const Slider = () => {
           )}
         </div>
       </div>
-    </Fragment>
+    </Fragment>,
+    document.getElementById("modal-portal")
   );
 };
 
