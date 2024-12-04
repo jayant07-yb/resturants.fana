@@ -23,7 +23,7 @@ const SpeechBtn = ({speechData , toggleSearchModal , foodData}) => {
             justifyContent: "center",
             alignItems: "center",
             boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            zIndex: "9999",
+            zIndex: "1500",
           }}
         >
           <FontAwesomeIcon icon={faMicrophone} />

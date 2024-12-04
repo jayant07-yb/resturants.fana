@@ -18,7 +18,7 @@ const Slider = () => {
 
   return ReactDOM.createPortal(
     <Fragment>
-      <div className="parent-div fixed top-0 left-0 right-0 bottom-0">
+      <div className="parent-div fixed top-0 left-0 right-0 bottom-0" style={{zIndex : "10000"}}>
         <div
           className="overlay-div bg-opacity-40-"
           style={{

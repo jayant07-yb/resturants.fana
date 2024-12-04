@@ -44,6 +44,7 @@ const CartModal = () => {
     // clearCart(); // Clear the cart
     // below runs when there is no user authenticated
     console.log("Order placed:", foodData);
+    toggleCart();
     toggleAuthModal();
 
   };

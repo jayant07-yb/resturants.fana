@@ -8,7 +8,7 @@ const CartBtn = ({foodData , isSearchModalOpen , toggleCart , cartData}) => {
           className="cart-btn-div flex justify-center items-center bg-secondary-bg-cart-btn dark:bg-secondary-bg-dark text-white fixed bottom-0 w-full"
           style={{
             height: "10%",
-            zIndex: "9000",
+            zIndex: "1500",
             borderTopLeftRadius: "12px",
             borderTopRightRadius: "12px",
           }}
