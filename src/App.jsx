@@ -24,9 +24,8 @@ function App() {
     foodData: null,
   });
   const [cartData, setCartData] = useState({ isOpen: false, foodData: [] });
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [transcriptData, setTranscriptData] = useState(null);
   const [speechData, setSpeechData] = useState({ speech: [], isOpen: false });
+  const [isOpen, setIsOpen] = useState(false);
   //useEffect Hooks
   useEffect(() => {
     document.querySelector("html").classList.remove("light", "dark");
@@ -41,6 +40,14 @@ function App() {
     setModalDetails({ isOpen: !modalDetails.isOpen, foodData });
   };
 
+  // Cart Context Utils
+  const getItemData = (currFood) => {
+    const {name , type} = currFood
+    const foodData = (cartData.foodData.filter((e) => {
+      return e.name == name && e.type == type
+    }))
+    return foodData[0];
+  }
   const addItem = (newFoodItem) => {
     // newFoodItem= { name , qnt , type }
     setCartData((prevState) => {
@@ -52,7 +59,7 @@ function App() {
       let updatedCartData;
       if (existingFoodIndex !== -1) {
         updatedCartData = [...prevState.foodData];
-        updatedCartData[existingFoodIndex].qnt += newFoodItem.qnt;
+        updatedCartData[existingFoodIndex].qnt = newFoodItem.qnt;
       } else {
         updatedCartData = [...prevState.foodData, newFoodItem];
       }
@@ -140,19 +147,18 @@ function App() {
   }, [screenWidth]);
 
   // UserContext
-  const [isOpen, setIsOpen] = useState(false);
   const toggleAuthModal = () => {
     setIsOpen(!isOpen);
   };
   return (
     <UserProvider value={{ isOpen, toggleAuthModal }}>
       <CartModalProvider
-        value={{ cartData, toggleCart, addItem, changeQnt, clearCart }}
+        value={{ cartData, toggleCart, addItem, changeQnt, clearCart , getItemData }}
       >
         <SpeechModalProvider
           value={{ speechData, toggleSearchModal, setSpeechData }}
         >
-          <ModalProvider value={{ toggleModal, modalDetails }}>
+          <ModalProvider value={{ toggleModal, modalDetails  }}>
             <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
               {/* Conditional modals */}
               {modalDetails.isOpen && <ModalComp />}

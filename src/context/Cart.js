@@ -6,6 +6,7 @@ export const CartModalContext = createContext({
     cartData : null,
     changeQnt : () => {},
     clearCart: () => {},
+    getItemData : () => {}
 });
 
 export const CartModalProvider = CartModalContext.Provider;

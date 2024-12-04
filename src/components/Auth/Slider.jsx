@@ -5,10 +5,12 @@ import SubmitBtn from "../Buttons/SubmitBtn";
 import PhoneInput from "./PhoneInput";
 import OTP from "./OTP";
 import ReactDOM from "react-dom";
+import useUserContext from "../../context/userContext";
 
 const Slider = () => {
   const [phn, setPhn] = useState(null);
   const [activeTab, setActiveTab] = useState("login");
+  const {toggleAuthModal} = useUserContext()
   // OTP Data
   const [otp, setOtp] = useState(new Array(5).fill(""));
   const sendOtp = () => {
@@ -20,6 +22,7 @@ const Slider = () => {
     <Fragment>
       <div className="parent-div fixed top-0 left-0 right-0 bottom-0" style={{zIndex : "10000"}}>
         <div
+        onClick={toggleAuthModal}
           className="overlay-div bg-opacity-40-"
           style={{
             height: "100%",
