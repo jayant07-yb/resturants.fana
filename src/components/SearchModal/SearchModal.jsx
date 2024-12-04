@@ -104,7 +104,7 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
             {transcript.split(" ").map((word, wordIndex) => (
               <span key={`word-${wordIndex}`} style={{ whiteSpace: "pre" }}>
                 {word.split("").map((char, charIndex) => (
-                  <motion.span
+                  <span
                     key={`char-${wordIndex}-${charIndex}`}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -112,18 +112,18 @@ const SearchModal = ({ toggleSearchModal, searchSpeechModal }) => {
                     style={{ display: "inline-block" }}
                   >
                     {char}
-                  </motion.span>
+                  </span>
                 ))}
                 {/* Add a space after each word except the last one */}
                 {wordIndex < transcript.split(" ").length - 1 && (
-                  <motion.span
+                  <span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: (wordIndex + 1) * 0.3 }}
                     style={{ display: "inline-block" }}
                   >
                     {" "}
-                  </motion.span>
+                  </span>
                 )}
               </span>
             ))}
