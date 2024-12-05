@@ -60,7 +60,10 @@ const CartModal = () => {
               className="fixed flex flex-col bottom-0 bg-white text-black dark:text-white dark:bg-primary-bg-dark w-full"
               style={{ zIndex: "10000", gap: "20px", paddingTop: "10px" }}
             >
-              <div className="below-seach-bar-div absolute bottom-0 w-full flex flex-col" style={{gap : "10px" ,top : "5%"}}>
+              <div
+                className="below-seach-bar-div absolute bottom-0 w-full flex flex-col"
+                style={{ gap: "20px", top: "8%" }}
+              >
                 {/* Top Bar */}
                 <div className="top-bar-cart flex items-center px-4 py-2">
                   {themeMode === "dark" ? (

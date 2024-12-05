@@ -28,9 +28,8 @@ const Slider = () => {
           onClick={toggleAuthModal}
           className="overlay-div bg-opacity-40-"
           style={{
-            height: "100%",
-            background:
-              "linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0))", // Linear gradient
+            height: "50%",
+            backdropFilter : "blur(3px)",
             zIndex: 1000, // Ensure it appears above other elements
           }}
         ></div>

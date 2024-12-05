@@ -13,7 +13,10 @@ const ModalComp = () => {
   const { addItem, getItemData } = useCart();
   const [selectedOption, setSelectedOption] = useState(0);
   const [count, setCount] = useState(1);
-  const modalHeight = "50vh"; // Fixed to 50% viewport height
+  const [modalHeight, setModalHeight] = useState(50);
+  // const modalHeight = "50vh"; // Fixed to 50% viewport height
+  // Movement Tracker
+  const [startYCoordinates, setStartYCoordinates] = useState(0);
 
   useEffect(() => {
     console.log("Mounted");
@@ -21,35 +24,26 @@ const ModalComp = () => {
       name: foodData.name,
       type: foodData.servings[selectedOption],
     });
-    const newQnt = (!prevData) ? 1 : prevData.qnt;
+    const newQnt = !prevData ? 1 : prevData.qnt;
     setCount(newQnt);
     return () => {
       console.log("Unmounted");
     };
   }, []);
 
-  const incrementCount = () => {
-    setCount(count + 1);
-  };
-
-  const decrementCount = () => {
-    if (count === 1) {
-      toggleModal();
-      return;
-    }
-    setCount(count - 1);
-  };
-
+  const incrementCount = () => setCount(count + 1);
+  const decrementCount = () =>
+    count === 1 ? toggleModal() : setCount(count - 1);
   const closePortal = () => {
     toggleModal();
     setSelectedOption(null);
   };
-
+  // Handles the changes in choice
   const handleRadioChange = (index) => {
     setSelectedOption(index);
     setCount(1);
   };
-
+  // helper to add things to cart
   const addToCart = () => {
     const foodObject = {
       name: foodData.name,
@@ -60,23 +54,61 @@ const ModalComp = () => {
     toggleModal();
   };
 
+  // Touch Motion Logic
+  const handleTouchStart = (event) => {
+    const { clientX, clientY } = event.touches[0];
+    setStartYCoordinates(clientY);
+    console.log("Touch started at:", {
+      x: clientX,
+      y: clientY,
+    });
+  };
+
+  const handleTouchMove = (event) => {
+    const { clientX, clientY } = event.touches[0];
+    const difference = (clientY - startYCoordinates) / 10;
+    console.log(clientY, startYCoordinates, difference, modalHeight);
+    console.log("New height ", modalHeight - difference);
+    const newHeight = 50 - difference;
+    if (newHeight >= 10 && newHeight <= 50) {
+      setModalHeight(newHeight);
+    } else if (newHeight >= 0 && newHeight < 10) {
+      toggleModal();
+    }
+  };
+
+  const handleTouchEnd = (event) => {
+    const { clientX, clientY } = event.changedTouches[0];
+    const difference = (clientY - startYCoordinates) / 10;
+    const newHeight = 50 - difference;
+    if (newHeight <= 15) toggleModal();
+    setStartYCoordinates(0);
+  };
+
   return ReactDOM.createPortal(
     <Fragment>
       <AnimatePresence>
         {isOpen && (
           <Fragment>
             <div
-              onClick={closePortal}
+              // onClick={closePortal}
               className="overlay-div fixed top-0 left-0 right-0 bottom-0"
               style={{ zIndex: "10000", backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onTouchMove={handleTouchMove}
             ></div>
             <motion.div
               initial={{ y: "100vh", minHeight: 0 }}
-              animate={{ y: 0, minHeight: modalHeight }}
+              animate={{ y: 0, minHeight: `${modalHeight}vh` }}
               exit={{ height: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
               className="fixed flex flex-col rounded-t-xl bottom-0 bg-white text-black dark:text-white dark:bg-primary-bg-dark w-full"
-              style={{ zIndex: "10000", gap: "30px", height: modalHeight }}
+              style={{
+                zIndex: "10000",
+                gap: "30px",
+                height: `${modalHeight}vh`,
+              }}
             >
               <div
                 className="rounded-t-xl flex flex-row items-center food-name-cont bg-tabs-bg dark:bg-tabs-bg-dark dark:text-white"
