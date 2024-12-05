@@ -54,49 +54,15 @@ const ModalComp = () => {
     toggleModal();
   };
 
-  // Touch Motion Logic
-  const handleTouchStart = (event) => {
-    const { clientX, clientY } = event.touches[0];
-    setStartYCoordinates(clientY);
-    console.log("Touch started at:", {
-      x: clientX,
-      y: clientY,
-    });
-  };
-
-  const handleTouchMove = (event) => {
-    const { clientX, clientY } = event.touches[0];
-    const difference = (clientY - startYCoordinates) / 10;
-    console.log(clientY, startYCoordinates, difference, modalHeight);
-    console.log("New height ", modalHeight - difference);
-    const newHeight = 50 - difference;
-    if (newHeight >= 10 && newHeight <= 50) {
-      setModalHeight(newHeight);
-    } else if (newHeight >= 0 && newHeight < 10) {
-      toggleModal();
-    }
-  };
-
-  const handleTouchEnd = (event) => {
-    const { clientX, clientY } = event.changedTouches[0];
-    const difference = (clientY - startYCoordinates) / 10;
-    const newHeight = 50 - difference;
-    if (newHeight <= 15) toggleModal();
-    setStartYCoordinates(0);
-  };
-
   return ReactDOM.createPortal(
     <Fragment>
       <AnimatePresence>
         {isOpen && (
           <Fragment>
             <div
-              // onClick={closePortal}
+              onClick={closePortal}
               className="overlay-div fixed top-0 left-0 right-0 bottom-0"
               style={{ zIndex: "10000", backgroundColor: "rgba(0, 0, 0, 0.7)" }}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-              onTouchMove={handleTouchMove}
             ></div>
             <motion.div
               initial={{ y: "100vh", minHeight: 0 }}
