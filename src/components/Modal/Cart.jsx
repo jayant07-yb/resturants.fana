@@ -96,7 +96,7 @@ const CartModal = () => {
                 {/* Food Data */}
                 <div
                   className="bg-tabs-bg dark:bg-tabs-bg-dark mx-4 px-2 py-2 rounded-xl food-data-div"
-                  style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+                  style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" , maxHeight : "70%" , overflowY : "scroll" }}
                 >
                   {foodData.map((e, index) => {
                     if (e) return <CartFoodData key={index} index={index} />;

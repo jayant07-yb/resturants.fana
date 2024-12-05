@@ -17,10 +17,13 @@ import Filters from "./Filters/Filters";
 import Sections from "./Sections/Sections";
 import CartBtn from "./CartBtn/CartBtn";
 import SpeechBtn from "./SpeechBtn/SpeechBtn";
+import useModal from "../../context/Modal";
+import useUserContext from "../../context/userContext";
 
 const Menu = () => {
   // Context Hooks
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const {modalDetails} = useModal()
   const { toggleCart, cartData } = useCart();
   const { foodData } = cartData;
   const { toggleSearchModal, speechData } = useSpeechModal();
@@ -73,9 +76,6 @@ const Menu = () => {
     );
     setFilteredFoodData(removedUnnecessaryItems);
   }, [filters]);
-
-  const handleTranscriptComplete = (transcript) => {
-  };
   
   useEffect(() => {
     console.log("Data Updated " , speechData)
@@ -90,7 +90,9 @@ const Menu = () => {
 
   return (
     <Fragment>
-      <div className="menu-container min-h-screen w-full relative dark:bg-primary-bg-dark dark:text-white">
+      <div className="menu-container min-h-screen w-full relative dark:bg-primary-bg-dark dark:text-white"
+        style={{position : (modalDetails.isOpen) ? "fixed" : ""}}
+      >
         <RestImage />
         <div
           className="w-full bg-white dark:bg-primary-bg-dark overflow-y-auto"
