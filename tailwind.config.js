@@ -21,10 +21,10 @@ export default {
         "brdr" : "#", 
         "input-txt" : "#5C038C",
         "secondary-bg" : "#32B768", // green  
-        "secondary-bg-faded" : "#afe0c3",
+        // "secondary-bg-faded" : "#afe0c3",
+        "secondary-bg-faded" : "#85e6ac",
         "secondary-bg-cart-btn" : "rgb(0 207 84)",
         "secondary-txt" : "#FFFFFF",
-        // "tabs-bg" : "#f2f3f5"
         "tabs-bg" : "#f2f2f2"
         
 

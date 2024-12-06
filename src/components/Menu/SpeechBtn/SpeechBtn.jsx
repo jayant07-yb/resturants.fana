@@ -11,14 +11,14 @@ const SpeechBtn = ({speechData , toggleSearchModal , foodData}) => {
           onClick={toggleSearchModal}
           style={{
             position: "fixed",
-            bottom: foodData.length ? "12%" : "20px", // Adjusts position based on cart presence
+            bottom: foodData.length ? "12%" : "3%", // Adjusts position based on cart presence
             right: "20px",
             backgroundColor: "#007bff",
             color: "white",
             border: "none",
             borderRadius: "50%",
-            width: "50px",
-            height: "50px",
+            height: "6%",
+            width: "6vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",

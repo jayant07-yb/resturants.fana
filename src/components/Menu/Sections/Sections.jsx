@@ -6,7 +6,7 @@ const Sections = ({ filteredFoodData }) => {
       {filteredFoodData.map((section, index) => (
         <div
           key={index}
-          className="food-data-div mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark"
+          className={`food-data-div mt-4 py-3 border-t-tabs-bg dark:border-t-tabs-bg-dark ${section.sectionName}`}
           style={{ borderTopWidth: "10px", borderTopStyle: "solid" }}
         >
           <h1

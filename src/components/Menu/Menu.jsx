@@ -19,11 +19,13 @@ import CartBtn from "./CartBtn/CartBtn";
 import SpeechBtn from "./SpeechBtn/SpeechBtn";
 import useModal from "../../context/Modal";
 import useUserContext from "../../context/userContext";
+import MenuBtn from "./MenuBtn/MenuBtn";
+import SubMenu from "./SubMenu/SubMenu";
 
 const Menu = () => {
   // Context Hooks
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const {modalDetails} = useModal()
+  const { modalDetails } = useModal();
   const { toggleCart, cartData } = useCart();
   const { foodData } = cartData;
   const { toggleSearchModal, speechData } = useSpeechModal();
@@ -37,7 +39,13 @@ const Menu = () => {
   );
   const [filteredFoodData, setFilteredFoodData] = useState(hotelData.sections);
   const searchResultsRef = useRef(null);
+  // Local SubMenu Modal Hook
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
+  // Toggle Local SubMenu
+  const toggleSubMenu = () => {
+    setIsSubMenuOpen(!isSubMenuOpen);
+  };
   // Toggle Filter Activation
   const toggleFilters = (filterName) => {
     setFilters((prevState) => {
@@ -76,22 +84,23 @@ const Menu = () => {
     );
     setFilteredFoodData(removedUnnecessaryItems);
   }, [filters]);
-  
+
   useEffect(() => {
-    console.log("Data Updated " , speechData)
-    const {speech} = speechData
+    console.log("Data Updated ", speechData);
+    const { speech } = speechData;
     const matchedDishes = SpeechFilterAlgo(speech, hotelData);
-    console.log(matchedDishes)
+    console.log(matchedDishes);
     setSearchResults({ speech, matchedDishes });
     if (searchResultsRef.current && matchedDishes.length > 0) {
       searchResultsRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  } , [speechData])
+  }, [speechData]);
 
   return (
     <Fragment>
-      <div className="menu-container min-h-screen w-full relative dark:bg-primary-bg-dark dark:text-white"
-        style={{position : (modalDetails.isOpen) ? "fixed" : ""}}
+      <div
+        className="menu-container min-h-screen w-full relative dark:bg-primary-bg-dark dark:text-white"
+        style={{ position: modalDetails.isOpen ? "fixed" : "" }}
       >
         <RestImage />
         <div
@@ -129,6 +138,10 @@ const Menu = () => {
             toggleCart={toggleCart}
             cartData={cartData}
           />
+          {isSubMenuOpen && (
+            <SubMenu toggleSubMenu={toggleSubMenu} foodData={foodData} />
+          )}
+          <MenuBtn toggleSubMenu={toggleSubMenu} foodData={foodData} />
           <SpeechBtn
             foodData={foodData}
             speechData={speechData}
