@@ -1,7 +1,6 @@
-import { Fragment, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "./context/theme";
-import LandingPage from "./components/landingPage";
 import "./App.css";
 import Menu from "./components/Menu/Menu";
 import { ModalProvider } from "./context/Modal";
@@ -9,30 +8,46 @@ import ModalComp from "./components/Modal/Modal";
 import { CartModalProvider } from "./context/Cart";
 import CartModal from "./components/Modal/Cart";
 import SearchModal from "./components/SearchModal/SearchModal"; // Import SearchModal
+import Slider from "./components/Auth/Slider";
+import { SpeechModalProvider } from "./context/SpeechRecognition";
+import ErrorTemplate from "./components/Error/Errortemplate";
+import useScreenWidthObserver from "./utils/screenObserver";
+import { UserProvider } from "./context/userContext";
 
 function App() {
+  //Context Hooks
+  //Hooks
   const [themeMode, setThemeMode] = useState("light");
+  const navigate = useNavigate();
   const [modalDetails, setModalDetails] = useState({
     isOpen: false,
     foodData: null,
   });
   const [cartData, setCartData] = useState({ isOpen: false, foodData: [] });
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [transcriptData, setTranscriptData] = useState(null);
-
-  const darkTheme = () => setThemeMode("dark");
-  const lightTheme = () => setThemeMode("light");
-
+  const [speechData, setSpeechData] = useState({ speech: [], isOpen: false });
+  const [isOpen, setIsOpen] = useState(false);
+  //useEffect Hooks
   useEffect(() => {
     document.querySelector("html").classList.remove("light", "dark");
     document.querySelector("html").classList.add(themeMode);
   }, [themeMode]);
-
+  //Utils
+  const screenWidth = useScreenWidthObserver();
+  const darkTheme = () => setThemeMode("dark");
+  const lightTheme = () => setThemeMode("light");
 
   const toggleModal = (foodData = null) => {
     setModalDetails({ isOpen: !modalDetails.isOpen, foodData });
   };
 
+  // Cart Context Utils
+  const getItemData = (currFood) => {
+    const {name , type} = currFood
+    const foodData = (cartData.foodData.filter((e) => {
+      return e.name == name && e.type == type
+    }))
+    return foodData[0];
+  }
   const addItem = (newFoodItem) => {
     // newFoodItem= { name , qnt , type }
     setCartData((prevState) => {
@@ -44,7 +59,7 @@ function App() {
       let updatedCartData;
       if (existingFoodIndex !== -1) {
         updatedCartData = [...prevState.foodData];
-        updatedCartData[existingFoodIndex].qnt += newFoodItem.qnt;
+        updatedCartData[existingFoodIndex].qnt = newFoodItem.qnt;
       } else {
         updatedCartData = [...prevState.foodData, newFoodItem];
       }
@@ -63,27 +78,30 @@ function App() {
 
   const changeQnt = (foodDataAndServing, extraAddition) => {
     setCartData((prevState) => {
-      const updatedCartData = prevState.foodData.map((item , index) => {
-        if(item.name === foodDataAndServing.name && item.type === foodDataAndServing.type){
-          if(item.qnt + extraAddition <= 0) return null;
-          return {...item , qnt : item.qnt + extraAddition}
-        }
-        return item;
-      }).filter((e) => e !== null)
+      const updatedCartData = prevState.foodData
+        .map((item, index) => {
+          if (
+            item.name === foodDataAndServing.name &&
+            item.type === foodDataAndServing.type
+          ) {
+            if (item.qnt + extraAddition <= 0) return null;
+            return { ...item, qnt: item.qnt + extraAddition };
+          }
+          return item;
+        })
+        .filter((e) => e !== null);
 
       return {
-        ...prevState ,
-        foodData : updatedCartData
-      }
-
+        ...prevState,
+        foodData: updatedCartData,
+      };
     });
   };
 
   const clearCart = () => {
-      setCartData((prev) => ({ ...prev, foodData: [] })); // Resets foodData to an empty array
+    setCartData((prev) => ({ ...prev, foodData: [] })); // Resets foodData to an empty array
   };
 
-  
   const toggleCart = () => {
     setCartData((prevData) => {
       return {
@@ -92,34 +110,84 @@ function App() {
       };
     });
   };
-  const handleTranscriptComplete = (data) => {
-    setTranscriptData(data); // Set the transcript data
-  };
+  // const handleTranscriptComplete = (data) => {
+  //   setTranscriptData(data); // Set the transcript data
+  // };
+  //  Speech Search Modal
   const toggleSearchModal = () => {
-    setIsSearchModalOpen(!isSearchModalOpen);
+    setSpeechData((prevState) => {
+      return {
+        ...prevState,
+        isOpen: !prevState.isOpen,
+      };
+    });
   };
 
+  const searchSpeechModal = (speechTranscript) => {
+    setSpeechData((prevState) => {
+      // This function is called when the speech recognition is turned off
+      // The speech displayed over the screen is from the variable transcript
+      // that the react lib has , we split it into an array and display it
+      // Split the speechTranscript again
+      const transcriptArray = speechTranscript.split(" ");
+      console.log(transcriptArray);
+      return {
+        ...prevState,
+        speech: transcriptArray,
+      };
+    });
+  };
+
+  // Check  for device type
+  useEffect(() => {
+    if (screenWidth > 800) {
+      const retrace = window.location.pathname;
+      navigate(`/error?retrace=${retrace}`);
+    }
+  }, [screenWidth]);
+
+  // UserContext
+  const toggleAuthModal = () => {
+    setIsOpen(!isOpen);
+  };
   return (
-    <CartModalProvider value={{ cartData, toggleCart, addItem, changeQnt, clearCart }}>
-      <ModalProvider value={{ toggleModal, modalDetails }}>
-        <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-          
-          {/* Conditional modals */}
-          {modalDetails.isOpen && <ModalComp />}
-          {cartData.isOpen && <CartModal />}
-          {isSearchModalOpen && (
-            <SearchModal onClose={toggleSearchModal} onTranscriptComplete={handleTranscriptComplete} />
-          )}
-  
-          {/* Routes */}
-          <Routes>
-            <Route path="/login" element={<LandingPage />} />{" "}
-            <Route path="/" element={<Menu />} />{" "}
-          </Routes>
-  
-        </ThemeProvider>
-      </ModalProvider>
-    </CartModalProvider>
+    <UserProvider value={{ isOpen, toggleAuthModal }}>
+      <CartModalProvider
+        value={{ cartData, toggleCart, addItem, changeQnt, clearCart , getItemData }}
+      >
+        <SpeechModalProvider
+          value={{ speechData, toggleSearchModal, setSpeechData }}
+        >
+          <ModalProvider value={{ toggleModal, modalDetails  }}>
+            <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
+              {/* Conditional modals */}
+              {modalDetails.isOpen && <ModalComp />}
+              {cartData.isOpen && <CartModal />}
+              {speechData.isOpen && (
+                <SearchModal
+                  searchSpeechModal={searchSpeechModal}
+                  toggleSearchModal={toggleSearchModal}
+                />
+              )}
+              {isOpen && <Slider />}
+              {/* Routes */}
+              <Routes>
+                <Route path="/login" element={<Slider />} />{" "}
+                <Route path="/" element={<Menu />} />{" "}
+                <Route
+                  path="/error"
+                  element={
+                    <ErrorTemplate
+                      errorText={"Our App does not support landscape Mode"}
+                    />
+                  }
+                />
+              </Routes>
+            </ThemeProvider>
+          </ModalProvider>
+        </SpeechModalProvider>
+      </CartModalProvider>
+    </UserProvider>
   );
 }
 

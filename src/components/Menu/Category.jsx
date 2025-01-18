@@ -15,7 +15,7 @@ const Category = ({ category, index, size }) => {
     setActive(!active);
   };
   return (
-    <Fragment>
+    <Fragment key={index}>
       <div
         style={{
           zIndex :"100"
@@ -60,7 +60,7 @@ const Category = ({ category, index, size }) => {
           </div>
         </div>
         {category.items.map((e , index) => {
-          return (active ? <FoodItems foodData={e} index={index} size={category.items.length} active={active} /> : <></>);
+          return (active ? <FoodItems foodData={e} index={index} size={category.items.length} active={active} key={index} /> : <></>);
         })}
       </div>
       {index < size - 1 ? (
