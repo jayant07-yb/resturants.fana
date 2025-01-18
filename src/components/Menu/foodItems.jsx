@@ -32,8 +32,12 @@ const FoodItems = ({ foodData, active, index, size }) => {
         </div>
 
         <div className="basis-1/2 food-image-container flex flex-col items-center justify-center relative">
-          <img className="rounded-xl" src={food} alt="" />
-          <div
+            <img
+              className="rounded-xl"
+              src={foodData.food_image_path} // Use imported default image
+              alt={foodData.name}
+              // onError={(e) => { e.target.src = food; }} // Fallback for invalid paths
+            />          <div
             onClick={handleAdd}
             className="absolute btn-container rounded-md text-white  bg-secondary-bg dark:bg-secondary-bg-dark px-2 py-2 text-center"
             style={{ width: "50%", bottom: "-15%", left: "30%" }}
