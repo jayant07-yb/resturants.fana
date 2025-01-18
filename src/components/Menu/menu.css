@@ -29,3 +29,10 @@
     cursor: pointer;
   }
   
+  .food-image {
+    max-width: 40vw; /* Max width as 40% of the viewport width */
+    max-height: 30vh; /* Max height as 40% of the viewport height */
+    width: auto; /* Maintain aspect ratio */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensures the entire image fits within the bounds */
+  }
