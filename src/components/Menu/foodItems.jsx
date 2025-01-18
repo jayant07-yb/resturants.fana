@@ -23,18 +23,16 @@ const FoodItems = ({ foodData, active, index, size }) => {
           <h1 style={{ fontSize: "18px", fontWeight: "700" }}>
             {foodData.name}
           </h1>
-          <div className="cost my-4">$540</div>
+          {foodData.servings.length === 1 && (
+            <div className="cost my-4">
+             Rs {foodData.servings[0].cost}
+            </div>
+          )}
           <div className="food-details mr-1">{foodData.information}</div>
         </div>
+
         <div className="basis-1/2 food-image-container flex flex-col items-center justify-center relative">
           <img className="rounded-xl" src={food} alt="" />
-          {/* <div
-            onClick={handleAdd}
-            className="absolute btn-container rounded-md text-white bg-secondary-bg-faded  border-secondary-bg border-solid dark:border-secondary-bg-dark px-2 py-2 text-center"
-            style={{ width: "50%", bottom: "-15%", left: "30%" , borderWidth : "2px" }}
-          >
-            ADD
-          </div> */}
           <div
             onClick={handleAdd}
             className="absolute btn-container rounded-md text-white  bg-secondary-bg dark:bg-secondary-bg-dark px-2 py-2 text-center"
