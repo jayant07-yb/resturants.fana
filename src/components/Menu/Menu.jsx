@@ -1,6 +1,6 @@
 import { Fragment, useState, useRef, useEffect } from "react";
 import "./menu.css";
-import hotelData from "../../json/foodData.json";
+import hotelData from "../../json/goaCafe.json";
 import Subsection from "./Subsections";
 import useCart from "../../context/Cart";
 import useSpeechModal from "../../context/SpeechRecognition";
