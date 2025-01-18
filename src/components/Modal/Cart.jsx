@@ -34,10 +34,73 @@ const CartModal = () => {
 
   // Function to handle order
   const handleOrder = () => {
-    console.log("Order placed:", foodData);
     clearCart(); // Clear the cart
     toggleCart(); // Close the modal
+
+    // Generate a random order ID
+    const orderId = Math.floor(Math.random() * 100000).toString();
+  
+    const createOrderDetails = (foodData) => {
+      let totalAmount = 0; // Change const to let
+    
+      // Map foodData to create detailed order data
+      const items = foodData.map((item, index) => {
+        if (item && item.type && item.qnt) {
+          const itemTotal = item.type.cost * item.qnt;
+          totalAmount += itemTotal;
+    
+          // Log each item for debugging
+          console.log(`Item ${index + 1}:`, {
+            name: item.name,
+            cost: item.type.cost,
+            quantity: item.qnt,
+            itemTotal,
+          });
+    
+          // Return the item details for JSON object
+          return {
+            name: item.name,
+            cost: item.type.cost,
+            quantity: item.qnt,
+            itemTotal,
+          };
+        }
+        return null;
+      }).filter(Boolean); // Filter out any null items in case of invalid data
+    
+      // Construct the final JSON object
+      const orderDetails = {
+        items: items,
+        totalAmount: totalAmount
+      };
+    
+      return orderDetails;
+    };
+    
+
+    // Construct the order data
+    const orderData = {
+      order_id: orderId,
+      order_details: JSON.stringify(createOrderDetails(foodData))
+    };
+  
+    // Send POST request to the server
+    fetch("http://localhost:8000/fanaAuthenticator/handle_customer_order/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(orderData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Order placed successfully:", data);
+    })
+    .catch(error => {
+      console.error("Error placing order:", error);
+    });
   };
+  
 
   return ReactDOM.createPortal(
     <Fragment>
