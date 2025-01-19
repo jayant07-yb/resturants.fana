@@ -1,257 +1,252 @@
 {
-  "sections": [
-    {
-      "sectionName": "Coffee",
-      "subSections": [
-        {
-          "category": "Hot Coffee",
-          "items": [
-            {
-              "name": "Espresso",
-              "servings": [{ "details": "Hot", "cost": 150 }],
-              "tags": ["strong", "hot", "classic"],
-              "information": "A strong and bold shot of coffee made from freshly ground beans.",
-              "rating": 4.8,
-              "food_image_path": "assets/food_images/espresso.webp"
-            },
-            {
-              "name": "Americano",
-              "servings": [{ "details": "Hot", "cost": 170 }],
-              "tags": ["mild", "hot", "diluted"],
-              "information": "A smooth black coffee made by adding hot water to espresso.",
-              "rating": 4.6,
-              "food_image_path": "assets/food_images/americano_coffee.webp"
-            },
-            {
-              "name": "Cortado",
-              "servings": [{ "details": "Hot", "cost": 190 }],
-              "tags": ["balanced", "hot", "milk"],
-              "information": "A 1:1 ratio of espresso to steamed milk for a perfectly balanced coffee.",
-              "rating": 4.5,
-              "food_image_path": "assets/food_images/cortado.jpg"
-            },
-            {
-              "name": "Macchiato",
-              "servings": [{ "details": "Hot", "cost": 170 }],
-              "tags": ["espresso", "hot", "foamy"],
-              "information": "Espresso topped with a small amount of foamed milk for a rich flavor.",
-              "rating": 4.3,
-              "food_image_path": "assets/food_images/macchiato.jpg"
-            },
-            {
-              "name": "Flat White",
-              "servings": [{ "details": "Hot", "cost": 200 }],
-              "tags": ["creamy", "hot", "smooth"],
-              "information": "A creamy coffee with microfoam, offering a smooth and rich texture.",
-              "rating": 4.7,
-              "food_image_path": "assets/food_images/flat_white.jpg"
-            },
-            {
-              "name": "Latte",
-              "servings": [{ "details": "Hot", "cost": 210 }],
-              "tags": ["creamy", "hot", "mild"],
-              "information": "Espresso with steamed milk, topped with a thin layer of foam.",
-              "rating": 4.6,
-              "food_image_path": "assets/food_images/caffe_latte.jpg"
-            },
-            {
-              "name": "Mocha",
-              "servings": [{ "details": "Hot", "cost": 300 }],
-              "tags": ["chocolate", "hot", "sweet"],
-              "information": "A rich blend of espresso, chocolate, and steamed milk.",
-              "rating": 4.9,
-              "food_image_path": "assets/food_images/mocha.jpg"
-            },
-            {
-              "name": "Cappuccino",
-              "servings": [{ "details": "Hot", "cost": 200 }],
-              "tags": ["frothy", "hot", "balanced"],
-              "information": "A classic coffee with equal parts espresso, steamed milk, and foam.",
-              "rating": 4.5,
-              "food_image_path": "assets/food_images/cappuccino.webp"
-            }
-          ]
-        },
-        {
-          "category": "Iced Coffee",
-          "items": [
-            {
-              "name": "Espresso (Iced)",
-              "servings": [{ "details": "Iced", "cost": 150 }],
-              "tags": ["strong", "iced", "classic"],
-              "information": "A cold shot of espresso for a refreshing caffeine hit.",
-              "rating": 4.7,
-              "food_image_path": "assets/food_images/espresso_iced.jpg"
-            },
-            {
-              "name": "Americano (Iced)",
-              "servings": [{ "details": "Iced", "cost": 170 }],
-              "tags": ["mild", "iced", "smooth"],
-              "information": "Cold water added to espresso for a refreshing black coffee.",
-              "rating": 4.5,
-              "food_image_path": "assets/food_images/americano_iced.jpg"
-            },
-            {
-              "name": "Latte (Iced)",
-              "servings": [{ "details": "Iced", "cost": 230 }],
-              "tags": ["creamy", "iced", "mild"],
-              "information": "Espresso mixed with cold milk and ice for a creamy iced coffee.",
-              "rating": 4.6,
-              "food_image_path": "assets/food_images/iced_latte.jpg"
-            },
-            {
-              "name": "Mocha (Iced)",
-              "servings": [{ "details": "Iced", "cost": 330 }],
-              "tags": ["chocolate", "iced", "sweet"],
-              "information": "A cold blend of espresso, chocolate, and milk.",
-              "rating": 4.9,
-              "food_image_path": "assets/food_images/iced_mocha.jpg"
-            },
-            {
-              "name": "Cappuccino (Iced)",
-              "servings": [{ "details": "Iced", "cost": 250 }],
-              "tags": ["frothy", "iced", "balanced"],
-              "information": "An iced coffee with milk and foam for a refreshing experience.",
-              "rating": 4.4,
-              "food_image_path": "assets/food_images/iced_cappuccino.jpg"
-            },
-            {
-              "name": "Cold Brew",
-              "servings": [{ "details": "Iced", "cost": 220 }],
-              "tags": ["cold", "smooth", "mild"],
-              "information": "Coffee brewed slowly in cold water for a smooth and mild flavor.",
-              "rating": 4.8,
-              "food_image_path": "assets/food_images/cold_brew.jpg"
-            },
-            {
-              "name": "Vietnamese Cold Brew",
-              "servings": [{ "details": "Iced", "cost": 250 }],
-              "tags": ["strong", "iced", "sweet"],
-              "information": "A bold cold brew sweetened with condensed milk.",
-              "rating": 4.7,
-              "food_image_path": "assets/food_images/vietnamese_cold_brew.jpg"
-            },
-            {
-              "name": "Coffee Tonic",
-              "servings": [{ "details": "Iced", "cost": 250 }],
-              "tags": ["unique", "refreshing", "bubbly"],
-              "information": "A refreshing mix of espresso and tonic water.",
-              "rating": 4.6,
-              "food_image_path": "assets/food_images/coffee_tonic.jpg"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "Food",
-      "subSections": [
-        {
-          "category": "Breakfast & Light Meals",
-          "items": [
-            {
-              "name": "Avocado Toast",
-              "servings": [{ "details": "Single", "cost": 250 }],
-              "tags": ["vegetarian", "healthy", "breakfast"],
-              "information": "Toasted bread topped with fresh avocado.",
-              "rating": 4.8,
-              "food_image_path": "assets/food_images/avocado_toast.jpg"
-            },
-            {
-              "name": "Eggs to Order",
-              "servings": [{ "details": "Single", "cost": 150 }],
-              "tags": ["protein", "breakfast", "customizable"],
-              "information": "Eggs cooked to your preference.",
-              "rating": 4.6,
-              "food_image_path": "assets/food_images/eggs_to_order.webp"
-            },
-            {
-              "name": "Eggs Benny",
-              "servings": [{ "details": "Single", "cost": 300 }],
-              "tags": ["rich", "breakfast", "classic"],
-              "information": "Poached eggs with hollandaise sauce on toast.",
-              "rating": 4.8,
-              "food_image_path": "assets/food_images/eggs_benny.jpg"
-            },
-            {
-              "name": "Chilli Cheese Toast",
-              "servings": [{ "details": "Single", "cost": 200 }],
-              "tags": ["spicy", "vegetarian", "snack"],
-              "information": "Toast topped with melted cheese and chili flakes.",
-              "rating": 4.5,
-              "food_image_path": "assets/food_images/chilli_cheese_toast.jpg"
-            },
-            {
-              "name": "Hummus Bowl",
-              "servings": [{ "details": "Single", "cost": 250 }],
-              "tags": ["healthy", "vegetarian", "snack"],
-              "information": "A bowl of creamy hummus served with fresh veggies and pita bread.",
-              "rating": 4.7,
-              "food_image_path": "assets/food_images/hummus_bowl.jpg"
-            },
-            {
-              "name": "French Toast",
-              "servings": [{ "details": "Single", "cost": 200 }],
-              "tags": ["sweet", "breakfast", "classic"],
-              "information": "Thick slices of bread soaked in egg and milk, then fried to perfection.",
-              "rating": 4.6,
-              "food_image_path": "assets/food_images/french_toast.jpg"
-            }
-          ]
-        },
-        {
-          "category": "Sandwiches & Salads",
-          "items": [
-            {
-              "name": "Chicken Sandwich",
-              "servings": [{ "details": "Single", "cost": 280 }],
-              "tags": ["chicken", "non-vegetarian", "lunch"],
-              "information": "A sandwich filled with tender chicken, veggies, and sauces.",
-              "rating": 4.5,
-              "food_image_path": "assets/food_images/chicken_sandwich.jpg"
-            },
-            {
-              "name": "Protein Salad",
-              "servings": [{ "details": "Single", "cost": 200 }],
-              "tags": ["healthy", "vegetarian", "protein-rich"],
-              "information": "A salad rich in protein, featuring beans, quinoa, and veggies.",
-              "rating": 4.7,
-              "food_image_path": "assets/food_images/protein_salad.jpg"
-            },
-            {
-              "name": "Veg Masala Sandwich",
-              "servings": [{ "details": "Single", "cost": 200 }],
-              "tags": ["vegetarian", "spicy", "snack"],
-              "information": "A spicy sandwich loaded with masala veggies.",
-              "rating": 4.5,
-              "food_image_path": "assets/food_images/veg_masala_sandwich.webp"
-            }
-          ]
-        },
-        {
-          "category": "Add-ons",
-          "items": [
-            {
-              "name": "Add on Chicken",
-              "servings": [{ "details": "Single", "cost": 80 }],
-              "tags": ["protein-rich", "non-vegetarian", "customizable"],
-              "information": "Add a portion of tender chicken to your dish.",
-              "rating": 4.6,
-              "food_image_path": "assets/food_images/add_on_chicken.jpg"
-            },
-            {
-              "name": "Add on Egg",
-              "servings": [{ "details": "Single", "cost": 30 }],
-              "tags": ["protein-rich", "customizable", "egg"],
-              "information": "Add an egg prepared to your liking to enhance your meal.",
-              "rating": 4.5,
-              "food_image_path": "assets/food_images/add_on_egg.jpg"
-            }
-          ]
-        }
-      ]
-    }
-  ],
+     "sections": [
+      {
+        "sectionName": "Coffee",
+        "subSections": [
+          {
+            "category": "Hot Coffee",
+            "items": [
+              {
+                "name": "Espresso",
+                "servings": [{ "details": "Hot", "cost": 150 }],
+                "tags": ["strong", "hot", "classic"],
+                "positive_tags": ["bold", "strong", "pure coffee"],
+                "negative_tags": ["sweet", "milky", "cold"],
+                "information": "A strong and bold shot of coffee made from freshly ground beans.",
+                "rating": 4.8,
+                "food_image_path": "assets/food_images/espresso.webp"
+              },
+              {
+                "name": "Americano",
+                "servings": [{ "details": "Hot", "cost": 170 }],
+                "tags": ["mild", "hot", "diluted"],
+                "positive_tags": ["smooth", "black coffee", "light"],
+                "negative_tags": ["milky", "sweet", "cold"],
+                "information": "A smooth black coffee made by adding hot water to espresso.",
+                "rating": 4.6,
+                "food_image_path": "assets/food_images/americano_coffee.webp"
+              },
+              {
+                "name": "Cortado",
+                "servings": [{ "details": "Hot", "cost": 190 }],
+                "tags": ["balanced", "hot", "milk"],
+                "positive_tags": ["balanced", "smooth", "creamy"],
+                "negative_tags": ["bitter", "cold", "strong"],
+                "information": "A 1:1 ratio of espresso to steamed milk for a perfectly balanced coffee.",
+                "rating": 4.5,
+                "food_image_path": "assets/food_images/cortado.jpg"
+              },
+              {
+                "name": "Macchiato",
+                "servings": [{ "details": "Hot", "cost": 170 }],
+                "tags": ["espresso", "hot", "foamy"],
+                "positive_tags": ["light milk", "espresso", "foamy"],
+                "negative_tags": ["cold", "sweet", "overly creamy"],
+                "information": "Espresso topped with a small amount of foamed milk for a rich flavor.",
+                "rating": 4.3,
+                "food_image_path": "assets/food_images/macchiato.jpg"
+              },
+              {
+                "name": "Flat White",
+                "servings": [{ "details": "Hot", "cost": 200 }],
+                "tags": ["creamy", "hot", "smooth"],
+                "positive_tags": ["creamy", "rich", "smooth"],
+                "negative_tags": ["bitter", "cold", "strong"],
+                "information": "A creamy coffee with microfoam, offering a smooth and rich texture.",
+                "rating": 4.7,
+                "food_image_path": "assets/food_images/flat_white.jpg"
+              },
+              {
+                "name": "Latte",
+                "servings": [{ "details": "Hot", "cost": 210 }],
+                "tags": ["creamy", "hot", "mild"],
+                "positive_tags": ["mild", "creamy", "balanced"],
+                "negative_tags": ["bitter", "cold", "strong"],
+                "information": "Espresso with steamed milk, topped with a thin layer of foam.",
+                "rating": 4.6,
+                "food_image_path": "assets/food_images/caffe_latte.jpg"
+              },
+              {
+                "name": "Mocha",
+                "servings": [{ "details": "Hot", "cost": 300 }],
+                "tags": ["chocolate", "hot", "sweet"],
+                "positive_tags": ["chocolate", "sweet", "indulgent"],
+                "negative_tags": ["bitter", "cold", "strong"],
+                "information": "A rich blend of espresso, chocolate, and steamed milk.",
+                "rating": 4.9,
+                "food_image_path": "assets/food_images/mocha.jpg"
+              },
+              {
+                "name": "Cappuccino",
+                "servings": [{ "details": "Hot", "cost": 200 }],
+                "tags": ["frothy", "hot", "balanced"],
+                "positive_tags": ["frothy", "classic", "balanced"],
+                "negative_tags": ["cold", "overly sweet", "bitter"],
+                "information": "A classic coffee with equal parts espresso, steamed milk, and foam.",
+                "rating": 4.5,
+                "food_image_path": "assets/food_images/cappuccino.webp"
+              }
+            ]
+          },
+          {
+            "category": "Iced Coffee",
+            "items": [
+              {
+                "name": "Espresso (Iced)",
+                "servings": [{ "details": "Iced", "cost": 150 }],
+                "tags": ["strong", "iced", "classic"],
+                "positive_tags": ["refreshing", "strong", "bold"],
+                "negative_tags": ["milky", "sweet", "hot"],
+                "information": "A cold shot of espresso for a refreshing caffeine hit.",
+                "rating": 4.7,
+                "food_image_path": "assets/food_images/espresso_iced.jpg"
+              },
+              {
+                "name": "Americano (Iced)",
+                "servings": [{ "details": "Iced", "cost": 170 }],
+                "tags": ["mild", "iced", "smooth"],
+                "positive_tags": ["smooth", "light", "refreshing"],
+                "negative_tags": ["sweet", "milky", "hot"],
+                "information": "Cold water added to espresso for a refreshing black coffee.",
+                "rating": 4.5,
+                "food_image_path": "assets/food_images/americano_iced.jpg"
+              },
+              {
+                "name": "Latte (Iced)",
+                "servings": [{ "details": "Iced", "cost": 230 }],
+                "tags": ["creamy", "iced", "mild"],
+                "positive_tags": ["mild", "creamy", "refreshing"],
+                "negative_tags": ["bitter", "hot", "strong"],
+                "information": "Espresso mixed with cold milk and ice for a creamy iced coffee.",
+                "rating": 4.6,
+                "food_image_path": "assets/food_images/iced_latte.jpg"
+              },
+              {
+                "name": "Mocha (Iced)",
+                "servings": [{ "details": "Iced", "cost": 330 }],
+                "tags": ["chocolate", "iced", "sweet"],
+                "positive_tags": ["chocolate", "sweet", "refreshing"],
+                "negative_tags": ["bitter", "hot", "strong"],
+                "information": "A cold blend of espresso, chocolate, and milk.",
+                "rating": 4.9,
+                "food_image_path": "assets/food_images/iced_mocha.jpg"
+              },
+              {
+                "name": "Cappuccino (Iced)",
+                "servings": [{ "details": "Iced", "cost": 250 }],
+                "tags": ["frothy", "iced", "balanced"],
+                "positive_tags": ["frothy", "light", "refreshing"],
+                "negative_tags": ["bitter", "hot", "overly sweet"],
+                "information": "An iced coffee with milk and foam for a refreshing experience.",
+                "rating": 4.4,
+                "food_image_path": "assets/food_images/iced_cappuccino.jpg"
+              },
+              {
+                "name": "Cold Brew",
+                "servings": [{ "details": "Iced", "cost": 220 }],
+                "tags": ["cold", "smooth", "mild"],
+                "positive_tags": ["cold", "smooth", "refreshing"],
+                "negative_tags": ["sweet", "hot", "bitter"],
+                "information": "Coffee brewed slowly in cold water for a smooth and mild flavor.",
+                "rating": 4.8,
+                "food_image_path": "assets/food_images/cold_brew.jpg"
+              },
+              {
+                "name": "Vietnamese Cold Brew",
+                "servings": [{ "details": "Iced", "cost": 250 }],
+                "tags": ["strong", "iced", "sweet"],
+                "positive_tags": ["bold", "sweet", "unique"],
+                "negative_tags": ["bitter", "hot", "light"],
+                "information": "A bold cold brew sweetened with condensed milk.",
+                "rating": 4.7,
+                "food_image_path": "assets/food_images/vietnamese_cold_brew.jpg"
+              },
+              {
+                "name": "Coffee Tonic",
+                "servings": [{ "details": "Iced", "cost": 250 }],
+                "tags": ["unique", "refreshing", "bubbly"],
+                "positive_tags": ["bubbly", "unique", "refreshing"],
+                "negative_tags": ["milky", "hot", "bitter"],
+                "information": "A refreshing mix of espresso and tonic water.",
+                "rating": 4.6,
+                "food_image_path": "assets/food_images/coffee_tonic.jpg"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionName": "Food",
+        "subSections": [
+          {
+            "category": "Breakfast & Light Meals",
+            "items": [
+              {
+                "name": "Avocado Toast",
+                "servings": [{ "details": "Single", "cost": 250 }],
+                "tags": ["vegetarian", "healthy", "breakfast"],
+                "positive_tags": ["healthy", "vegetarian", "light"],
+                "negative_tags": ["spicy", "heavy", "non-vegetarian"],
+                "information": "Toasted bread topped with fresh avocado.",
+                "rating": 4.8,
+                "food_image_path": "assets/food_images/avocado_toast.jpg"
+              },
+              {
+                "name": "Eggs to Order",
+                "servings": [{ "details": "Single", "cost": 150 }],
+                "tags": ["protein", "breakfast", "customizable"],
+                "positive_tags": ["protein-rich", "customizable", "light"],
+                "negative_tags": ["spicy", "vegetarian", "heavy"],
+                "information": "Eggs cooked to your preference.",
+                "rating": 4.6,
+                "food_image_path": "assets/food_images/eggs_to_order.webp"
+              },
+              {
+                "name": "Eggs Benny",
+                "servings": [{ "details": "Single", "cost": 300 }],
+                "tags": ["rich", "breakfast", "classic"],
+                "positive_tags": ["rich", "classic", "protein"],
+                "negative_tags": ["spicy", "vegetarian", "light"],
+                "information": "Poached eggs with hollandaise sauce on toast.",
+                "rating": 4.8,
+                "food_image_path": "assets/food_images/eggs_benny.jpg"
+              },
+              {
+                "name": "Chilli Cheese Toast",
+                "servings": [{ "details": "Single", "cost": 200 }],
+                "tags": ["spicy", "vegetarian", "snack"],
+                "positive_tags": ["spicy", "cheesy", "snack"],
+                "negative_tags": ["mild", "sweet", "non-vegetarian"],
+                "information": "Toast topped with melted cheese and chili flakes.",
+                "rating": 4.5,
+                "food_image_path": "assets/food_images/chilli_cheese_toast.jpg"
+              },
+              {
+                "name": "Hummus Bowl",
+                "servings": [{ "details": "Single", "cost": 250 }],
+                "tags": ["healthy", "vegetarian", "snack"],
+                "positive_tags": ["healthy", "light", "vegetarian"],
+                "negative_tags": ["spicy", "non-vegetarian", "heavy"],
+                "information": "A bowl of creamy hummus served with fresh veggies and pita bread.",
+                "rating": 4.7,
+                "food_image_path": "assets/food_images/hummus_bowl.jpg"
+              },
+              {
+                "name": "French Toast",
+                "servings": [{ "details": "Single", "cost": 200 }],
+                "tags": ["sweet", "breakfast", "classic"],
+                "positive_tags": ["sweet", "classic", "light"],
+                "negative_tags": ["spicy", "non-vegetarian", "savory"],
+                "information": "Thick slices of bread soaked in egg and milk, then fried to perfection.",
+                "rating": 4.6,
+                "food_image_path": "assets/food_images/french_toast.jpg"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+  
   "filters": [
     "Hot Coffee",
     "Iced Coffee",
