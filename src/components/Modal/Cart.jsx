@@ -87,9 +87,10 @@ const CartModal = () => {
       order_id: orderId,
       order_details: JSON.stringify(createOrderDetails(foodData))
     };
-  
+    
+    console.log("Got the order data:", orderData);
     // Send POST request to the server
-    fetch("http://localhost:8000/fanaAuthenticator/handle_customer_order/", {
+    fetch("https://internals.getfana.com/fanaAuthenticator/handle_customer_order/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
