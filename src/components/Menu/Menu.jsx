@@ -89,7 +89,7 @@ const Menu = () => {
     console.log("Data Updated ", speechData);
     const { speech } = speechData;
     const matchedDishes = SpeechFilterAlgo(speech, hotelData);
-    console.log(matchedDishes);
+    console.log("Matched dishes", matchedDishes);
     setSearchResults({ speech, matchedDishes });
     if (searchResultsRef.current && matchedDishes.length > 0) {
       searchResultsRef.current.scrollIntoView({ behavior: "smooth" });

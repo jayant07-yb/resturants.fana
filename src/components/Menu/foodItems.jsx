@@ -19,6 +19,10 @@ const FoodItems = ({ foodData, active, index, size }) => {
           active ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
         }`}
       >
+        <script>
+        console.log("Working on the food:", foodData);
+        
+        </script>
         <div className="food-details-container basis-1/2">
           <h1 style={{ fontSize: "18px", fontWeight: "700" }}>
             {foodData.name}
