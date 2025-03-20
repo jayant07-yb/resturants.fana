@@ -49,9 +49,14 @@ export const SpeechFilterAlgo = (transcript, hotelData) => {
         let match = false;
         // Iterate through each line
         {
-          const positive_tags_item = processWords(item.positive_tags);
+          const positive_tags_item = processWords([
+            ...item.name.split(" "),  // Include item name in positive tags
+            ...item.positive_tags,
+            ...item.tags,  
+          ]);
           const negative_tags_item = processWords(item.negative_tags);
          
+          console.log("Got positive and neg for ", item.name, positive_tags_item, negative_tags_item);
           // Check if both positive and negative tags from transcript match the item → Ignore the item
           const has_positive_match = [...positive_tags_transcript].some(tag => positive_tags_item.includes(tag));
           const has_negative_match = [...negative_tags_transcript].some(tag => negative_tags_item.includes(tag));

@@ -94,7 +94,7 @@
               {
                 "name": "Espresso (Iced)",
                 "servings": [{ "details": "Iced", "cost": 150 }],
-                "tags": ["strong", "iced", "Iced Coffee", "classic"],
+                "tags": ["strong", "ice", "iced", "Iced Coffee", "classic"],
                 "positive_tags": ["refreshing", "strong", "bold"],
                 "negative_tags": ["milky", "sweet", "hot"],
                 "information": "A cold shot of espresso for a refreshing caffeine hit.",
@@ -104,7 +104,7 @@
               {
                 "name": "Americano (Iced)",
                 "servings": [{ "details": "Iced", "cost": 170 }],
-                "tags": ["mild", "iced", "Iced Coffee", "smooth"],
+                "tags": ["mild","ice",  "iced", "Iced Coffee", "smooth"],
                 "positive_tags": ["smooth", "light", "refreshing"],
                 "negative_tags": ["sweet", "milky", "hot"],
                 "information": "Cold water added to espresso for a refreshing black coffee.",
@@ -114,7 +114,7 @@
               {
                 "name": "Latte (Iced)",
                 "servings": [{ "details": "Iced", "cost": 230 }],
-                "tags": ["creamy", "iced", "Iced Coffee", "mild"],
+                "tags": ["creamy","ice",  "iced", "Iced Coffee", "mild"],
                 "positive_tags": ["mild", "creamy", "refreshing"],
                 "negative_tags": ["bitter", "hot", "strong"],
                 "information": "Espresso mixed with cold milk and ice for a creamy iced coffee.",
@@ -124,7 +124,7 @@
               {
                 "name": "Mocha (Iced)",
                 "servings": [{ "details": "Iced", "cost": 330 }],
-                "tags": ["chocolate", "iced", "Iced Coffee", "sweet"],
+                "tags": ["chocolate","ice",  "iced", "Iced Coffee", "sweet"],
                 "positive_tags": ["chocolate", "sweet", "refreshing"],
                 "negative_tags": ["bitter", "hot", "strong"],
                 "information": "A cold blend of espresso, chocolate, and milk.",
@@ -134,7 +134,7 @@
               {
                 "name": "Cappuccino (Iced)",
                 "servings": [{ "details": "Iced", "cost": 250 }],
-                "tags": ["frothy", "iced", "Iced Coffee", "balanced"],
+                "tags": ["frothy","ice",  "iced", "Iced Coffee", "balanced"],
                 "positive_tags": ["frothy", "light", "refreshing"],
                 "negative_tags": ["bitter", "hot", "overly sweet"],
                 "information": "An iced coffee with milk and foam for a refreshing experience.",
@@ -154,7 +154,7 @@
               {
                 "name": "Vietnamese Cold Brew",
                 "servings": [{ "details": "Iced", "cost": 250 }],
-                "tags": ["strong", "iced", "Iced Coffee", "sweet"],
+                "tags": ["strong","ice",  "iced", "Iced Coffee", "sweet"],
                 "positive_tags": ["bold", "sweet", "unique"],
                 "negative_tags": ["bitter", "hot", "light"],
                 "information": "A bold cold brew sweetened with condensed milk.",
