@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import ThemeBtn from "../../Buttons/ThemeBtn";
-import restaurant from "../../../assets/restaurant.jpeg";
+// import restaurant from "../../../assets/restaurant.jpeg";
+import restaurant from "../../../../public/assets/Aurawell_bg.jpg";
 
 const RestImage = () => {
   return (

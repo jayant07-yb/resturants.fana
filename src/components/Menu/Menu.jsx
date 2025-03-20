@@ -1,6 +1,6 @@
 import { Fragment, useState, useRef, useEffect } from "react";
 import "./menu.css";
-import hotelData from "../../json/goaCafe.json";
+import hotelData from "../../json/Aurawell.json";
 import Subsection from "./Subsections";
 import useCart from "../../context/Cart";
 import useSpeechModal from "../../context/SpeechRecognition";
@@ -115,7 +115,7 @@ const Menu = () => {
           }}
         >
           <div className="px-4 py-4 text-left font-bold text-xl">
-            Apna Sweets
+          Aurawell Cafe
           </div>
           <Filters filters={filters} toggleFilters={toggleFilters} />
           {/* Conditionally Render Search Result Section */}

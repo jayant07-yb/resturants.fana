@@ -149,7 +149,7 @@ const CartModal = () => {
                     }}
                     className="rest-name"
                   >
-                    Apna Sweets
+                    Aurawell Cafe
                   </div>
                 </div>
 

@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import allFoods from "../../../json/goaCafe.json";
+import allFoods from "../../../json/Aurawell.json";
 const SubMenu = ({ toggleSubMenu, foodData }) => {
   const handleScroll = (event) => {
     console.log("Handle Scroll", event.target);

@@ -4,7 +4,6 @@ import upArrowWhite from "../../assets/upArrowLight.svg";
 import downArrowDark from "../../assets/downArrowDark.svg";
 import upArrowDark from "../../assets/upArrowDark.svg";
 import useTheme from "../../context/theme";
-import food from "../../assets/food.jpeg";
 import FoodItems from "./foodItems";
 
 const Category = ({ category, index, size }) => {
